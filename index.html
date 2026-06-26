@@ -6,19 +6,20 @@
   <title>KYC Case Bottleneck Resolver</title>
   <style>
     :root {
-      --bg: #edf2f6;
-      --panel: #ffffff;
-      --soft: #f7f9fb;
-      --ink: #1f2933;
-      --muted: #617284;
-      --line: #d5dee7;
-      --primary: #244761;
-      --primary-dark: #193447;
-      --neutral: #52697d;
-      --low: #2f7d5c;
-      --medium: #9a6b19;
-      --high: #b5473f;
-      --critical: #7f1d1d;
+      --bg: #070b16;
+      --panel: rgba(13, 20, 36, 0.76);
+      --soft: rgba(255, 255, 255, 0.055);
+      --ink: #edf5ff;
+      --muted: #9dafc7;
+      --line: rgba(164, 188, 224, 0.18);
+      --primary: #6fb6ff;
+      --primary-dark: #8d7cff;
+      --neutral: #9dafc7;
+      --low: #55d99b;
+      --medium: #f5c46b;
+      --high: #ff8b7e;
+      --critical: #ff5d70;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
     }
 
     * {
@@ -27,17 +28,23 @@
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
       color: var(--ink);
-      background: var(--bg);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+        radial-gradient(circle at 14% 0%, rgba(86, 136, 255, 0.24), transparent 34rem),
+        radial-gradient(circle at 86% 8%, rgba(128, 83, 255, 0.2), transparent 32rem),
+        radial-gradient(circle at 50% 92%, rgba(22, 187, 164, 0.08), transparent 36rem),
+        linear-gradient(145deg, #070b16 0%, #0b1020 48%, #070a12 100%);
+      background-size: 44px 44px, 44px 44px, auto, auto, auto, auto;
       line-height: 1.5;
+      min-height: 100vh;
     }
 
     header {
-      background: #1f2f3d;
-      color: white;
-      border-bottom: 4px solid #9aacba;
-      padding: 30px 20px;
+      padding: 42px 20px 12px;
+      overflow: hidden;
     }
 
     .wrap {
@@ -46,23 +53,126 @@
     }
 
     .eyebrow {
-      margin: 0 0 8px;
-      color: #cbd7e1;
-      font-size: 13px;
+      display: inline-flex;
+      width: fit-content;
+      margin: 0 0 14px;
+      padding: 7px 11px;
+      border: 1px solid rgba(111, 182, 255, 0.28);
+      border-radius: 999px;
+      color: #cfe7ff;
+      background: rgba(80, 142, 235, 0.11);
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
     h1 {
       margin: 0 0 8px;
-      font-size: 34px;
+      font-size: clamp(36px, 6vw, 66px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
     }
 
     .subtitle {
       max-width: 860px;
       margin: 0;
-      color: #dce6ee;
+      color: #c7d7ea;
+      font-size: 17px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+      gap: 22px;
+      align-items: stretch;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(17, 28, 52, 0.84), rgba(9, 15, 30, 0.72));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-disclaimer {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .hero-insight {
+      display: grid;
+      align-content: space-between;
+      gap: 18px;
+      padding: 18px;
+      border: 1px solid rgba(141, 124, 255, 0.22);
+      border-radius: 18px;
+      background:
+        linear-gradient(145deg, rgba(111, 182, 255, 0.13), rgba(141, 124, 255, 0.09)),
+        rgba(255, 255, 255, 0.035);
+    }
+
+    .insight-label {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .insight-copy {
+      margin: 0;
+      color: #dfeaff;
+      font-weight: 700;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px 0 0;
+    }
+
+    .kpi-card {
+      min-height: 116px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(12, 20, 38, 0.68);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(16px);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .kpi-card:hover,
+    .panel:hover {
+      transform: translateY(-2px);
+      border-color: rgba(111, 182, 255, 0.34);
+      box-shadow: 0 20px 54px rgba(0, 0, 0, 0.32);
+    }
+
+    .kpi-label {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .kpi-value {
+      margin: 0;
+      color: #f5f9ff;
+      font-size: 25px;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-note {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     main.dashboard {
@@ -83,10 +193,12 @@
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 20px;
       padding: 20px;
-      box-shadow: 0 8px 20px rgba(31, 41, 51, 0.05);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
       min-width: 0;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
     }
 
     .panel-header {
@@ -104,8 +216,9 @@
       display: grid;
       place-items: center;
       border-radius: 50%;
-      color: var(--primary);
-      background: #e6edf3;
+      color: #d8e9ff;
+      background: linear-gradient(135deg, rgba(111, 182, 255, 0.19), rgba(141, 124, 255, 0.18));
+      border: 1px solid rgba(255, 255, 255, 0.12);
       font-weight: 800;
     }
 
@@ -133,7 +246,8 @@
     label {
       display: block;
       margin-bottom: 6px;
-      font-size: 14px;
+      color: #e6efff;
+      font-size: 13px;
       font-weight: 700;
     }
 
@@ -147,20 +261,27 @@
     select,
     textarea {
       width: 100%;
-      min-height: 42px;
-      padding: 10px;
-      border: 1px solid #b8c3ce;
-      border-radius: 6px;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid rgba(167, 190, 224, 0.22);
+      border-radius: 12px;
       color: var(--ink);
-      background: white;
+      background: rgba(7, 12, 24, 0.72);
       font: inherit;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
       border-color: var(--primary);
-      outline: 3px solid #c7d7e6;
+      outline: 0;
+      box-shadow: 0 0 0 4px rgba(111, 182, 255, 0.14), 0 0 26px rgba(111, 182, 255, 0.1);
+      background: rgba(8, 15, 30, 0.94);
+    }
+
+    option {
+      color: #111827;
     }
 
     textarea {
@@ -179,16 +300,31 @@
       align-items: flex-start;
       gap: 9px;
       padding: 12px;
-      border: 1px solid #c9d2dc;
-      border-radius: 6px;
+      border: 1px solid rgba(167, 190, 224, 0.18);
+      border-radius: 14px;
       background: var(--soft);
       font-weight: 400;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+
+    .check-item:hover {
+      border-color: rgba(111, 182, 255, 0.32);
+      background: rgba(111, 182, 255, 0.07);
     }
 
     .check-item input {
       width: auto;
       min-height: auto;
       margin-top: 4px;
+    }
+
+    .check-item select {
+      min-height: 36px;
+      margin-top: 8px;
+    }
+
+    .check-content {
+      flex: 1;
     }
 
     .button-row {
@@ -202,27 +338,35 @@
       width: 100%;
       min-height: 44px;
       padding: 12px 16px;
-      border: 0;
-      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
       color: white;
-      background: var(--primary);
+      background: linear-gradient(135deg, #4aa7ff, #8d7cff);
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
+      box-shadow: 0 12px 30px rgba(86, 136, 255, 0.24);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
     }
 
     button:hover {
-      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 16px 42px rgba(111, 182, 255, 0.32);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     .outline {
-      color: var(--primary);
-      background: white;
-      border: 1px solid #9fb0c0;
+      color: #dcecff;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(167, 190, 224, 0.22);
+      box-shadow: none;
     }
 
     .outline:hover {
-      background: #eef4f8;
+      background: rgba(111, 182, 255, 0.09);
     }
 
     .secondary {
@@ -230,22 +374,27 @@
       width: auto;
       min-height: 38px;
       padding: 9px 13px;
-      background: var(--neutral);
+      background: rgba(111, 182, 255, 0.13);
+      border: 1px solid rgba(111, 182, 255, 0.22);
+      color: #dfeeff;
       font-size: 13px;
+      box-shadow: none;
     }
 
     .secondary:hover {
-      background: #3b4d5f;
+      background: rgba(141, 124, 255, 0.16);
     }
 
     .secondary:disabled {
-      background: #9ba8b4;
+      background: rgba(255, 255, 255, 0.06);
+      color: #738197;
       cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
     }
 
     .results {
-      position: sticky;
-      top: 18px;
+      position: static;
     }
 
     .metric-grid {
@@ -258,8 +407,8 @@
     .metric {
       padding: 14px;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--soft);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.045);
     }
 
     .metric-label {
@@ -279,7 +428,7 @@
       margin: 7px 0 0;
       padding: 6px 10px;
       border-radius: 999px;
-      background: #e8eef3;
+      background: rgba(157, 175, 199, 0.12);
       color: var(--neutral);
       font-size: 14px;
       font-weight: 800;
@@ -288,50 +437,59 @@
 
     .low {
       color: var(--low);
-      background: #e8f4ee;
+      background: rgba(85, 217, 155, 0.14);
+      border: 1px solid rgba(85, 217, 155, 0.22);
     }
 
     .medium {
       color: var(--medium);
-      background: #fff4df;
+      background: rgba(245, 196, 107, 0.14);
+      border: 1px solid rgba(245, 196, 107, 0.22);
     }
 
     .high {
       color: var(--high);
-      background: #fdecea;
+      background: rgba(255, 139, 126, 0.14);
+      border: 1px solid rgba(255, 139, 126, 0.22);
     }
 
     .critical {
       color: var(--critical);
-      background: #f8dddd;
+      background: rgba(255, 93, 112, 0.14);
+      border: 1px solid rgba(255, 93, 112, 0.28);
     }
 
     .output-box {
       min-height: 120px;
       max-height: 260px;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       padding: 14px;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fbfdff;
+      border-radius: 16px;
+      background: rgba(6, 11, 22, 0.66);
+      color: #dfe9f8;
       white-space: pre-line;
       font-size: 14px;
     }
 
     #analystNote,
     #auditTrail {
-      min-height: 340px;
-      max-height: 620px;
+      display: block;
+      min-height: 260px;
+      max-height: 420px;
+      overflow-y: auto;
+      overflow-x: hidden;
       font-family: "Courier New", monospace;
       line-height: 1.55;
     }
 
     #analystNote {
-      background: #fcfdfd;
+      background: rgba(8, 15, 27, 0.82);
     }
 
     #auditTrail {
-      background: #f9fbfd;
+      background: rgba(7, 13, 24, 0.88);
     }
 
     .empty {
@@ -351,7 +509,7 @@
     .rule-accordion {
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: white;
+      background: rgba(255, 255, 255, 0.045);
       overflow: hidden;
     }
 
@@ -389,9 +547,10 @@
       display: grid;
       place-items: center;
       border-radius: 50%;
-      background: #eef3f7;
+      background: rgba(111, 182, 255, 0.13);
       color: var(--primary);
       font-weight: 800;
+      transition: transform 160ms ease;
     }
 
     .rule-accordion[open] .accordion-icon {
@@ -409,7 +568,7 @@
       grid-template-columns: 0.9fr 1.25fr 1fr 1.25fr;
       gap: 12px;
       padding: 12px;
-      border-radius: 8px;
+      border-radius: 14px;
       background: var(--soft);
     }
 
@@ -424,9 +583,11 @@
 
     @media (max-width: 980px) {
       main.dashboard,
+      .hero,
       .grid,
       .checks,
       .button-row,
+      .kpi-grid,
       .metric-grid,
       .rule-row {
         grid-template-columns: 1fr;
@@ -444,11 +605,43 @@
 </head>
 <body>
   <header>
-    <div class="wrap">
-      <p class="eyebrow">Rule-Based Educational Portfolio Project</p>
-      <h1>KYC Case Bottleneck Resolver</h1>
-      <p class="subtitle">A rule-based workflow tool for KYC document gaps, risk scoring, case readiness, follow-up actions, analyst notes, and audit trail simulation.</p>
+    <div class="wrap hero">
+      <div>
+        <p class="eyebrow">2026 RegTech Workflow Prototype</p>
+        <h1>KYC Case Bottleneck Resolver</h1>
+        <p class="subtitle">A rule-based workflow simulator for KYC document gaps, risk scoring, case readiness, follow-up actions, analyst notes, and audit trail generation.</p>
+        <p class="hero-disclaimer">Educational rule-based simulation. Not real sanctions screening or bank decisioning.</p>
+      </div>
+      <aside class="hero-insight" aria-label="Copilot insight">
+        <div>
+          <p class="insight-label">Workflow Insight</p>
+          <p class="insight-copy">Identify the blocker, explain the rule, draft the follow-up, and preserve the audit trail.</p>
+        </div>
+        <p class="hero-disclaimer">Static HTML, CSS, and JavaScript only.</p>
+      </aside>
     </div>
+    <section class="wrap kpi-grid" aria-label="Case KPI summary">
+      <div class="kpi-card">
+        <p class="kpi-label">Risk Score</p>
+        <p id="topKpiRiskScore" class="kpi-value">-- / 100</p>
+        <p class="kpi-note">Generate a review to score risk.</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Case Readiness</p>
+        <p id="topKpiReadiness" class="kpi-value">Not generated</p>
+        <p class="kpi-note">Decision status appears here.</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">SLA Status</p>
+        <p id="topKpiSla" class="kpi-value">Not started</p>
+        <p class="kpi-note">Based on received and target dates.</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Open Bottlenecks</p>
+        <p id="topKpiBottlenecks" class="kpi-value">--</p>
+        <p class="kpi-note">Blocking themes after review.</p>
+      </div>
+    </section>
   </header>
 
   <main class="wrap dashboard">
@@ -495,7 +688,24 @@
               <option value="New Onboarding">New Onboarding</option>
               <option value="Periodic Review">Periodic Review</option>
               <option value="Trigger Event Review">Trigger Event Review</option>
+              <option value="Ongoing Monitoring Alert">Ongoing Monitoring Alert</option>
             </select>
+          </div>
+          <div>
+            <label for="triggerEventReason">Trigger Event Reason</label>
+            <select id="triggerEventReason">
+              <option value="Other" selected>Other</option>
+              <option value="Periodic Refresh">Periodic refresh</option>
+              <option value="Ownership Change">Ownership change</option>
+              <option value="Control Person Change">Control person change</option>
+              <option value="Address Change">Address change</option>
+              <option value="Country Exposure Change">Country exposure change</option>
+              <option value="Adverse Media">Adverse media</option>
+              <option value="New Product/Service">New product/service</option>
+              <option value="Unusual Activity">Unusual activity</option>
+              <option value="Expired Documents">Expired documents</option>
+            </select>
+            <p class="helper">Use this for trigger reviews, ongoing monitoring alerts, or periodic refresh context.</p>
           </div>
           <div>
             <label for="expectedActivity">Expected Activity</label>
@@ -507,12 +717,13 @@
           </div>
           <div>
             <label for="caseReceivedDate">Case Received Date</label>
-            <input id="caseReceivedDate" type="date">
+            <input id="caseReceivedDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
+            <p class="helper">Use U.S. date format: MM/DD/YYYY.</p>
           </div>
           <div class="full">
             <label for="targetCompletionDate">Target Completion Date</label>
-            <input id="targetCompletionDate" type="date">
-            <p class="helper">If the target date has passed, the case aging status becomes Past Due.</p>
+            <input id="targetCompletionDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
+            <p class="helper">Use U.S. date format: MM/DD/YYYY. If the target date has passed, the case aging status becomes Past Due.</p>
           </div>
         </div>
       </section>
@@ -521,11 +732,48 @@
         <div class="panel-header">
           <div>
             <h2>Documents Received</h2>
-            <p class="note">Check the documents received. Missing and key missing documents are calculated automatically.</p>
+            <p class="note">Check received documents and rate evidence quality. Missing and stale evidence are flagged automatically.</p>
           </div>
           <div class="badge">2</div>
         </div>
         <div id="documentChecklist" class="checks"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>SOF / SOW Review</h2>
+            <p class="note">Document whether source of funds and source of wealth support is clear enough for review.</p>
+          </div>
+          <div class="badge">4</div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="sourceOfFundsDocumented">Source of Funds Documented</label>
+            <select id="sourceOfFundsDocumented">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div>
+            <label for="sourceOfWealthDocumented">Source of Wealth Documented</label>
+            <select id="sourceOfWealthDocumented">
+              <option value="Not applicable">Not applicable</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="explanationQuality">SOF / SOW Explanation Quality</label>
+            <select id="explanationQuality">
+              <option value="Clear">Clear</option>
+              <option value="Vague">Vague</option>
+              <option value="Missing">Missing</option>
+            </select>
+            <p class="helper">Vague or missing explanations create follow-up items in the analyst note.</p>
+          </div>
+        </div>
       </section>
 
       <section class="panel">
@@ -730,6 +978,14 @@
             <p class="metric-label">Case Readiness</p>
             <p id="caseReadiness" class="metric-value low">Ready for Review</p>
           </div>
+          <div class="metric">
+            <p class="metric-label">KYC Refresh Required</p>
+            <p id="refreshRequired" class="metric-value low">No</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">Recommended Decision</p>
+            <p id="recommendedDecision" class="metric-value low">Proceed</p>
+          </div>
           <div class="metric full">
             <p class="metric-label">BO Status</p>
             <p id="boStatus" class="metric-value low">BO Complete</p>
@@ -742,6 +998,18 @@
 
         <label>Document Gap Summary</label>
         <div id="documentGapOutput" class="output-box empty">Generate a review to see received, missing, and key missing documents.</div>
+
+        <label style="margin-top: 14px;">KYC Refresh Assessment</label>
+        <div id="refreshOutput" class="output-box empty">Generate a review to see refresh requirements and update documents.</div>
+
+        <label style="margin-top: 14px;">Customer Risk Profile</label>
+        <div id="riskProfileOutput" class="output-box empty">Generate a review to see category-level risk profile output.</div>
+
+        <label style="margin-top: 14px;">Evidence Quality Review</label>
+        <div id="evidenceQualityOutput" class="output-box empty">Generate a review to see expired, incomplete, inconsistent, missing, or not applicable evidence.</div>
+
+        <label style="margin-top: 14px;">SOF / SOW Status</label>
+        <div id="sofSowOutput" class="output-box empty">Generate a review to see source of funds and source of wealth status.</div>
 
         <label style="margin-top: 14px;">Screening Triage Result</label>
         <div id="screeningOutput" class="output-box empty">Generate a review to see screening triage output.</div>
@@ -929,6 +1197,78 @@
         <details class="rule-accordion">
           <summary>
             <span>
+              <span class="rule-summary-title">Trigger Event Rules</span>
+              <span class="rule-summary-text">Trigger events and monitoring alerts identify when a KYC refresh may be needed.</span>
+            </span>
+            <span class="accordion-icon">+</span>
+          </summary>
+          <div class="rule-details">
+            <div class="rule-row">
+              <div><span class="rule-label">Rule name</span>KYC Refresh Rule</div>
+              <div><span class="rule-label">Trigger</span>Periodic review, trigger event review, monitoring alert, or material event reason.</div>
+              <div><span class="rule-label">Result</span>KYC Refresh Required.</div>
+              <div><span class="rule-label">Why it matters</span>Material changes may require updated customer information and evidence.</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="rule-accordion">
+          <summary>
+            <span>
+              <span class="rule-summary-title">Evidence Quality Rules</span>
+              <span class="rule-summary-text">Evidence statuses flag documents that may not be reliable for review.</span>
+            </span>
+            <span class="accordion-icon">+</span>
+          </summary>
+          <div class="rule-details">
+            <div class="rule-row">
+              <div><span class="rule-label">Rule name</span>Evidence Quality Rule</div>
+              <div><span class="rule-label">Trigger</span>Document status is Expired, Incomplete, Inconsistent, or Missing.</div>
+              <div><span class="rule-label">Result</span>Evidence Follow-Up Required.</div>
+              <div><span class="rule-label">Why it matters</span>Analysts need current and consistent evidence to support review notes.</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="rule-accordion">
+          <summary>
+            <span>
+              <span class="rule-summary-title">Source of Funds / Source of Wealth Rules</span>
+              <span class="rule-summary-text">SOF and SOW checks identify missing or weak source explanations.</span>
+            </span>
+            <span class="accordion-icon">+</span>
+          </summary>
+          <div class="rule-details">
+            <div class="rule-row">
+              <div><span class="rule-label">Rule name</span>SOF/SOW Follow-Up Rule</div>
+              <div><span class="rule-label">Trigger</span>SOF is missing, SOW is missing for higher-risk customers, or explanation quality is vague or missing.</div>
+              <div><span class="rule-label">Result</span>SOF/SOW Follow-Up Required.</div>
+              <div><span class="rule-label">Why it matters</span>Source rationale helps explain expected customer activity and risk.</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="rule-accordion">
+          <summary>
+            <span>
+              <span class="rule-summary-title">Review Decision Governance Rules</span>
+              <span class="rule-summary-text">Decision rules translate risk and gaps into a recommended next step.</span>
+            </span>
+            <span class="accordion-icon">+</span>
+          </summary>
+          <div class="rule-details">
+            <div class="rule-row">
+              <div><span class="rule-label">Rule name</span>Final Recommendation Rule</div>
+              <div><span class="rule-label">Trigger</span>Sanctions concern, Critical risk, key missing documents, or minor medium-risk gaps.</div>
+              <div><span class="rule-label">Result</span>Proceed, Proceed with conditions, Request more information, Escalate, or Do not proceed.</div>
+              <div><span class="rule-label">Why it matters</span>Recommendations should be explainable and still require human compliance review.</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="rule-accordion">
+          <summary>
+            <span>
               <span class="rule-summary-title">Escalation Rules</span>
               <span class="rule-summary-text">Escalation rules highlight cases that need Compliance or urgent action.</span>
             </span>
@@ -1010,9 +1350,28 @@
         checkbox.type = "checkbox";
         checkbox.name = "receivedDocument";
         checkbox.value = documentName;
+        checkbox.onchange = function() {
+          qualitySelect.value = checkbox.checked ? "Current" : "Missing";
+        };
+
+        const content = document.createElement("span");
+        content.className = "check-content";
+        content.appendChild(document.createTextNode(documentName));
+
+        const qualitySelect = document.createElement("select");
+        qualitySelect.name = "documentQuality";
+        qualitySelect.setAttribute("data-document", documentName);
+        ["Current", "Expired", "Incomplete", "Inconsistent", "Missing", "Not applicable"].forEach(function(status) {
+          const option = document.createElement("option");
+          option.value = status;
+          option.textContent = status;
+          qualitySelect.appendChild(option);
+        });
+        qualitySelect.value = "Missing";
+        content.appendChild(qualitySelect);
 
         label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(documentName));
+        label.appendChild(content);
         checklist.appendChild(label);
       });
     }
@@ -1028,6 +1387,17 @@
       return documents;
     }
 
+    function getDocumentQualityMap() {
+      const qualityItems = document.querySelectorAll("select[name='documentQuality']");
+      const qualityMap = {};
+
+      qualityItems.forEach(function(item) {
+        qualityMap[item.getAttribute("data-document")] = item.value;
+      });
+
+      return qualityMap;
+    }
+
     function formatList(items, emptyText) {
       if (items.length === 0) {
         return "- " + emptyText;
@@ -1038,21 +1408,67 @@
       }).join("\n");
     }
 
+    function parseDateInput(value) {
+      if (!value) return null;
+      if (value instanceof Date) {
+        return new Date(value.getFullYear(), value.getMonth(), value.getDate());
+      }
+
+      const trimmed = value.trim();
+      const usMatch = trimmed.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      const isoMatch = trimmed.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      let month;
+      let day;
+      let year;
+
+      if (usMatch) {
+        month = Number(usMatch[1]);
+        day = Number(usMatch[2]);
+        year = Number(usMatch[3]);
+      } else if (isoMatch) {
+        year = Number(isoMatch[1]);
+        month = Number(isoMatch[2]);
+        day = Number(isoMatch[3]);
+      } else {
+        return null;
+      }
+
+      const parsedDate = new Date(year, month - 1, day);
+      if (
+        parsedDate.getFullYear() !== year ||
+        parsedDate.getMonth() !== month - 1 ||
+        parsedDate.getDate() !== day
+      ) {
+        return null;
+      }
+
+      return parsedDate;
+    }
+
+    function formatUsDate(value) {
+      const parsedDate = parseDateInput(value);
+      if (!parsedDate) return value ? "Invalid date - use MM/DD/YYYY" : "Not provided";
+      return parsedDate.toLocaleDateString("en-US");
+    }
+
     function daysBetween(startDate, endDate) {
       const oneDay = 1000 * 60 * 60 * 24;
-      const start = new Date(startDate + "T00:00:00");
-      const end = new Date(endDate + "T00:00:00");
+      const start = parseDateInput(startDate);
+      const end = parseDateInput(endDate);
+      if (!start || !end) return 0;
       return Math.max(0, Math.floor((end - start) / oneDay));
     }
 
-    function todayString() {
-      return new Date().toISOString().slice(0, 10);
+    function todayDate() {
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
     }
 
     function getCaseAging(caseReceivedDate, targetCompletionDate) {
-      const today = todayString();
+      const today = todayDate();
+      const targetDate = parseDateInput(targetCompletionDate);
 
-      if (targetCompletionDate && targetCompletionDate < today) {
+      if (targetDate && targetDate < today) {
         return { daysPending: caseReceivedDate ? daysBetween(caseReceivedDate, today) : 0, status: "Past Due" };
       }
 
@@ -1132,11 +1548,117 @@
       };
     }
 
+    function getRefreshAssessment(data, evidenceIssues) {
+      const refreshReasons = ["Ownership Change", "Control Person Change", "Address Change", "Country Exposure Change", "Adverse Media", "New Product/Service", "Unusual Activity", "Expired Documents", "Periodic Refresh"];
+      const requiredUpdateDocuments = [];
+      const refreshRequired = data.relationshipType === "Trigger Event Review" ||
+        data.relationshipType === "Ongoing Monitoring Alert" ||
+        data.relationshipType === "Periodic Review" ||
+        refreshReasons.includes(data.triggerEventReason) ||
+        evidenceIssues.some(function(issue) { return issue.status === "Expired"; });
+
+      if (data.triggerEventReason === "Ownership Change" || data.triggerEventReason === "Control Person Change") {
+        requiredUpdateDocuments.push("Updated ownership chart", "Beneficial owner ID", "Ownership percentage evidence");
+      }
+      if (data.triggerEventReason === "Address Change") requiredUpdateDocuments.push("Updated address proof");
+      if (data.triggerEventReason === "Country Exposure Change") requiredUpdateDocuments.push("Updated country exposure rationale", "Updated customer risk assessment");
+      if (data.triggerEventReason === "Adverse Media") requiredUpdateDocuments.push("Adverse media disposition note", "Customer or RM clarification");
+      if (data.triggerEventReason === "New Product/Service" || data.triggerEventReason === "Unusual Activity") requiredUpdateDocuments.push("Expected activity update", "Source of funds explanation");
+      if (data.triggerEventReason === "Expired Documents" || evidenceIssues.some(function(issue) { return issue.status === "Expired"; })) requiredUpdateDocuments.push("Current replacement documents");
+      if (data.triggerEventReason === "Periodic Refresh") requiredUpdateDocuments.push("Refreshed KYC profile", "Current required documents");
+
+      return {
+        required: refreshRequired ? "Yes" : "No",
+        reason: refreshRequired ? data.triggerEventReason : "No trigger event or refresh driver selected.",
+        updateDocuments: Array.from(new Set(requiredUpdateDocuments))
+      };
+    }
+
+    function getEvidenceQualityIssues(requiredDocuments, receivedDocuments, qualityMap) {
+      const issues = [];
+
+      requiredDocuments.forEach(function(documentName) {
+        const status = qualityMap[documentName] || "Missing";
+        const isReceived = receivedDocuments.includes(documentName);
+
+        if (["Expired", "Incomplete", "Inconsistent", "Missing"].includes(status)) {
+          issues.push({ documentName: documentName, status: status, reason: "Evidence quality status requires review or follow-up." });
+        } else if (!isReceived && status !== "Not applicable") {
+          issues.push({ documentName: documentName, status: "Missing", reason: "Document is required but not marked as received." });
+        }
+      });
+
+      return issues;
+    }
+
+    function formatEvidenceIssues(issues) {
+      if (issues.length === 0) return "- No evidence quality issues identified.";
+      return issues.map(function(issue) {
+        return "- " + issue.documentName + ": " + issue.status + " - " + issue.reason;
+      }).join("\n");
+    }
+
+    function isHighRiskCustomer(data) {
+      return data.pep === "Yes" ||
+        data.sanctions === "Yes" ||
+        data.adverseMedia === "Yes" ||
+        data.highRiskCountry === "Yes" ||
+        data.complexOwnership === "Yes" ||
+        data.expectedActivity === "High" ||
+        data.entityType === "Financial Institution";
+    }
+
+    function getSofSowStatus(data) {
+      const issues = [];
+      if (data.sourceOfFundsDocumented === "No") issues.push("Source of Funds missing");
+      if (isHighRiskCustomer(data) && data.sourceOfWealthDocumented === "No") issues.push("Source of Wealth missing for higher-risk customer");
+      if (data.explanationQuality === "Vague") issues.push("SOF/SOW explanation is vague and requires follow-up");
+      if (data.explanationQuality === "Missing") issues.push("SOF/SOW explanation is missing");
+
+      return {
+        issues: issues,
+        text: "Source of Funds Documented: " + data.sourceOfFundsDocumented + "\n" +
+          "Source of Wealth Documented: " + data.sourceOfWealthDocumented + "\n" +
+          "Explanation Quality: " + data.explanationQuality + "\n\n" +
+          "SOF/SOW Issues\n" +
+          formatList(issues, "No SOF/SOW issues identified.")
+      };
+    }
+
+    function getCustomerRiskProfile(data, boStatus, screeningResult, missingDocuments, evidenceIssues, sofSowStatus) {
+      return [
+        { category: "Customer type risk", level: data.entityType === "Financial Institution" ? "Medium" : "Low", reason: data.entityType },
+        { category: "Country risk", level: data.highRiskCountry === "Yes" ? "High" : "Low", reason: data.highRiskCountry === "Yes" ? "High-risk country selected" : "No high-risk country flag selected" },
+        { category: "Industry risk", level: data.industry.toLowerCase().includes("cash") || data.industry.toLowerCase().includes("money services") ? "Medium" : "Low", reason: data.industry },
+        { category: "Ownership risk", level: boStatus === "BO Requires Escalation" ? "High" : boStatus === "BO Incomplete" || data.complexOwnership === "Yes" ? "Medium" : "Low", reason: boStatus },
+        { category: "Activity risk", level: data.expectedActivity === "High" ? "High" : data.expectedActivity === "Moderate" ? "Medium" : "Low", reason: data.expectedActivity + " expected activity" },
+        { category: "Screening risk", level: data.sanctions === "Yes" || screeningResult === "Potential True Match" ? "High" : data.pep === "Yes" || data.adverseMedia === "Yes" ? "Medium" : "Low", reason: screeningResult },
+        { category: "Documentation risk", level: missingDocuments.length > 0 || evidenceIssues.length > 0 || sofSowStatus.issues.length > 0 ? "Medium" : "Low", reason: (missingDocuments.length + evidenceIssues.length + sofSowStatus.issues.length) + " documentation issue(s)" }
+      ];
+    }
+
+    function formatRiskProfile(profile) {
+      return profile.map(function(item) {
+        return item.category + ": " + item.level + " - " + item.reason;
+      }).join("\n");
+    }
+
+    function getRecommendedDecision(data, riskLevel, keyMissingDocuments, evidenceIssues, sofSowStatus) {
+      const minorGaps = evidenceIssues.length > 0 || sofSowStatus.issues.length > 0;
+      if (data.sanctions === "Yes") return "Do not proceed until cleared";
+      if (riskLevel === "Critical") return "Escalate to Compliance";
+      if (keyMissingDocuments.length > 0) return "Request more information";
+      if (riskLevel === "Medium" && minorGaps) return "Proceed with conditions";
+      if (riskLevel === "Low" && !minorGaps) return "Proceed";
+      if (minorGaps) return "Request more information";
+      return riskLevel === "High" ? "Escalate to Compliance" : "Proceed with conditions";
+    }
+
     function addRiskFactor(factors, points, label, explanation) {
       factors.push({ points: points, label: label, explanation: explanation });
     }
 
-    function calculateRisk(data, boStatus, keyMissingDocuments, agingStatus) {
+    function calculateRisk(data, boStatus, keyMissingDocuments, agingStatus, evidenceIssues, sofSowStatus) {
       const factors = [];
 
       if (data.pep === "Yes") {
@@ -1179,6 +1701,22 @@
         addRiskFactor(factors, 5, "Case overdue", "Case aging or target completion date indicates SLA risk.");
       }
 
+      if (evidenceIssues.length > 0) {
+        addRiskFactor(factors, 10, "Evidence quality issue", "One or more documents are expired, incomplete, inconsistent, or missing.");
+      }
+
+      if (data.sourceOfFundsDocumented === "No") {
+        addRiskFactor(factors, 10, "Missing Source of Funds", "Source of Funds is not documented.");
+      }
+
+      if (isHighRiskCustomer(data) && data.sourceOfWealthDocumented === "No") {
+        addRiskFactor(factors, 10, "Missing Source of Wealth", "Source of Wealth is missing for a higher-risk customer profile.");
+      }
+
+      if (data.explanationQuality === "Vague" || data.explanationQuality === "Missing") {
+        addRiskFactor(factors, 5, "Weak SOF/SOW explanation", "Source explanation quality is " + data.explanationQuality + ".");
+      }
+
       const rawScore = factors.reduce(function(total, factor) {
         return total + factor.points;
       }, 0);
@@ -1196,10 +1734,13 @@
       return "Low";
     }
 
-    function diagnoseBottlenecks(data, boStatus, screeningResult, riskLevel, missingDocuments, agingStatus) {
+    function diagnoseBottlenecks(data, boStatus, screeningResult, riskLevel, missingDocuments, agingStatus, evidenceIssues, sofSowStatus, refreshAssessment) {
       const bottlenecks = [];
 
       if (missingDocuments.length > 0) bottlenecks.push("Missing Documents");
+      if (evidenceIssues.length > 0) bottlenecks.push("Evidence Quality Issues");
+      if (sofSowStatus.issues.length > 0) bottlenecks.push("SOF/SOW Follow-Up Needed");
+      if (refreshAssessment.required === "Yes") bottlenecks.push("KYC Refresh Required");
       if (boStatus === "BO Incomplete" || boStatus === "BO Requires Escalation") bottlenecks.push("Beneficial Ownership Incomplete");
       if (screeningResult === "Potential True Match" || screeningResult === "Do Not Proceed Until Cleared") bottlenecks.push("Screening Clearance Needed");
       if (data.adverseMedia === "Yes") bottlenecks.push("Adverse Media Review Needed");
@@ -1217,7 +1758,7 @@
       actions.push({ actionItem: actionItem, owner: owner, priority: priority, reason: reason });
     }
 
-    function generateActions(bottlenecks, missingDocuments, data, screeningResult, boStatus, agingStatus) {
+    function generateActions(bottlenecks, missingDocuments, data, screeningResult, boStatus, agingStatus, evidenceIssues, sofSowStatus, refreshAssessment) {
       const actions = [];
 
       missingDocuments.forEach(function(documentName) {
@@ -1228,6 +1769,18 @@
       if (boStatus !== "BO Complete") {
         addAction(actions, "Resolve beneficial ownership gaps before final review", "Analyst", boStatus === "BO Requires Escalation" ? "Urgent" : "High", "BO status is " + boStatus + ".");
       }
+
+      evidenceIssues.forEach(function(issue) {
+        addAction(actions, "Resolve evidence quality issue: " + issue.documentName + " is " + issue.status, "Analyst", issue.status === "Expired" || issue.status === "Missing" ? "High" : "Medium", issue.reason);
+      });
+
+      sofSowStatus.issues.forEach(function(issue) {
+        addAction(actions, "Follow up on SOF/SOW issue: " + issue, "Relationship Manager", issue.indexOf("missing") >= 0 ? "High" : "Medium", "SOF/SOW support is needed for review documentation.");
+      });
+
+      refreshAssessment.updateDocuments.forEach(function(documentName) {
+        addAction(actions, "Request refresh update document: " + documentName, "Relationship Manager", "Medium", "Trigger event reason is " + refreshAssessment.reason + ".");
+      });
 
       if (screeningResult === "Do Not Proceed Until Cleared") {
         addAction(actions, "Escalate potential sanctions/watchlist match to Compliance Officer", "Compliance Officer", "Urgent", "Screening triage blocks case progression.");
@@ -1273,7 +1826,7 @@
       });
     }
 
-    function getTriggeredPolicyRules(data, boStatus, riskLevel, missingDocuments, agingStatus) {
+    function getTriggeredPolicyRules(data, boStatus, riskLevel, missingDocuments, agingStatus, evidenceIssues, sofSowStatus, refreshAssessment, recommendedDecision) {
       const rules = [];
 
       if (data.sanctions === "Yes") {
@@ -1336,6 +1889,46 @@
         );
       }
 
+      if (refreshAssessment.required === "Yes") {
+        addPolicyRule(
+          rules,
+          "Trigger Event Refresh Rule",
+          "Review type or trigger reason requires KYC refresh",
+          "KYC Refresh Required",
+          "Material customer changes, monitoring alerts, and periodic refreshes should prompt updated KYC evidence."
+        );
+      }
+
+      if (evidenceIssues.length > 0) {
+        addPolicyRule(
+          rules,
+          "Evidence Quality Rule",
+          "Document evidence is expired, incomplete, inconsistent, missing, or not applicable",
+          "Evidence Follow-Up Required",
+          "Evidence quality affects whether an analyst can rely on the file for review."
+        );
+      }
+
+      if (sofSowStatus.issues.length > 0) {
+        addPolicyRule(
+          rules,
+          "SOF/SOW Follow-Up Rule",
+          "Source of Funds or Source of Wealth support is missing, vague, or incomplete",
+          "SOF/SOW Follow-Up Required",
+          "Source documentation helps support customer activity and risk rationale."
+        );
+      }
+
+      if (recommendedDecision !== "Proceed") {
+        addPolicyRule(
+          rules,
+          "Review Decision Governance Rule",
+          "Risk, documentation, screening, or evidence rules prevent unconditional proceed",
+          recommendedDecision,
+          "Final recommendations should explain why the case can proceed, proceed with conditions, or requires escalation."
+        );
+      }
+
       return rules;
     }
 
@@ -1360,8 +1953,8 @@
     }
 
     function getDaysUntilTarget(targetCompletionDate) {
-      if (!targetCompletionDate) return null;
-      return daysBetween(todayString(), targetCompletionDate);
+      if (!parseDateInput(targetCompletionDate)) return null;
+      return daysBetween(todayDate(), targetCompletionDate);
     }
 
     function calculateQueuePriority(data, riskLevel, aging, keyMissingDocuments) {
@@ -1520,11 +2113,11 @@
     function setTone(element, status) {
       element.className = "metric-value";
 
-      if (status === "Critical" || status === "Urgent" || status === "Do Not Proceed Until Cleared" || status === "Past Due" || status === "Overdue" || status === "BO Requires Escalation") {
+      if (status === "Critical" || status === "Urgent" || status === "Do Not Proceed Until Cleared" || status === "Do not proceed until cleared" || status === "Past Due" || status === "Overdue" || status === "BO Requires Escalation") {
         element.classList.add("critical");
-      } else if (status === "High" || status === "Escalation Required" || status === "BO Incomplete") {
+      } else if (status === "High" || status === "Escalation Required" || status === "Escalate to Compliance" || status === "BO Incomplete") {
         element.classList.add("high");
-      } else if (status === "Medium" || status === "Needs More Documents" || status === "Attention Needed") {
+      } else if (status === "Medium" || status === "Needs More Documents" || status === "Request more information" || status === "Proceed with conditions" || status === "Attention Needed") {
         element.classList.add("medium");
       } else {
         element.classList.add("low");
@@ -1535,6 +2128,7 @@
       const entityType = getValue("entityType");
       const requiredDocuments = documentRules[entityType];
       const receivedDocuments = getReceivedDocuments();
+      const documentQualityMap = getDocumentQualityMap();
       const missingDocuments = requiredDocuments.filter(function(documentName) {
         return !receivedDocuments.includes(documentName);
       });
@@ -1555,9 +2149,10 @@
         industry: getValue("industry") || "Not provided",
         entityType: entityType,
         relationshipType: getValue("relationshipType"),
+        triggerEventReason: getValue("triggerEventReason"),
         expectedActivity: getValue("expectedActivity"),
-        caseReceivedDate: getValue("caseReceivedDate"),
-        targetCompletionDate: getValue("targetCompletionDate"),
+        caseReceivedDate: formatUsDate(getValue("caseReceivedDate")),
+        targetCompletionDate: formatUsDate(getValue("targetCompletionDate")),
         ownershipChartReceived: getValue("ownershipChartReceived"),
         beneficialOwnersIdentified: getValue("beneficialOwnersIdentified"),
         boIdReceived: getValue("boIdReceived"),
@@ -1571,6 +2166,9 @@
         countryMatch: getValue("countryMatch"),
         entityTypeMatch: getValue("entityTypeMatch"),
         highRiskCountry: getValue("highRiskCountry"),
+        sourceOfFundsDocumented: getValue("sourceOfFundsDocumented"),
+        sourceOfWealthDocumented: getValue("sourceOfWealthDocumented"),
+        explanationQuality: getValue("explanationQuality"),
         emailRecipientType: getValue("emailRecipientType"),
         emailTone: getValue("emailTone"),
         analystComments: getValue("analystComments") || "No additional analyst comments provided."
@@ -1579,14 +2177,19 @@
       const aging = getCaseAging(data.caseReceivedDate, data.targetCompletionDate);
       const boStatus = getBoStatus(data);
       const screening = triageScreening(data);
-      const risk = calculateRisk(data, boStatus, keyMissingDocuments, aging.status);
+      const evidenceIssues = getEvidenceQualityIssues(requiredDocuments, receivedDocuments, documentQualityMap);
+      const refreshAssessment = getRefreshAssessment(data, evidenceIssues);
+      const sofSowStatus = getSofSowStatus(data);
+      const risk = calculateRisk(data, boStatus, keyMissingDocuments, aging.status, evidenceIssues, sofSowStatus);
       const riskLevel = getRiskLevel(risk.score);
+      const riskProfile = getCustomerRiskProfile(data, boStatus, screening.result, missingDocuments, evidenceIssues, sofSowStatus);
+      const recommendedDecision = getRecommendedDecision(data, riskLevel, keyMissingDocuments, evidenceIssues, sofSowStatus);
       const queuePriority = calculateQueuePriority(data, riskLevel, aging, keyMissingDocuments);
-      const bottlenecks = diagnoseBottlenecks(data, boStatus, screening.result, riskLevel, missingDocuments, aging.status);
-      const actions = generateActions(bottlenecks, missingDocuments, data, screening.result, boStatus, aging.status);
+      const bottlenecks = diagnoseBottlenecks(data, boStatus, screening.result, riskLevel, missingDocuments, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
+      const actions = generateActions(bottlenecks, missingDocuments, data, screening.result, boStatus, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
       const readiness = getReadinessStatus(data, screening.result, boStatus, riskLevel, missingDocuments);
-      const triggeredPolicyRules = getTriggeredPolicyRules(data, boStatus, riskLevel, missingDocuments, aging.status);
-      const generatedAt = new Date().toLocaleString();
+      const triggeredPolicyRules = getTriggeredPolicyRules(data, boStatus, riskLevel, missingDocuments, aging.status, evidenceIssues, sofSowStatus, refreshAssessment, recommendedDecision);
+      const generatedAt = new Date().toLocaleString("en-US");
       currentEmailDraft = generateEmailDraft(data, missingDocuments, boStatus, screening, aging);
 
       const documentGapText =
@@ -1598,6 +2201,14 @@
         formatList(keyMissingDocuments, "No key documents are missing.") + "\n\n" +
         "Document Gap Blocking Review: " + (missingDocuments.length > 0 ? "Yes" : "No");
 
+      const refreshText =
+        "KYC Refresh Required: " + refreshAssessment.required + "\n" +
+        "Reason for Refresh: " + refreshAssessment.reason + "\n\n" +
+        "Required Update Documents\n" +
+        formatList(refreshAssessment.updateDocuments, "No update documents required.");
+      const riskProfileText = formatRiskProfile(riskProfile);
+      const evidenceQualityText = formatEvidenceIssues(evidenceIssues);
+      const sofSowText = sofSowStatus.text;
       const riskBreakdownText = formatRiskBreakdown(risk.factors);
       const queuePriorityText =
         "Urgency Score: " + queuePriority.score + " / 100\n" +
@@ -1605,6 +2216,7 @@
         "Reason for Priority\n" +
         formatUrgencyReasons(queuePriority);
       const bottleneckText = formatList(bottlenecks, "Ready for Review");
+      const openBottleneckCount = bottlenecks.includes("Ready for Review") ? 0 : bottlenecks.length;
       const actionText = formatActions(actions);
 
       currentAnalystNote =
@@ -1615,15 +2227,24 @@
         "Country of Incorporation: " + data.country + "\n" +
         "Industry: " + data.industry + "\n" +
         "Entity Type: " + data.entityType + "\n" +
-        "Relationship Type: " + data.relationshipType + "\n" +
+        "Review Type: " + data.relationshipType + "\n" +
+        "Trigger Event Reason: " + data.triggerEventReason + "\n" +
         "Expected Activity: " + data.expectedActivity + "\n\n" +
+        "KYC Refresh Assessment\n" +
+        refreshText + "\n\n" +
         "Case Aging Status\n" +
-        "Case Received Date: " + (data.caseReceivedDate || "Not provided") + "\n" +
-        "Target Completion Date: " + (data.targetCompletionDate || "Not provided") + "\n" +
+        "Case Received Date: " + data.caseReceivedDate + "\n" +
+        "Target Completion Date: " + data.targetCompletionDate + "\n" +
         "Days Pending: " + aging.daysPending + "\n" +
         "Aging Status: " + aging.status + "\n\n" +
         "Document Gap Summary\n" +
         documentGapText + "\n\n" +
+        "Customer Risk Profile\n" +
+        riskProfileText + "\n\n" +
+        "Evidence Quality Issues\n" +
+        evidenceQualityText + "\n\n" +
+        "Source of Funds / Source of Wealth Status\n" +
+        sofSowText + "\n\n" +
         "Beneficial Ownership Result\n" +
         boStatus + "\n\n" +
         "Screening Triage Result\n" +
@@ -1643,10 +2264,14 @@
         currentEmailDraft + "\n\n" +
         "Final Case Readiness Status\n" +
         readiness + "\n\n" +
+        "Recommended Decision\n" +
+        recommendedDecision + "\n\n" +
         "Analyst Comments\n" +
         data.analystComments + "\n\n" +
+        "Human Review Disclaimer\n" +
+        "This tool supports analyst workflow simulation. Final review, escalation, and customer decisioning require human compliance review.\n\n" +
         "Rule-Based Educational Disclaimer\n" +
-        "This is a rule-based educational portfolio project. It does not connect to real OFAC, sanctions databases, adverse media tools, bank systems, AI APIs, or customer systems and should not be used as a real compliance decision system.";
+        "This is a rule-based educational portfolio project. It does not perform real sanctions screening, OFAC checks, adverse media searches, identity verification, customer verification, or bank decisioning.";
 
       currentAuditTrail =
         "KYC CASE BOTTLENECK RESOLVER AUDIT TRAIL\n\n" +
@@ -1655,12 +2280,16 @@
         "Customer: " + data.customerName + "\n\n" +
         "Inputs Reviewed\n" +
         "- Entity Type: " + data.entityType + "\n" +
-        "- Relationship Type: " + data.relationshipType + "\n" +
+        "- Review Type: " + data.relationshipType + "\n" +
+        "- Trigger Event Reason: " + data.triggerEventReason + "\n" +
         "- Expected Activity: " + data.expectedActivity + "\n" +
-        "- Case Received Date: " + (data.caseReceivedDate || "Not provided") + "\n" +
-        "- Target Completion Date: " + (data.targetCompletionDate || "Not provided") + "\n" +
+        "- Case Received Date: " + data.caseReceivedDate + "\n" +
+        "- Target Completion Date: " + data.targetCompletionDate + "\n" +
         "- Documents Received Count: " + receivedDocuments.length + "\n" +
         "- Missing Documents Count: " + missingDocuments.length + "\n" +
+        "- Evidence Quality Issues Count: " + evidenceIssues.length + "\n" +
+        "- KYC Refresh Required: " + refreshAssessment.required + "\n" +
+        "- Recommended Decision: " + recommendedDecision + "\n" +
         "- BO Status: " + boStatus + "\n" +
         "- Screening Result: " + screening.result + "\n\n" +
         "Rules Triggered\n" +
@@ -1672,20 +2301,25 @@
         "Queue Priority\n" +
         queuePriorityText + "\n\n" +
         "Final Decision\n" +
-        readiness + "\n\n" +
+        readiness + "\n" +
+        "Recommended Decision: " + recommendedDecision + "\n\n" +
         "Follow-Up Owner(s)\n" +
-        formatList(actions.map(function(action) { return action.owner + " - " + action.actionItem; }), "No follow-up owners assigned.");
+        formatList(actions.map(function(action) { return action.owner + " - " + action.actionItem; }), "No follow-up owners assigned.") + "\n\n" +
+        "Human Review Disclaimer\n" +
+        "This tool supports analyst workflow simulation. Final review, escalation, and customer decisioning require human compliance review.";
 
-      updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText);
+      updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, openBottleneckCount);
     }
 
-    function updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText) {
+    function updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, openBottleneckCount) {
       const agingEl = document.getElementById("caseAgingStatus");
       const scoreEl = document.getElementById("riskScore");
       const levelEl = document.getElementById("riskLevel");
       const readinessEl = document.getElementById("caseReadiness");
       const boEl = document.getElementById("boStatus");
       const queueEl = document.getElementById("queuePriority");
+      const refreshEl = document.getElementById("refreshRequired");
+      const decisionEl = document.getElementById("recommendedDecision");
 
       agingEl.textContent = aging.status + " (" + aging.daysPending + " day(s))";
       scoreEl.textContent = risk.score + " / 100";
@@ -1693,6 +2327,8 @@
       readinessEl.textContent = readiness;
       boEl.textContent = boStatus;
       queueEl.textContent = queuePriority.priority + " (" + queuePriority.score + " / 100)";
+      refreshEl.textContent = refreshAssessment.required;
+      decisionEl.textContent = recommendedDecision;
 
       setTone(agingEl, aging.status);
       setTone(scoreEl, riskLevel);
@@ -1700,8 +2336,14 @@
       setTone(readinessEl, readiness);
       setTone(boEl, boStatus);
       setTone(queueEl, queuePriority.priority);
+      setTone(refreshEl, refreshAssessment.required === "Yes" ? "Medium" : "Low");
+      setTone(decisionEl, recommendedDecision);
 
       setTextOutput("documentGapOutput", documentGapText);
+      setTextOutput("refreshOutput", refreshText);
+      setTextOutput("riskProfileOutput", riskProfileText);
+      setTextOutput("evidenceQualityOutput", evidenceQualityText);
+      setTextOutput("sofSowOutput", sofSowText);
       setTextOutput("screeningOutput", screening.result + "\n" + screening.explanation);
       setTextOutput("riskBreakdownOutput", riskBreakdownText);
       setTextOutput("queuePriorityOutput", queuePriorityText);
@@ -1717,6 +2359,11 @@
       document.getElementById("copyEmailButton").textContent = "Copy Email Draft";
       document.getElementById("copyAuditButton").disabled = false;
       document.getElementById("copyAuditButton").textContent = "Copy Audit Trail";
+
+      document.getElementById("topKpiRiskScore").textContent = risk.score + " / 100";
+      document.getElementById("topKpiReadiness").textContent = readiness;
+      document.getElementById("topKpiSla").textContent = aging.status;
+      document.getElementById("topKpiBottlenecks").textContent = openBottleneckCount;
     }
 
     function setTextOutput(id, text) {
@@ -1736,17 +2383,29 @@
       document.getElementById("riskScore").textContent = "0 / 100";
       document.getElementById("riskLevel").textContent = "Low";
       document.getElementById("caseReadiness").textContent = "Ready for Review";
+      document.getElementById("refreshRequired").textContent = "No";
+      document.getElementById("recommendedDecision").textContent = "Proceed";
       document.getElementById("boStatus").textContent = "BO Complete";
       document.getElementById("queuePriority").textContent = "Low (0 / 100)";
+      document.getElementById("topKpiRiskScore").textContent = "-- / 100";
+      document.getElementById("topKpiReadiness").textContent = "Not generated";
+      document.getElementById("topKpiSla").textContent = "Not started";
+      document.getElementById("topKpiBottlenecks").textContent = "--";
 
       setTone(document.getElementById("caseAgingStatus"), "On Track");
       setTone(document.getElementById("riskScore"), "Low");
       setTone(document.getElementById("riskLevel"), "Low");
       setTone(document.getElementById("caseReadiness"), "Ready for Review");
+      setTone(document.getElementById("refreshRequired"), "Low");
+      setTone(document.getElementById("recommendedDecision"), "Proceed");
       setTone(document.getElementById("boStatus"), "BO Complete");
       setTone(document.getElementById("queuePriority"), "Low");
 
       resetOutput("documentGapOutput", "Generate a review to see received, missing, and key missing documents.");
+      resetOutput("refreshOutput", "Generate a review to see refresh requirements and update documents.");
+      resetOutput("riskProfileOutput", "Generate a review to see category-level risk profile output.");
+      resetOutput("evidenceQualityOutput", "Generate a review to see expired, incomplete, inconsistent, missing, or not applicable evidence.");
+      resetOutput("sofSowOutput", "Generate a review to see source of funds and source of wealth status.");
       resetOutput("screeningOutput", "Generate a review to see screening triage output.");
       resetOutput("riskBreakdownOutput", "Generate a review to see point-by-point risk scoring.");
       resetOutput("queuePriorityOutput", "Generate a review to see urgency score, priority, and reasons.");
@@ -1793,8 +2452,9 @@
       const textArea = document.createElement("textarea");
       textArea.value = text;
       textArea.setAttribute("readonly", "");
-      textArea.style.position = "absolute";
-      textArea.style.left = "-9999px";
+      textArea.style.opacity = "0";
+      textArea.style.width = "1px";
+      textArea.style.height = "1px";
       document.body.appendChild(textArea);
       textArea.select();
 

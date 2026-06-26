@@ -1,27 +1,24 @@
 # KYC Case Bottleneck Resolver
 
-A rule-based KYC operations tool that identifies why a case is blocked, detects missing documents, scores risk, suggests follow-up actions, drafts analyst review notes, and creates an audit-friendly review trail.
+A rule-based KYC operations tool that simulates document gap checks, beneficial ownership completeness review, screening triage, customer risk profiling, trigger event review, case readiness assessment, follow-up actions, analyst review notes, and audit-friendly decision trails.
 
-This project uses only HTML, CSS, and JavaScript. It does not connect to OFAC, sanctions databases, adverse media tools, bank systems, AI APIs, customer systems, a backend, or a database.
+The project is presented as a 2026 RegTech-style dashboard UI with a dark fintech interface, glassmorphism cards, KPI summaries, bottleneck diagnosis outputs, analyst work-note generation, audit trail simulation, and a collapsed Explainability Center.
 
 ## Problem Statement
 
-In banking KYC operations, cases often get stuck because analysts, relationship managers, and compliance teams do not have one clear view of:
+Modern KYC reviews are not delayed only by missing documents. Cases often become blocked because customer risk profiles are incomplete, beneficial ownership information is unclear, evidence quality is weak, trigger events require customer refresh, screening results require escalation, and analyst notes are inconsistent.
 
-- Missing documents
-- Risk factors blocking review
-- Beneficial ownership completeness
-- Screening hits that need escalation
-- Follow-up actions and owners
-- Case aging and SLA risk
-- Analyst work-note consistency
-- Audit-friendly decision trails
-
-This project simulates a dashboard that brings those pieces together in one static browser tool.
+This project simulates a workflow that helps identify why a KYC case is blocked and what action should happen next.
 
 ## Important Disclaimer
 
-This is a rule-based educational portfolio project. It does not perform real sanctions screening, OFAC checks, adverse media searches, identity verification, customer verification, or bank decisioning. It is not production-ready and should not be used to make real compliance decisions.
+This is an educational portfolio project. It does not perform real sanctions screening, OFAC checks, adverse media searches, identity verification, customer verification, transaction monitoring, or bank decisioning.
+
+This tool supports analyst workflow simulation. Final review, escalation, and customer decisioning require human compliance review.
+
+## UI / Product Design Direction
+
+The interface uses a 2026 RegTech-inspired dashboard style with a dark fintech layout, glassmorphism cards, compact KPI panels, status badges, and an explainability center. The design goal is to make complex KYC workflow information easier to scan while keeping risk decisions transparent and audit-friendly.
 
 ## Why This Matters In Banking KYC Operations
 
@@ -32,23 +29,32 @@ This tool demonstrates how rule-based workflow automation can help analysts iden
 ## Features
 
 - Case intake section with case ID, customer profile, relationship type, expected activity, and SLA dates
+- Premium 2026 RegTech-style dashboard UI with dark fintech styling, glassmorphism panels, responsive bento layout, and top KPI cards
+- Review type support for New Onboarding, Periodic Review, Trigger Event Review, and Ongoing Monitoring Alert
+- Trigger event reason tracking for ownership changes, control person changes, address changes, country exposure changes, adverse media, new product/service, unusual activity, expired documents, periodic refresh, and other events
+- KYC refresh assessment with refresh reason and required update documents
 - Case aging indicator:
   - `0-3 days`: On Track
   - `4-7 days`: Attention Needed
   - `8+ days`: Overdue
   - Target date passed: Past Due
 - Document gap checker with required documents by entity type
-- Received, missing, and key missing document outputs
+- Received, missing, key missing, and evidence-quality document outputs
+- Evidence quality review for Current, Expired, Incomplete, Inconsistent, Missing, and Not applicable evidence
 - Beneficial ownership completeness check
+- Source of Funds and Source of Wealth documentation checks
+- Customer risk profile categories for customer type, country, industry, ownership, activity, screening, and documentation risk
 - Screening hit triage helper
 - 0-100 rule-based risk score
 - Low, Medium, High, and Critical risk levels
 - Bottleneck diagnosis categories
 - Collapsed Explainability Center with compact rule categories, trigger conditions, results, and rationale
+- KPI cards for risk score, case readiness, SLA status, and open bottlenecks
 - Case Queue Prioritizer with urgency score, priority level, and priority reasons
 - Follow-up action generator with owner, priority, and reason
 - RM Follow-Up Email Generator with recipient type and tone options
 - Final case readiness status
+- Recommended decision governance: Proceed, Proceed with conditions, Request more information, Escalate to Compliance, or Do not proceed until cleared
 - Professional KYC analyst review note
 - Audit trail summary with timestamp, triggered rules, risk points, final decision, and follow-up owners
 - Copy buttons for analyst note and audit trail
@@ -61,11 +67,12 @@ This tool demonstrates how rule-based workflow automation can help analysts iden
 2. Select the entity type.
 3. Check which required documents were received.
 4. Complete beneficial ownership fields.
-5. Complete screening triage fields.
-6. Select additional risk indicators.
-7. Click **Generate Case Review**.
-8. Review the bottleneck diagnosis, follow-up actions, analyst note, and audit trail.
-9. Copy the generated RM follow-up email draft if follow-up is needed.
+5. Select the review type and trigger event reason if applicable.
+6. Complete document evidence quality, beneficial ownership, SOF/SOW, and screening triage fields.
+7. Select additional risk indicators.
+8. Click **Generate Case Review**.
+9. Review refresh requirements, customer risk profile, evidence quality issues, bottlenecks, follow-up actions, analyst note, and audit trail.
+10. Copy the generated RM follow-up email draft if follow-up is needed.
 
 ## Document Gap Rules
 
@@ -93,6 +100,10 @@ The risk score is rule-based and capped at 100.
 | High expected activity | +10 |
 | Financial institution customer | +10 |
 | Case overdue | +5 |
+| Evidence quality issue | +10 |
+| Missing Source of Funds | +10 |
+| Missing Source of Wealth for higher-risk customer | +10 |
+| Weak SOF/SOW explanation | +5 |
 
 Risk levels:
 
@@ -108,6 +119,9 @@ Risk levels:
 The app can identify these bottlenecks:
 
 - Missing Documents
+- Evidence Quality Issues
+- SOF/SOW Follow-Up Needed
+- KYC Refresh Required
 - Beneficial Ownership Incomplete
 - Screening Clearance Needed
 - Adverse Media Review Needed
@@ -154,6 +168,10 @@ The dashboard includes a collapsed Explainability Center so users can understand
 - Screening Triage Rules
 - Beneficial Ownership Rules
 - Case Readiness Rules
+- Trigger Event Rules
+- Evidence Quality Rules
+- Source of Funds / Source of Wealth Rules
+- Review Decision Governance Rules
 - Escalation Rules
 
 Each expanded rule shows:
@@ -232,11 +250,12 @@ Bottleneck Diagnosis
 
 - This is a rule-based educational portfolio project.
 - It is not production-ready.
-- It does not perform real sanctions screening, OFAC checks, adverse media searches, identity verification, customer verification, or bank decisioning.
+- It does not perform real sanctions screening, OFAC checks, adverse media searches, identity verification, customer verification, transaction monitoring, or bank decisioning.
 - It does not connect to OFAC, sanctions databases, watchlist tools, adverse media tools, bank systems, customer systems, or AI APIs.
 - It does not store cases because there is no backend or database.
 - It does not send emails; it only drafts copyable text.
 - It should not be used for real compliance decisions.
+- Final review, escalation, and customer decisioning require human compliance review.
 
 ## Future Improvements
 
@@ -247,6 +266,9 @@ Bottleneck Diagnosis
 - Add downloadable PDF or print output.
 - Add local-only saved drafts using browser storage.
 - Add separate maker/checker quality-control status.
+- Add configurable trigger-event workflows by customer segment.
+- Add more detailed evidence-quality reason codes.
+- Add separate human reviewer sign-off fields if the project later supports local storage.
 - Add more granular country and industry risk inputs.
 - Add validation for required fields.
 - Add unit tests if the project later uses a test setup.
