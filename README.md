@@ -34,14 +34,14 @@ This tool supports analyst workflow simulation. Final review, escalation, approv
 - **Overview:** product title, core product question, educational disclaimer, Command Center KPIs, sample cases, generate/reset controls, and short case snapshot.
 - **Case Input:** guided case setup, compact document evidence review, core beneficial ownership checks with collapsed advanced BO details, SOF/SOW review, screening triage, and risk indicators.
 - **Results:** executive summary, diagnostic details, customer risk profile, evidence quality issues, risk breakdown, bottlenecks, reason codes, and queue priority.
-- **Actions:** follow-up actions with owner, priority, reason code, status, and follow-up communication draft controls.
+- **Actions:** action tracking table with owner, priority, reason code, status, and follow-up communication draft controls.
 - **Governance:** analyst review note, reviewer checklist, audit trail, triggered rules, full rule library, and human review disclaimer.
 
 ## Key Features
 
 - Command Center with polished empty states and dynamic KPI updates
-- Single-page multi-view navigation with Overview, Case Input, Results, Actions, and Governance tabs
-- Guided workflow buttons that move from Overview to Case Input, Results, Actions, and Governance while preserving form state
+- Single-page multi-view workflow stepper with Overview, Case Input, Results, Actions, and Governance views
+- Guided workflow navigation and next-step buttons that move from Overview to Case Input, Results, Actions, and Governance while preserving form state
 - Sample case buttons for Low Risk, Blocked BO, and Sanctions Escalation demos
 - Case Review Inputs for onboarding, periodic review, trigger event review, and ongoing monitoring alert workflows
 - Document Evidence Review with required documents by entity type
@@ -55,7 +55,7 @@ This tool supports analyst workflow simulation. Final review, escalation, approv
 - Suggested Review Path: Standard Review, Enhanced Review, Compliance Escalation, or Do Not Proceed Until Cleared
 - Decision Confidence / Data Quality output
 - Case Stage output, such as Evidence Collection, RM Follow-Up, Compliance Escalation, Ready for Final Review, or Do Not Proceed Until Cleared
-- Follow-up actions with owner, priority, reason code, and status
+- Follow-up action tracker with owner, priority, reason code, status badges, and reason-code pills
 - Follow-Up Communication Draft for Relationship Manager, Customer, or Compliance Officer
 - Analyst Review Note with scrollable long-form work note
 - Reviewer Checklist for human quality review
@@ -67,7 +67,7 @@ This tool supports analyst workflow simulation. Final review, escalation, approv
 1. Start in **Overview** to load a sample case or generate/reset a review.
 2. Use **Case Input** to complete case setup, evidence, ownership, SOF/SOW, screening, and risk fields. The Case Input view separates demo shortcuts, core case details, review setup, optional risk context, document evidence, beneficial ownership, and SOF/SOW review so the workflow is easier to scan.
 3. Generate the review to move automatically into **Results**, where executive summary, diagnostic details, bottlenecks, reason codes, and queue priority are displayed.
-4. Continue to **Actions** to review follow-up actions and copy a role-specific communication draft.
+4. Continue to **Actions** to review the follow-up action tracker and copy a role-specific communication draft.
 5. Continue to **Governance** to review analyst notes, reviewer checklist, audit trail, triggered rules, and the collapsed full rule library.
 
 Switching tabs does not clear form data or generated outputs because the project remains a single HTML page with JavaScript-controlled views.
@@ -235,7 +235,7 @@ The Explainability Center first shows **Triggered Rules for This Case**, meaning
 
 A production version could include the following architecture. The current project does **not** include these production integrations.
 
-- **Frontend:** React, Next.js, or another modern frontend framework
+- **Frontend:** a production-grade web application interface
 - **Backend:** FastAPI or Node.js API
 - **Database:** PostgreSQL
 - **Core tables:** cases, customers, documents, beneficial_owners, screening_hits, risk_assessments, follow_up_actions, audit_events, users, review_approvals

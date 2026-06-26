@@ -854,7 +854,7 @@
 
     .status-badge,
     .priority-badge,
-    .code-pill {
+    .reason-code-pill {
       display: inline-flex;
       align-items: center;
       width: fit-content;
@@ -902,7 +902,7 @@
       border-color: rgba(255, 93, 112, 0.28);
     }
 
-    .code-pill {
+    .reason-code-pill {
       border-radius: 8px;
       color: #b9dfff;
       background: rgba(111, 182, 255, 0.11);
@@ -1738,7 +1738,7 @@
             <p id="refreshRequired" class="metric-value low">Review Not Generated</p>
           </div>
           <div class="metric">
-            <p class="metric-label">Recommended Decision</p>
+            <p class="metric-label">Review Recommendation</p>
             <p id="recommendedDecision" class="metric-value low">Review Not Generated</p>
           </div>
         </div>
@@ -3471,7 +3471,7 @@
                 "<td><div class=\"action-item-main\">" + escapeHtml(action.actionItem) + "</div><div class=\"action-item-reason\">" + escapeHtml(action.reason) + "</div></td>" +
                 "<td>" + escapeHtml(action.owner) + "</td>" +
                 "<td><span class=\"priority-badge " + priorityTone + "\">" + escapeHtml(action.priority) + "</span></td>" +
-                "<td><span class=\"code-pill\">" + escapeHtml(action.reasonCode) + "</span></td>" +
+                "<td><span class=\"reason-code-pill\">" + escapeHtml(action.reasonCode) + "</span></td>" +
                 "<td><span class=\"status-badge " + statusTone + "\">" + escapeHtml(action.status) + "</span></td>" +
               "</tr>";
             }).join("") +
@@ -3763,7 +3763,7 @@
         readiness + "\n\n" +
         "Case Stage\n" +
         caseStage + "\n\n" +
-        "Recommended Decision\n" +
+        "Review Recommendation\n" +
         recommendedDecision + "\n\n" +
         "Suggested Review Path\n" +
         cddEddText + "\n\n" +
@@ -3793,7 +3793,7 @@
         "- Missing Documents Count: " + missingDocuments.length + "\n" +
         "- Evidence Quality Issues Count: " + evidenceIssues.length + "\n" +
         "- KYC Refresh Required: " + refreshAssessment.required + "\n" +
-        "- Recommended Decision: " + recommendedDecision + "\n" +
+        "- Review Recommendation: " + recommendedDecision + "\n" +
         "- Suggested Review Path: " + cddEddRecommendation + "\n" +
         "- Decision Confidence: " + decisionConfidence.level + "\n" +
         "- Case Stage: " + caseStage + "\n" +
@@ -3813,7 +3813,7 @@
         queuePriorityText + "\n\n" +
         "Final Decision\n" +
         readiness + "\n" +
-        "Recommended Decision: " + recommendedDecision + "\n\n" +
+        "Review Recommendation: " + recommendedDecision + "\n\n" +
         "Decision Confidence: " + decisionConfidence.level + "\n" +
         "Case Stage: " + caseStage + "\n\n" +
         "Suggested Review Path\n" +
