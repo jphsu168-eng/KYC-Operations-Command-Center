@@ -253,6 +253,11 @@
       transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
     }
 
+    .section-card {
+      display: grid;
+      gap: 16px;
+    }
+
     .view-card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -267,6 +272,26 @@
       margin-bottom: 18px;
       padding-bottom: 14px;
       border-bottom: 1px solid var(--line);
+    }
+
+    .section-header {
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      color: #f3f8ff;
+      font-size: 18px;
+      font-weight: 850;
+      letter-spacing: 0.01em;
+    }
+
+    .section-subtitle,
+    .helper-text {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
     }
 
     .step-kicker {
@@ -463,6 +488,17 @@
       margin: 6px 0 0;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 0 0 18px;
+      padding: 14px;
+      border: 1px solid rgba(167, 190, 224, 0.14);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.035);
     }
 
     input,
@@ -729,6 +765,65 @@
       line-height: 1.25;
     }
 
+    .status-badge,
+    .priority-badge,
+    .code-pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      max-width: 100%;
+      min-height: 26px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.25;
+      white-space: normal;
+    }
+
+    .status-badge {
+      color: #dfeeff;
+      background: rgba(157, 175, 199, 0.12);
+      border: 1px solid rgba(157, 175, 199, 0.22);
+    }
+
+    .priority-badge.low,
+    .status-badge.low {
+      color: var(--low);
+      background: rgba(85, 217, 155, 0.13);
+      border-color: rgba(85, 217, 155, 0.22);
+    }
+
+    .priority-badge.medium,
+    .status-badge.medium {
+      color: var(--medium);
+      background: rgba(245, 196, 107, 0.13);
+      border-color: rgba(245, 196, 107, 0.22);
+    }
+
+    .priority-badge.high,
+    .status-badge.high {
+      color: var(--high);
+      background: rgba(255, 139, 126, 0.13);
+      border-color: rgba(255, 139, 126, 0.22);
+    }
+
+    .priority-badge.urgent,
+    .status-badge.urgent {
+      color: var(--critical);
+      background: rgba(255, 93, 112, 0.13);
+      border-color: rgba(255, 93, 112, 0.28);
+    }
+
+    .code-pill {
+      border-radius: 8px;
+      color: #b9dfff;
+      background: rgba(111, 182, 255, 0.11);
+      border: 1px solid rgba(111, 182, 255, 0.22);
+      font-family: "Courier New", monospace;
+      letter-spacing: 0.02em;
+    }
+
     .low {
       color: var(--low);
       background: rgba(85, 217, 155, 0.14);
@@ -758,13 +853,36 @@
       max-height: 260px;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 14px;
+      padding: 16px;
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: rgba(6, 11, 22, 0.66);
+      background: rgba(6, 11, 22, 0.72);
       color: #dfe9f8;
-      white-space: pre-line;
+      white-space: pre-wrap;
+      word-break: break-word;
       font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .output-panel {
+      border-color: rgba(111, 182, 255, 0.18);
+      background: linear-gradient(180deg, rgba(8, 15, 28, 0.9), rgba(5, 10, 20, 0.72));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    }
+
+    .output-label {
+      display: block;
+      margin: 18px 0 8px;
+      color: #edf5ff;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .results .output-box,
+    .triggered-rules .output-box {
+      margin-bottom: 16px;
     }
 
     #analystNote,
@@ -789,6 +907,74 @@
     .empty {
       color: var(--muted);
       font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .data-table {
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(167, 190, 224, 0.16);
+      border-radius: 16px;
+      background: rgba(6, 11, 22, 0.58);
+    }
+
+    .data-table table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(167, 190, 224, 0.12);
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    .data-table th {
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .action-item-main {
+      color: #f2f7ff;
+      font-weight: 750;
+      line-height: 1.4;
+    }
+
+    .action-item-reason {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .empty-state {
+      padding: 16px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .utility-button-row {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .utility-button-row .secondary {
+      margin-top: 0;
     }
 
     .explainability-center {
@@ -887,6 +1073,7 @@
       .button-row,
       .workflow-actions,
       .workflow-actions.three,
+      .control-row,
       .sample-actions,
       .kpi-grid,
       .metric-grid,
@@ -931,6 +1118,14 @@
 
       .sof-sow-row {
         grid-template-columns: 1fr;
+      }
+
+      .data-table {
+        overflow-x: auto;
+      }
+
+      .data-table table {
+        min-width: 720px;
       }
     }
 </style>
@@ -1458,45 +1653,45 @@
         </div>
 
         <h3 class="result-section-title">Diagnostic Details</h3>
-        <label>KYC Refresh Assessment</label>
-        <div id="refreshOutput" class="output-box empty">Generate a review to see refresh requirements and update documents.</div>
+        <label class="output-label">KYC Refresh Assessment</label>
+        <div id="refreshOutput" class="output-box output-panel empty">Generate a review to see refresh requirements and update documents.</div>
 
-        <label style="margin-top: 14px;">Customer Risk Profile</label>
-        <div id="riskProfileOutput" class="output-box empty">Generate a review to see category-level risk profile output.</div>
+        <label class="output-label">Customer Risk Profile</label>
+        <div id="riskProfileOutput" class="output-box output-panel empty">Generate a review to see category-level risk profile output.</div>
 
-        <label style="margin-top: 14px;">Evidence Quality Review</label>
-        <div id="evidenceQualityOutput" class="output-box empty">Generate a review to see expired, incomplete, inconsistent, missing, or not applicable evidence.</div>
+        <label class="output-label">Evidence Quality Review</label>
+        <div id="evidenceQualityOutput" class="output-box output-panel empty">Generate a review to see expired, incomplete, inconsistent, missing, or not applicable evidence.</div>
 
-        <label style="margin-top: 14px;">Document Gap Summary</label>
-        <div id="documentGapOutput" class="output-box empty">Generate a review to see received, missing, and key missing documents.</div>
+        <label class="output-label">Document Gap Summary</label>
+        <div id="documentGapOutput" class="output-box output-panel empty">Generate a review to see received, missing, and key missing documents.</div>
 
-        <label style="margin-top: 14px;">Beneficial Ownership Status</label>
-        <div id="boStatusOutput" class="output-box empty">Generate a review to see beneficial ownership status and gaps.</div>
+        <label class="output-label">Beneficial Ownership Status</label>
+        <div id="boStatusOutput" class="output-box output-panel empty">Generate a review to see beneficial ownership status and gaps.</div>
 
-        <label style="margin-top: 14px;">SOF / SOW Status</label>
-        <div id="sofSowOutput" class="output-box empty">Generate a review to see source of funds and source of wealth status.</div>
+        <label class="output-label">SOF / SOW Status</label>
+        <div id="sofSowOutput" class="output-box output-panel empty">Generate a review to see source of funds and source of wealth status.</div>
 
-        <label style="margin-top: 14px;">Suggested Review Path</label>
-        <div id="cddEddOutput" class="output-box empty">Generate a review to see the educational suggested review path.</div>
+        <label class="output-label">Suggested Review Path</label>
+        <div id="cddEddOutput" class="output-box output-panel empty">Generate a review to see the educational suggested review path.</div>
 
-        <label style="margin-top: 14px;">Screening Triage Result</label>
-        <div id="screeningOutput" class="output-box empty">Generate a review to see screening triage output.</div>
+        <label class="output-label">Screening Triage Result</label>
+        <div id="screeningOutput" class="output-box output-panel empty">Generate a review to see screening triage output.</div>
 
-        <label style="margin-top: 14px;">Risk Breakdown</label>
-        <div id="riskBreakdownOutput" class="output-box empty">Generate a review to see point-by-point risk scoring.</div>
+        <label class="output-label">Risk Breakdown</label>
+        <div id="riskBreakdownOutput" class="output-box output-panel empty">Generate a review to see point-by-point risk scoring.</div>
 
-        <label style="margin-top: 14px;">Triggered Rules</label>
-        <div id="triggeredRulesDiagnosticOutput" class="output-box empty">Generate a review to see triggered rules in the results dashboard.</div>
+        <label class="output-label">Triggered Rules</label>
+        <div id="triggeredRulesDiagnosticOutput" class="output-box output-panel empty">Generate a review to see triggered rules in the results dashboard.</div>
 
-        <label style="margin-top: 14px;">Reason Codes</label>
-        <div id="reasonCodesOutput" class="output-box empty">Generate a review to see bottleneck and decision reason codes.</div>
+        <label class="output-label">Reason Codes</label>
+        <div id="reasonCodesOutput" class="output-box output-panel empty">Generate a review to see bottleneck and decision reason codes.</div>
 
-        <label style="margin-top: 14px;">Bottlenecks</label>
-        <div id="bottleneckOutput" class="output-box empty">Generate a review to diagnose case bottlenecks.</div>
+        <label class="output-label">Bottlenecks</label>
+        <div id="bottleneckOutput" class="output-box output-panel empty">Generate a review to diagnose case bottlenecks.</div>
 
         <h3 class="result-section-title">Action Plan</h3>
-        <label style="margin-top: 14px;">Case Queue Prioritizer</label>
-        <div id="queuePriorityOutput" class="output-box empty">Generate a review to see urgency score, priority, and reasons.</div>
+        <label class="output-label">Case Queue Prioritizer</label>
+        <div id="queuePriorityOutput" class="output-box output-panel empty">Generate a review to see urgency score, priority, and reasons.</div>
 
         <div class="workflow-actions">
           <button type="button" class="secondary" onclick="switchView('case-input')">Back to Case Input</button>
@@ -1504,7 +1699,7 @@
         </div>
       </section>
 
-      <section class="panel" data-view="governance">
+      <section class="panel section-card" data-view="governance">
         <div class="panel-header">
           <div>
             <p class="step-kicker">Governance &amp; Audit</p>
@@ -1513,25 +1708,37 @@
           </div>
           <div class="badge">7</div>
         </div>
-        <div id="analystNote" class="output-box empty">Generate a review to create the analyst note.</div>
-        <button id="copyNoteButton" type="button" class="secondary" onclick="copyText('analystNote', 'copyNoteButton')" disabled>Copy Analyst Note</button>
+        <div id="analystNote" class="output-box output-panel empty">Generate a review to create the analyst note.</div>
+        <div class="utility-button-row">
+          <button id="copyNoteButton" type="button" class="secondary" onclick="copyText('analystNote', 'copyNoteButton')" disabled>Copy Analyst Note</button>
+        </div>
       </section>
 
-      <section class="panel" data-view="actions">
+      <section class="panel section-card" data-view="actions">
+        <div class="panel-header">
+          <div>
+            <p class="step-kicker">Action Center</p>
+            <h2>Follow-Up Action Tracker</h2>
+            <p class="note">Track action items generated from case bottlenecks.</p>
+          </div>
+          <div class="badge">8</div>
+        </div>
+        <div id="followUpOutput" class="data-table empty-state">Generate a case review first to create follow-up actions.</div>
+      </section>
+
+      <section class="panel section-card" data-view="actions">
         <div class="panel-header">
           <div>
             <p class="step-kicker">Action Center</p>
             <h2>Follow-Up Communication Draft</h2>
-            <p class="note">Generate a role-specific follow-up message based on missing evidence, BO gaps, screening concerns, and SLA status.</p>
+            <p class="note">Generate a role-specific message based on current blockers and follow-up actions.</p>
           </div>
-          <div class="badge">8</div>
+          <div class="badge">M</div>
         </div>
-        <label>Follow-Up Actions</label>
-        <div id="followUpOutput" class="output-box empty">Generate a case review first to create follow-up actions and communication draft.</div>
-        <div class="grid">
+        <div class="control-row">
           <div>
             <label for="emailRecipientType">Recipient Type</label>
-            <select id="emailRecipientType">
+            <select id="emailRecipientType" onchange="updateEmailDraftFromControls()">
               <option value="Relationship Manager">Relationship Manager</option>
               <option value="Customer">Customer</option>
               <option value="Compliance Officer">Compliance Officer</option>
@@ -1539,7 +1746,7 @@
           </div>
           <div>
             <label for="emailTone">Tone</label>
-            <select id="emailTone">
+            <select id="emailTone" onchange="updateEmailDraftFromControls()">
               <option value="Standard">Standard</option>
               <option value="Urgent">Urgent</option>
               <option value="Final Reminder">Final Reminder</option>
@@ -1547,16 +1754,17 @@
             <p class="helper">Overdue or past-due cases will automatically use a more urgent message.</p>
           </div>
         </div>
-        <label style="margin-top: 14px;">Follow-Up Communication Draft</label>
-        <div id="emailDraft" class="output-box empty">Generate a case review first to draft follow-up communication.</div>
-        <button id="copyEmailButton" type="button" class="secondary" onclick="copyText('emailDraft', 'copyEmailButton')" disabled>Copy Follow-Up Draft</button>
+        <div id="emailDraft" class="output-box output-panel empty">Generate a case review first to draft follow-up communication.</div>
+        <div class="utility-button-row">
+          <button id="copyEmailButton" type="button" class="secondary" onclick="copyText('emailDraft', 'copyEmailButton')" disabled>Copy Follow-Up Draft</button>
+        </div>
         <div class="workflow-actions">
           <button type="button" class="secondary" onclick="switchView('results')">Back to Results</button>
           <button type="button" onclick="switchView('governance')">Continue to Governance →</button>
         </div>
       </section>
 
-      <section class="panel" data-view="governance">
+      <section class="panel section-card" data-view="governance">
         <div class="panel-header">
           <div>
             <p class="step-kicker">Governance &amp; Audit</p>
@@ -1565,11 +1773,13 @@
           </div>
           <div class="badge">9</div>
         </div>
-        <div id="auditTrail" class="output-box empty">Generate a review to create the audit trail summary.</div>
-        <button id="copyAuditButton" type="button" class="secondary" onclick="copyText('auditTrail', 'copyAuditButton')" disabled>Copy Audit Trail</button>
+        <div id="auditTrail" class="output-box output-panel empty">Generate a review to create the audit trail summary.</div>
+        <div class="utility-button-row">
+          <button id="copyAuditButton" type="button" class="secondary" onclick="copyText('auditTrail', 'copyAuditButton')" disabled>Copy Audit Trail</button>
+        </div>
       </section>
 
-      <section class="panel" data-view="governance">
+      <section class="panel section-card" data-view="governance">
         <div class="panel-header">
           <div>
             <p class="step-kicker">Governance &amp; Audit</p>
@@ -1578,7 +1788,7 @@
           </div>
           <div class="badge">Q</div>
         </div>
-        <div id="reviewerChecklist" class="output-box empty">Generate a review to create the reviewer checklist.</div>
+        <div id="reviewerChecklist" class="output-box output-panel empty">Generate a review to create the reviewer checklist.</div>
         <div class="workflow-actions">
           <button type="button" class="secondary" onclick="switchView('actions')">Back to Actions</button>
           <button type="button" onclick="switchView('overview')">Back to Overview</button>
@@ -1597,8 +1807,8 @@
       </div>
 
       <div class="triggered-rules">
-        <label>Triggered Rules for This Case</label>
-        <div id="triggeredRulesOutput" class="output-box empty">Generate a review to see only the rules triggered by this case.</div>
+        <label class="output-label">Triggered Rules for This Case</label>
+        <div id="triggeredRulesOutput" class="output-box output-panel empty">Generate a review to see only the rules triggered by this case.</div>
       </div>
 
       <div class="accordion-stack">
@@ -2066,6 +2276,7 @@
     let currentAnalystNote = "";
     let currentAuditTrail = "";
     let currentEmailDraft = "";
+    let currentEmailContext = null;
 
     function getValue(id) {
       return document.getElementById(id).value.trim();
@@ -3118,6 +3329,59 @@
       }).join("\n\n");
     }
 
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function getBadgeTone(value) {
+      const normalized = String(value || "").toLowerCase();
+      if (normalized.indexOf("urgent") >= 0 || normalized.indexOf("escalat") >= 0 || normalized.indexOf("past due") >= 0 || normalized.indexOf("do not proceed") >= 0) return "urgent";
+      if (normalized.indexOf("high") >= 0 || normalized.indexOf("blocked") >= 0 || normalized.indexOf("needed") >= 0) return "high";
+      if (normalized.indexOf("medium") >= 0 || normalized.indexOf("pending") >= 0 || normalized.indexOf("more information") >= 0) return "medium";
+      return "low";
+    }
+
+    function renderActionsTable(actions) {
+      const output = document.getElementById("followUpOutput");
+      if (!output) return;
+
+      if (!actions || actions.length === 0) {
+        output.className = "data-table empty-state";
+        output.textContent = "No follow-up actions were generated for this case.";
+        return;
+      }
+
+      output.className = "data-table";
+      output.innerHTML =
+        "<table aria-label=\"Generated follow-up actions\">" +
+          "<thead><tr>" +
+            "<th>Action Item</th>" +
+            "<th>Owner</th>" +
+            "<th>Priority</th>" +
+            "<th>Reason Code</th>" +
+            "<th>Status</th>" +
+          "</tr></thead>" +
+          "<tbody>" +
+            actions.map(function(action) {
+              const priorityTone = getBadgeTone(action.priority);
+              const statusTone = getBadgeTone(action.status);
+              return "<tr>" +
+                "<td><div class=\"action-item-main\">" + escapeHtml(action.actionItem) + "</div><div class=\"action-item-reason\">" + escapeHtml(action.reason) + "</div></td>" +
+                "<td>" + escapeHtml(action.owner) + "</td>" +
+                "<td><span class=\"priority-badge " + priorityTone + "\">" + escapeHtml(action.priority) + "</span></td>" +
+                "<td><span class=\"code-pill\">" + escapeHtml(action.reasonCode) + "</span></td>" +
+                "<td><span class=\"status-badge " + statusTone + "\">" + escapeHtml(action.status) + "</span></td>" +
+              "</tr>";
+            }).join("") +
+          "</tbody>" +
+        "</table>";
+    }
+
     function getBoGaps(data) {
       const gaps = [];
 
@@ -3187,6 +3451,21 @@
         "Thank you,\n" +
         "KYC Review Team\n\n" +
         "Note: This is a rule-based educational portfolio draft and is not connected to real bank, sanctions, watchlist, or customer systems.";
+    }
+
+    function updateEmailDraftFromControls() {
+      if (!currentEmailContext) return;
+
+      currentEmailDraft = generateEmailDraft(
+        currentEmailContext.data,
+        currentEmailContext.missingDocuments,
+        currentEmailContext.boStatus,
+        currentEmailContext.screening,
+        currentEmailContext.aging
+      );
+      setTextOutput("emailDraft", currentEmailDraft);
+      document.getElementById("copyEmailButton").disabled = false;
+      document.getElementById("copyEmailButton").textContent = "Copy Follow-Up Draft";
     }
 
     function setTone(element, status) {
@@ -3280,6 +3559,13 @@
       const triggeredPolicyRules = getTriggeredRulesFromReasonCodes(reasonCodes);
       const generatedAt = new Date().toLocaleString("en-US");
       currentEmailDraft = generateEmailDraft(data, missingDocuments, boStatus, screening, aging);
+      currentEmailContext = {
+        data: data,
+        missingDocuments: missingDocuments,
+        boStatus: boStatus,
+        screening: screening,
+        aging: aging
+      };
 
       const documentGapText =
         "Received Documents\n" +
@@ -3442,6 +3728,7 @@
         "This tool supports analyst workflow simulation. Final review, escalation, approval, and customer decisioning require human compliance review.";
 
       updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, formatPolicyRules(triggeredPolicyRules), openBottleneckCount, decisionConfidence, decisionConfidenceText, caseStage, reasonCodeText, boStatusText, reviewerChecklistText, caseSnapshotText);
+      renderActionsTable(actions);
       switchView("results");
     }
 
@@ -3498,7 +3785,6 @@
       setTextOutput("reasonCodesOutput", reasonCodeText);
       setTextOutput("queuePriorityOutput", queuePriorityText);
       setTextOutput("bottleneckOutput", bottleneckText);
-      setTextOutput("followUpOutput", actionText);
       setTextOutput("analystNote", currentAnalystNote);
       setTextOutput("emailDraft", currentEmailDraft);
       setTextOutput("auditTrail", currentAuditTrail);
@@ -3523,7 +3809,7 @@
 
     function setTextOutput(id, text) {
       const element = document.getElementById(id);
-      element.className = "output-box";
+      element.className = "output-box output-panel";
       element.textContent = text;
     }
 
@@ -3535,6 +3821,7 @@
       currentAnalystNote = "";
       currentAuditTrail = "";
       currentEmailDraft = "";
+      currentEmailContext = null;
 
       document.getElementById("caseAgingStatus").textContent = "Enter Case Dates";
       document.getElementById("riskScore").textContent = "Awaiting Review";
@@ -3572,7 +3859,7 @@
       resetOutput("reasonCodesOutput", "Generate a review to see bottleneck and decision reason codes.");
       resetOutput("queuePriorityOutput", "Generate a review to see urgency score, priority, and reasons.");
       resetOutput("bottleneckOutput", "Generate a review to diagnose case bottlenecks.");
-      resetOutput("followUpOutput", "Generate a case review first to create follow-up actions and communication draft.");
+      resetActionsTable();
       resetOutput("analystNote", "Generate a review to create the analyst note.");
       resetOutput("emailDraft", "Generate a case review first to draft follow-up communication.");
       resetOutput("auditTrail", "Generate a review to create the audit trail summary.");
@@ -3593,8 +3880,14 @@
 
     function resetOutput(id, text) {
       const element = document.getElementById(id);
-      element.className = "output-box empty";
+      element.className = "output-box output-panel empty";
       element.textContent = text;
+    }
+
+    function resetActionsTable() {
+      const element = document.getElementById("followUpOutput");
+      element.className = "data-table empty-state";
+      element.textContent = "Generate a case review first to create follow-up actions.";
     }
 
     function copyText(outputId, buttonId) {
