@@ -137,7 +137,7 @@
 
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
       padding: 18px 0 0;
     }
@@ -345,6 +345,13 @@
       margin-top: 18px;
     }
 
+    .sample-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
     button {
       width: 100%;
       min-height: 44px;
@@ -413,6 +420,17 @@
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-bottom: 16px;
+    }
+
+    .result-section-title {
+      margin: 20px 0 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: #f3f8ff;
+      font-size: 14px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .metric {
@@ -602,6 +620,7 @@
       .grid,
       .checks,
       .button-row,
+      .sample-actions,
       .kpi-grid,
       .metric-grid,
       .rule-row {
@@ -639,23 +658,33 @@
     <section class="wrap kpi-grid" aria-label="Case KPI summary">
       <div class="kpi-card">
         <p class="kpi-label">Risk Score</p>
-        <p id="topKpiRiskScore" class="kpi-value">-- / 100</p>
+        <p id="topKpiRiskScore" class="kpi-value">Awaiting Review</p>
         <p class="kpi-note">Generate a review to score risk.</p>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Case Readiness</p>
-        <p id="topKpiReadiness" class="kpi-value">Not generated</p>
+        <p id="topKpiReadiness" class="kpi-value">Review Not Generated</p>
         <p class="kpi-note">Decision status appears here.</p>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">SLA Status</p>
-        <p id="topKpiSla" class="kpi-value">Not started</p>
+        <p id="topKpiSla" class="kpi-value">Enter Case Dates</p>
         <p class="kpi-note">Based on received and target dates.</p>
       </div>
       <div class="kpi-card">
         <p class="kpi-label">Open Bottlenecks</p>
-        <p id="topKpiBottlenecks" class="kpi-value">--</p>
+        <p id="topKpiBottlenecks" class="kpi-value">Run Case Review</p>
         <p class="kpi-note">Blocking themes after review.</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Case Stage</p>
+        <p id="topKpiCaseStage" class="kpi-value">Awaiting Case Setup</p>
+        <p class="kpi-note">Operational stage appears here.</p>
+      </div>
+      <div class="kpi-card">
+        <p class="kpi-label">Suggested Review Path</p>
+        <p id="topKpiReviewPath" class="kpi-value">Awaiting Review</p>
+        <p class="kpi-note">Educational routing recommendation.</p>
       </div>
     </section>
   </header>
@@ -665,11 +694,17 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Case Review Inputs · Step 1</p>
+            <p class="step-kicker">Case Review Inputs · Step 1: Case Setup</p>
             <h2>Case Intake</h2>
-            <p class="note">Enter the core case details and SLA dates.</p>
+            <p class="note">Enter the core case details, review type, trigger event context, and SLA dates.</p>
           </div>
           <div class="badge">1</div>
+        </div>
+
+        <div class="sample-actions" aria-label="Sample cases">
+          <button type="button" class="secondary" onclick="loadSampleCase('lowRisk')">Load Low Risk Case</button>
+          <button type="button" class="secondary" onclick="loadSampleCase('blockedBo')">Load Blocked BO Case</button>
+          <button type="button" class="secondary" onclick="loadSampleCase('sanctions')">Load Sanctions Escalation Case</button>
         </div>
 
         <div class="grid">
@@ -761,8 +796,8 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Case Review Inputs · Step 2</p>
-            <h2>Documents Received</h2>
+            <p class="step-kicker">Case Review Inputs · Step 2A: Evidence &amp; Ownership Review</p>
+            <h2>Document Evidence Review</h2>
             <p class="note">Set the status for each required document. Missing, expired, incomplete, and inconsistent evidence are flagged automatically.</p>
           </div>
           <div class="badge">2</div>
@@ -773,7 +808,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Case Review Inputs · Step 2</p>
+            <p class="step-kicker">Case Review Inputs · Step 2C: Evidence &amp; Ownership Review</p>
             <h2>SOF / SOW Review</h2>
             <p class="note">Document whether source of funds and source of wealth support is clear enough for review.</p>
           </div>
@@ -811,7 +846,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Case Review Inputs · Step 2</p>
+            <p class="step-kicker">Case Review Inputs · Step 2B: Evidence &amp; Ownership Review</p>
             <h2>Beneficial Ownership</h2>
             <p class="note">Assess whether ownership information is complete or requires escalation.</p>
           </div>
@@ -883,7 +918,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Case Review Inputs · Step 3</p>
+            <p class="step-kicker">Case Review Inputs · Step 3: Screening &amp; Risk Review</p>
             <h2>Screening Triage</h2>
             <p class="note">Document potential screening-hit indicators. This does not clear real hits.</p>
           </div>
@@ -950,7 +985,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Case Review Inputs · Step 3</p>
+            <p class="step-kicker">Case Review Inputs · Step 3: Screening &amp; Risk Review</p>
             <h2>Risk Indicators</h2>
             <p class="note">Select operational risk factors not already captured above.</p>
           </div>
@@ -974,7 +1009,7 @@
 
       <div class="button-row">
         <button type="button" onclick="generateCaseReview()">Generate Case Review</button>
-        <button type="button" class="outline" onclick="resetForm()">Reset Form</button>
+        <button type="button" class="outline" onclick="resetForm()">Reset to Empty Case</button>
       </div>
     </form>
 
@@ -989,49 +1024,60 @@
           <div class="badge">6</div>
         </div>
 
+        <h3 class="result-section-title" style="margin-top: 0; padding-top: 0; border-top: 0;">Executive Summary</h3>
         <div class="metric-grid">
           <div class="metric">
-            <p class="metric-label">Case Aging</p>
-            <p id="caseAgingStatus" class="metric-value low">On Track</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">Risk Score</p>
-            <p id="riskScore" class="metric-value low">0 / 100</p>
+            <p class="metric-label">Case Readiness</p>
+            <p id="caseReadiness" class="metric-value low">Review Not Generated</p>
           </div>
           <div class="metric">
             <p class="metric-label">Risk Level</p>
-            <p id="riskLevel" class="metric-value low">Low</p>
+            <p id="riskLevel" class="metric-value low">Awaiting Review</p>
           </div>
           <div class="metric">
-            <p class="metric-label">Case Readiness</p>
-            <p id="caseReadiness" class="metric-value low">Ready for Review</p>
+            <p class="metric-label">Risk Score</p>
+            <p id="riskScore" class="metric-value low">Awaiting Review</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">Suggested Review Path</p>
+            <p id="suggestedReviewPath" class="metric-value low">Awaiting Review</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">Decision Confidence</p>
+            <p id="decisionConfidence" class="metric-value low">Awaiting Review</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">Case Stage</p>
+            <p id="caseStage" class="metric-value low">Awaiting Case Setup</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">Open Bottlenecks</p>
+            <p id="openBottlenecksMetric" class="metric-value low">Run Case Review</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">Queue Priority</p>
+            <p id="queuePriority" class="metric-value low">Awaiting Review</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">SLA Status</p>
+            <p id="caseAgingStatus" class="metric-value low">Enter Case Dates</p>
+          </div>
+          <div class="metric">
+            <p class="metric-label">BO Status</p>
+            <p id="boStatus" class="metric-value low">Review Not Generated</p>
           </div>
           <div class="metric">
             <p class="metric-label">KYC Refresh Required</p>
-            <p id="refreshRequired" class="metric-value low">No</p>
+            <p id="refreshRequired" class="metric-value low">Review Not Generated</p>
           </div>
           <div class="metric">
             <p class="metric-label">Recommended Decision</p>
-            <p id="recommendedDecision" class="metric-value low">Proceed</p>
-          </div>
-          <div class="metric full">
-            <p class="metric-label">CDD Level Recommendation</p>
-            <p id="cddEddRecommendation" class="metric-value low">Standard Due Diligence</p>
-          </div>
-          <div class="metric full">
-            <p class="metric-label">BO Status</p>
-            <p id="boStatus" class="metric-value low">BO Complete</p>
-          </div>
-          <div class="metric full">
-            <p class="metric-label">Queue Priority</p>
-            <p id="queuePriority" class="metric-value low">Low (0 / 100)</p>
+            <p id="recommendedDecision" class="metric-value low">Review Not Generated</p>
           </div>
         </div>
 
-        <label>Document Gap Summary</label>
-        <div id="documentGapOutput" class="output-box empty">Generate a review to see received, missing, and key missing documents.</div>
-
-        <label style="margin-top: 14px;">KYC Refresh Assessment</label>
+        <h3 class="result-section-title">Diagnostic Details</h3>
+        <label>KYC Refresh Assessment</label>
         <div id="refreshOutput" class="output-box empty">Generate a review to see refresh requirements and update documents.</div>
 
         <label style="margin-top: 14px;">Customer Risk Profile</label>
@@ -1040,11 +1086,17 @@
         <label style="margin-top: 14px;">Evidence Quality Review</label>
         <div id="evidenceQualityOutput" class="output-box empty">Generate a review to see expired, incomplete, inconsistent, missing, or not applicable evidence.</div>
 
+        <label style="margin-top: 14px;">Document Gap Summary</label>
+        <div id="documentGapOutput" class="output-box empty">Generate a review to see received, missing, and key missing documents.</div>
+
+        <label style="margin-top: 14px;">Beneficial Ownership Status</label>
+        <div id="boStatusOutput" class="output-box empty">Generate a review to see beneficial ownership status and gaps.</div>
+
         <label style="margin-top: 14px;">SOF / SOW Status</label>
         <div id="sofSowOutput" class="output-box empty">Generate a review to see source of funds and source of wealth status.</div>
 
-        <label style="margin-top: 14px;">CDD / EDD Recommendation</label>
-        <div id="cddEddOutput" class="output-box empty">Generate a review to see the educational due diligence recommendation.</div>
+        <label style="margin-top: 14px;">Suggested Review Path</label>
+        <div id="cddEddOutput" class="output-box empty">Generate a review to see the educational suggested review path.</div>
 
         <label style="margin-top: 14px;">Screening Triage Result</label>
         <div id="screeningOutput" class="output-box empty">Generate a review to see screening triage output.</div>
@@ -1052,9 +1104,16 @@
         <label style="margin-top: 14px;">Risk Breakdown</label>
         <div id="riskBreakdownOutput" class="output-box empty">Generate a review to see point-by-point risk scoring.</div>
 
+        <label style="margin-top: 14px;">Triggered Rules</label>
+        <div id="triggeredRulesDiagnosticOutput" class="output-box empty">Generate a review to see triggered rules in the results dashboard.</div>
+
+        <label style="margin-top: 14px;">Reason Codes</label>
+        <div id="reasonCodesOutput" class="output-box empty">Generate a review to see bottleneck and decision reason codes.</div>
+
         <label style="margin-top: 14px;">Bottlenecks</label>
         <div id="bottleneckOutput" class="output-box empty">Generate a review to diagnose case bottlenecks.</div>
 
+        <h3 class="result-section-title">Action Plan</h3>
         <label style="margin-top: 14px;">Case Queue Prioritizer</label>
         <div id="queuePriorityOutput" class="output-box empty">Generate a review to see urgency score, priority, and reasons.</div>
 
@@ -1079,8 +1138,8 @@
         <div class="panel-header">
           <div>
             <p class="step-kicker">Action Center</p>
-            <h2>Action Tools</h2>
-            <p class="note">Generate and copy a professional follow-up email for the RM, customer, or Compliance Officer.</p>
+            <h2>Follow-Up Communication Draft</h2>
+            <p class="note">Generate a role-specific follow-up message based on missing evidence, BO gaps, screening concerns, and SLA status.</p>
           </div>
           <div class="badge">8</div>
         </div>
@@ -1103,9 +1162,9 @@
             <p class="helper">Overdue or past-due cases will automatically use a more urgent message.</p>
           </div>
         </div>
-        <label style="margin-top: 14px;">RM Follow-Up Email Draft</label>
-        <div id="emailDraft" class="output-box empty">Generate a review to create the follow-up email draft.</div>
-        <button id="copyEmailButton" type="button" class="secondary" onclick="copyText('emailDraft', 'copyEmailButton')" disabled>Copy Email Draft</button>
+        <label style="margin-top: 14px;">Follow-Up Communication Draft</label>
+        <div id="emailDraft" class="output-box empty">Generate a case review first to draft follow-up communication.</div>
+        <button id="copyEmailButton" type="button" class="secondary" onclick="copyText('emailDraft', 'copyEmailButton')" disabled>Copy Follow-Up Draft</button>
       </section>
 
       <section class="panel">
@@ -1119,6 +1178,18 @@
         </div>
         <div id="auditTrail" class="output-box empty">Generate a review to create the audit trail summary.</div>
         <button id="copyAuditButton" type="button" class="secondary" onclick="copyText('auditTrail', 'copyAuditButton')" disabled>Copy Audit Trail</button>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="step-kicker">Governance &amp; Audit</p>
+            <h2>Reviewer Checklist</h2>
+            <p class="note">Auto-generated quality-control checklist for human review. This does not imply final approval.</p>
+          </div>
+          <div class="badge">Q</div>
+        </div>
+        <div id="reviewerChecklist" class="output-box empty">Generate a review to create the reviewer checklist.</div>
       </section>
     </section>
 
@@ -1214,7 +1285,7 @@
             <div class="rule-row">
               <div><span class="rule-label">Rule name</span>False Positive Support</div>
               <div><span class="rule-label">Trigger</span>Multiple identifiers do not match.</div>
-              <div><span class="rule-label">Result</span>Likely False Positive.</div>
+              <div><span class="rule-label">Result</span>Potential False Positive Rationale.</div>
               <div><span class="rule-label">Why it matters</span>Clear rationale helps document screening disposition.</div>
             </div>
           </div>
@@ -1307,7 +1378,7 @@
         <details class="rule-accordion">
           <summary>
             <span>
-              <span class="rule-summary-title">Source of Funds / Source of Wealth Rules</span>
+              <span class="rule-summary-title">SOF/SOW Rules</span>
               <span class="rule-summary-text">SOF and SOW checks identify missing or weak source explanations.</span>
             </span>
             <span class="accordion-icon">+</span>
@@ -1325,7 +1396,7 @@
         <details class="rule-accordion">
           <summary>
             <span>
-              <span class="rule-summary-title">Review Decision Governance Rules</span>
+              <span class="rule-summary-title">Review Path Rules</span>
               <span class="rule-summary-text">Decision rules translate risk and gaps into a recommended next step.</span>
             </span>
             <span class="accordion-icon">+</span>
@@ -1343,7 +1414,7 @@
         <details class="rule-accordion">
           <summary>
             <span>
-              <span class="rule-summary-title">Escalation Rules</span>
+              <span class="rule-summary-title">Queue Urgency Rules</span>
               <span class="rule-summary-text">Escalation rules highlight cases that need Compliance or urgent action.</span>
             </span>
             <span class="accordion-icon">+</span>
@@ -1371,6 +1442,7 @@
   </main>
 
   <script>
+    // Constants and entity document requirements.
     const documentRules = {
       "Private Company": [
         "Certificate of Incorporation",
@@ -1404,6 +1476,198 @@
         "Wolfsberg Questionnaire",
         "Authorized Signer Information"
       ]
+    };
+
+    // Structured rule definitions keep reason codes consistent across outputs.
+    const RULE_DEFINITIONS = {
+      "DOC-001": {
+        code: "DOC-001",
+        category: "Document Evidence",
+        name: "Missing required document",
+        trigger: "Required document is not received",
+        result: "Needs more information",
+        severity: "High",
+        owner: "Relationship Manager",
+        whyItMatters: "Required KYC evidence is needed before review can proceed."
+      },
+      "DOC-002": {
+        code: "DOC-002",
+        category: "Evidence Quality",
+        name: "Evidence quality issue",
+        trigger: "Evidence is expired, incomplete, inconsistent, or not received",
+        result: "Evidence follow-up required",
+        severity: "High",
+        owner: "Analyst",
+        whyItMatters: "Analysts need reliable evidence before supporting a review conclusion."
+      },
+      "BO-001": {
+        code: "BO-001",
+        category: "Beneficial Ownership",
+        name: "Beneficial ownership incomplete",
+        trigger: "BO, control person, ID, ownership percentage, or attestation data is incomplete",
+        result: "BO incomplete",
+        severity: "High",
+        owner: "Analyst",
+        whyItMatters: "Ownership gaps can block customer due diligence completion."
+      },
+      "BO-002": {
+        code: "BO-002",
+        category: "Beneficial Ownership",
+        name: "Complex ownership escalation",
+        trigger: "Complex ownership is paired with incomplete BO information",
+        result: "BO requires escalation",
+        severity: "Urgent",
+        owner: "Compliance Officer",
+        whyItMatters: "Layered ownership with missing details may require enhanced review."
+      },
+      "SOF-001": {
+        code: "SOF-001",
+        category: "Source of Funds",
+        name: "Source of funds issue",
+        trigger: "SOF is missing or explanation quality is weak",
+        result: "SOF follow-up required",
+        severity: "Medium",
+        owner: "Relationship Manager",
+        whyItMatters: "SOF support helps explain expected account activity."
+      },
+      "SOW-001": {
+        code: "SOW-001",
+        category: "Source of Wealth",
+        name: "Source of wealth issue",
+        trigger: "SOW is missing for a higher-risk customer",
+        result: "SOW follow-up required",
+        severity: "Medium",
+        owner: "Relationship Manager",
+        whyItMatters: "SOW support helps contextualize higher-risk customers."
+      },
+      "SCR-001": {
+        code: "SCR-001",
+        category: "Screening Triage",
+        name: "Screening clearance needed",
+        trigger: "Sanctions/watchlist concern or blocked screening disposition",
+        result: "Do not proceed until cleared",
+        severity: "Urgent",
+        owner: "Compliance Officer",
+        whyItMatters: "Potential screening issues require controlled review."
+      },
+      "SCR-002": {
+        code: "SCR-002",
+        category: "Screening Triage",
+        name: "Potential true match",
+        trigger: "High name similarity plus matching identifiers",
+        result: "Compliance review required",
+        severity: "Urgent",
+        owner: "Compliance Officer",
+        whyItMatters: "Potential true matches should not be handled as routine cases."
+      },
+      "ADV-001": {
+        code: "ADV-001",
+        category: "Adverse Media",
+        name: "Adverse media review needed",
+        trigger: "Adverse media is selected",
+        result: "Adverse media disposition needed",
+        severity: "High",
+        owner: "Analyst",
+        whyItMatters: "Adverse media may change the customer risk profile."
+      },
+      "SLA-001": {
+        code: "SLA-001",
+        category: "Queue Urgency",
+        name: "Case aging risk",
+        trigger: "Case is attention needed, overdue, or past due",
+        result: "Prioritize case",
+        severity: "High",
+        owner: "Analyst",
+        whyItMatters: "Aging cases can create operational backlog and missed SLA targets."
+      },
+      "RISK-001": {
+        code: "RISK-001",
+        category: "Risk Scoring",
+        name: "High or critical risk",
+        trigger: "Risk level is High or Critical",
+        result: "Enhanced review or escalation",
+        severity: "High",
+        owner: "Compliance Officer",
+        whyItMatters: "Higher-risk files need stronger rationale and review controls."
+      },
+      "DEC-001": {
+        code: "DEC-001",
+        category: "Decision Governance",
+        name: "Do not proceed until cleared",
+        trigger: "Sanctions/watchlist concern blocks decisioning",
+        result: "Do not proceed until cleared",
+        severity: "Urgent",
+        owner: "Compliance Officer",
+        whyItMatters: "The case should not move forward until the concern is resolved by human review."
+      },
+      "CONF-001": {
+        code: "CONF-001",
+        category: "Decision Confidence",
+        name: "Insufficient information",
+        trigger: "Critical data quality, screening, or evidence gaps exist",
+        result: "Decision cannot be finalized",
+        severity: "High",
+        owner: "Reviewer",
+        whyItMatters: "Incomplete information reduces confidence in any review conclusion."
+      }
+    };
+
+    // Sample case data makes the portfolio demo easier to understand quickly.
+    const SAMPLE_CASES = {
+      lowRisk: {
+        caseId: "KYC-2026-0108",
+        customerName: "Evergreen Office Supplies LLC",
+        country: "United States",
+        industry: "Office supplies distribution",
+        entityType: "Private Company",
+        relationshipType: "New Onboarding",
+        triggerEventReason: "Other",
+        expectedActivity: "Low",
+        productService: "Operating Account",
+        caseReceivedDate: "06/24/2026",
+        targetCompletionDate: "06/30/2026",
+        documents: "allAcceptable",
+        bo: { ownershipChartReceived: "Yes", beneficialOwnersIdentified: "Yes", boIdReceived: "Yes", ownershipPercentDocumented: "Yes", controlPersonIdentified: "Yes", owner25Identified: "Yes", boCertificationReceived: "Yes", complexOwnership: "No" },
+        sof: { sourceOfFundsDocumented: "Yes", sourceOfWealthDocumented: "Not applicable", explanationQuality: "Clear" },
+        screening: { pep: "No", sanctions: "No", adverseMedia: "No", nameSimilarity: "Low", dobRegistrationMatch: "No", countryMatch: "No", entityTypeMatch: "No", highRiskCountry: "No" },
+        analystComments: "Low-risk onboarding sample with acceptable evidence and complete BO support."
+      },
+      blockedBo: {
+        caseId: "KYC-2026-0142",
+        customerName: "Northstar Payments LLC",
+        country: "United States",
+        industry: "Money Services Business",
+        entityType: "Private Company",
+        relationshipType: "New Onboarding",
+        triggerEventReason: "Ownership Change",
+        expectedActivity: "High",
+        productService: "International Payments",
+        caseReceivedDate: "06/14/2026",
+        targetCompletionDate: "06/24/2026",
+        documents: { "Certificate of Incorporation": "Received - Acceptable", "Business Registration": "Received - Acceptable", "Ownership Chart": "Not Received", "Beneficial Owner ID": "Not Received", "W-9 or W-8": "Received - Incomplete", "Address Proof": "Received - Acceptable", "Source of Funds Explanation": "Received - Incomplete" },
+        bo: { ownershipChartReceived: "No", beneficialOwnersIdentified: "No", boIdReceived: "No", ownershipPercentDocumented: "No", controlPersonIdentified: "No", owner25Identified: "Unknown", boCertificationReceived: "No", complexOwnership: "Yes" },
+        sof: { sourceOfFundsDocumented: "No", sourceOfWealthDocumented: "No", explanationQuality: "Vague" },
+        screening: { pep: "No", sanctions: "No", adverseMedia: "Yes", nameSimilarity: "Medium", dobRegistrationMatch: "Not Available", countryMatch: "Yes", entityTypeMatch: "Yes", highRiskCountry: "No" },
+        analystComments: "Sample blocked case: BO support, SOF/SOW, and evidence quality require follow-up."
+      },
+      sanctions: {
+        caseId: "KYC-2026-0199",
+        customerName: "Atlas Global Trading Ltd",
+        country: "Example High-Risk Jurisdiction",
+        industry: "International commodities trading",
+        entityType: "Private Company",
+        relationshipType: "Ongoing Monitoring Alert",
+        triggerEventReason: "Adverse Media",
+        expectedActivity: "High",
+        productService: "Wire Transfers",
+        caseReceivedDate: "06/10/2026",
+        targetCompletionDate: "06/20/2026",
+        documents: { "Certificate of Incorporation": "Received - Acceptable", "Business Registration": "Received - Acceptable", "Ownership Chart": "Received - Inconsistent", "Beneficial Owner ID": "Received - Incomplete", "W-9 or W-8": "Not Received", "Address Proof": "Received - Expired", "Source of Funds Explanation": "Received - Incomplete" },
+        bo: { ownershipChartReceived: "Yes", beneficialOwnersIdentified: "No", boIdReceived: "No", ownershipPercentDocumented: "No", controlPersonIdentified: "No", owner25Identified: "Unknown", boCertificationReceived: "No", complexOwnership: "Yes" },
+        sof: { sourceOfFundsDocumented: "No", sourceOfWealthDocumented: "No", explanationQuality: "Missing" },
+        screening: { pep: "Yes", sanctions: "Yes", adverseMedia: "Yes", nameSimilarity: "High", dobRegistrationMatch: "Yes", countryMatch: "Yes", entityTypeMatch: "Yes", highRiskCountry: "Yes" },
+        analystComments: "Sample escalation case: sanctions/watchlist concern should be routed to Compliance Officer."
+      }
     };
 
     let currentAnalystNote = "";
@@ -1473,6 +1737,54 @@
       });
 
       return qualityMap;
+    }
+
+    function setDocumentStatuses(statusConfig) {
+      const qualityItems = document.querySelectorAll("select[name='documentQuality']");
+
+      qualityItems.forEach(function(item) {
+        const documentName = item.getAttribute("data-document");
+        if (statusConfig === "allAcceptable") {
+          item.value = "Received - Acceptable";
+        } else if (statusConfig && statusConfig[documentName]) {
+          item.value = statusConfig[documentName];
+        } else {
+          item.value = "Not Received";
+        }
+      });
+    }
+
+    function setValues(values) {
+      Object.keys(values).forEach(function(id) {
+        const element = document.getElementById(id);
+        if (element) element.value = values[id];
+      });
+    }
+
+    function loadSampleCase(sampleName) {
+      const sample = SAMPLE_CASES[sampleName];
+      if (!sample) return;
+
+      setValues({
+        caseId: sample.caseId,
+        customerName: sample.customerName,
+        country: sample.country,
+        industry: sample.industry,
+        entityType: sample.entityType,
+        relationshipType: sample.relationshipType,
+        triggerEventReason: sample.triggerEventReason,
+        expectedActivity: sample.expectedActivity,
+        productService: sample.productService,
+        caseReceivedDate: sample.caseReceivedDate,
+        targetCompletionDate: sample.targetCompletionDate,
+        analystComments: sample.analystComments
+      });
+
+      renderDocumentChecklist();
+      setDocumentStatuses(sample.documents);
+      setValues(sample.bo);
+      setValues(sample.sof);
+      setValues(sample.screening);
     }
 
     function formatList(items, emptyText) {
@@ -1572,7 +1884,7 @@
         data.boIdReceived === "No" ||
         data.ownershipPercentDocumented === "No" ||
         data.controlPersonIdentified === "No" ||
-        data.owner25Identified !== "Yes" ||
+        data.owner25Identified === "Unknown" ||
         data.boCertificationReceived === "No";
 
       if (data.complexOwnership === "Yes" && incomplete) {
@@ -1610,8 +1922,8 @@
 
       if (mismatches >= 2) {
         return {
-          result: "Likely False Positive",
-          explanation: "Multiple identifiers do not match, supporting a likely false positive disposition for documentation purposes."
+          result: "Potential False Positive Rationale",
+          explanation: "Multiple identifiers do not match, supporting possible false positive documentation support. This tool does not clear screening hits."
         };
       }
 
@@ -1624,7 +1936,7 @@
 
       return {
         result: "Needs Compliance Review",
-        explanation: "The selected screening indicators do not provide enough support for a clear disposition."
+        explanation: "The selected screening indicators do not provide enough support for a clear disposition. This tool does not clear screening hits."
       };
     }
 
@@ -1767,11 +2079,13 @@
     }
 
     function getCddEddRecommendation(data, riskLevel, boStatus, screeningResult, missingDocuments, evidenceIssues) {
+      if (data.sanctions === "Yes" || screeningResult === "Do Not Proceed Until Cleared") {
+        return "Do Not Proceed Until Cleared";
+      }
+
       if (
         riskLevel === "Critical" ||
-        data.sanctions === "Yes" ||
         screeningResult === "Potential True Match" ||
-        screeningResult === "Do Not Proceed Until Cleared" ||
         boStatus === "BO Requires Escalation"
       ) {
         return "Compliance Escalation";
@@ -1784,34 +2098,90 @@
         missingDocuments.length > 0 ||
         evidenceIssues.length > 0
       ) {
-        return "Enhanced Due Diligence";
+        return "Enhanced Review";
       }
 
-      return "Standard Due Diligence";
+      return "Standard Review";
     }
 
     function getCddEddText(cddEddRecommendation) {
-      return "CDD Level Recommendation: " + cddEddRecommendation + "\n\n" +
+      return "Suggested Review Path: " + cddEddRecommendation + "\n\n" +
         "Educational recommendation only. Final decision requires human compliance review.";
     }
 
-    function addReasonCode(reasonCodes, code, label, reason) {
-      reasonCodes.push({ code: code, label: label, reason: reason });
+    function getDecisionConfidence(data, boStatus, screeningResult, missingDocuments, evidenceIssues, sofSowStatus) {
+      const inconsistentEvidence = evidenceIssues.some(function(issue) {
+        return issue.status === "Received - Inconsistent";
+      });
+      const screeningIncomplete = [data.dobRegistrationMatch, data.countryMatch, data.entityTypeMatch].includes("Not Available");
+
+      if (data.sanctions === "Yes" || screeningResult === "Do Not Proceed Until Cleared") {
+        return {
+          level: "Insufficient Information",
+          explanation: "Decision cannot be finalized due to insufficient customer information and required Compliance review."
+        };
+      }
+
+      if (missingDocuments.length >= 3 || boStatus !== "BO Complete" || screeningIncomplete || inconsistentEvidence) {
+        return {
+          level: "Low",
+          explanation: "Decision cannot be finalized due to insufficient customer information, BO gaps, screening identifiers, or evidence quality issues."
+        };
+      }
+
+      if (missingDocuments.length > 0 || evidenceIssues.length > 0 || sofSowStatus.issues.length > 0) {
+        return {
+          level: "Medium",
+          explanation: "Some follow-up is still needed before reviewer confidence is high."
+        };
+      }
+
+      return {
+        level: "High",
+        explanation: "Core evidence, BO information, screening rationale, and source information appear sufficient for simulated review."
+      };
     }
 
-    function getReasonCodes(data, boStatus, screeningResult, riskLevel, missingDocuments, evidenceIssues, agingStatus, recommendedDecision) {
+    function getCaseStage(data, boStatus, screeningResult, riskLevel, readiness, missingDocuments, evidenceIssues, agingStatus) {
+      if (data.sanctions === "Yes" || readiness === "Do Not Proceed Until Cleared") return "Do Not Proceed Until Cleared";
+      if (screeningResult === "Potential True Match" || boStatus === "BO Requires Escalation" || riskLevel === "Critical") return "Compliance Escalation";
+      if (missingDocuments.length > 0 || evidenceIssues.length > 0 || boStatus === "BO Incomplete") return "Evidence Collection";
+      if (agingStatus === "Overdue" || agingStatus === "Past Due") return "RM Follow-Up";
+      if (readiness === "Ready for Review") return "Ready for Final Review";
+      if (riskLevel === "High") return "Analyst Review";
+      return "Analyst Review";
+    }
+
+    function addReasonCode(reasonCodes, code, reason) {
+      const definition = RULE_DEFINITIONS[code];
+      reasonCodes.push({
+        code: code,
+        label: definition ? definition.name : code,
+        reason: reason,
+        category: definition ? definition.category : "General",
+        result: definition ? definition.result : "Review required",
+        severity: definition ? definition.severity : "Medium",
+        owner: definition ? definition.owner : "Analyst",
+        whyItMatters: definition ? definition.whyItMatters : "This rule supports explainable review."
+      });
+    }
+
+    function getReasonCodes(data, boStatus, screeningResult, riskLevel, missingDocuments, evidenceIssues, agingStatus, recommendedDecision, sofSowStatus, decisionConfidence) {
       const reasonCodes = [];
 
-      if (missingDocuments.length > 0) addReasonCode(reasonCodes, "DOC-001", "Missing required document", missingDocuments.length + " required document(s) are not received.");
-      if (evidenceIssues.length > 0) addReasonCode(reasonCodes, "DOC-002", "Evidence quality issue", evidenceIssues.length + " document evidence issue(s) are flagged.");
-      if (boStatus === "BO Incomplete" || boStatus === "BO Requires Escalation") addReasonCode(reasonCodes, "BO-001", "Beneficial ownership incomplete", "Ownership, control, certification, BO ID, or percentage evidence is incomplete.");
-      if (boStatus === "BO Requires Escalation") addReasonCode(reasonCodes, "BO-002", "Complex ownership escalation", "Complex ownership is paired with incomplete BO information.");
-      if (data.sanctions === "Yes" || screeningResult === "Do Not Proceed Until Cleared") addReasonCode(reasonCodes, "SCR-001", "Screening clearance needed", "Sanctions or watchlist concern blocks progression.");
-      if (screeningResult === "Potential True Match") addReasonCode(reasonCodes, "SCR-002", "Potential true match", "Screening triage indicates a possible true match.");
-      if (data.adverseMedia === "Yes") addReasonCode(reasonCodes, "ADV-001", "Adverse media review needed", "Adverse media is selected.");
-      if (agingStatus === "Overdue" || agingStatus === "Past Due" || agingStatus === "Attention Needed") addReasonCode(reasonCodes, "SLA-001", "Case aging risk", "Case aging status is " + agingStatus + ".");
-      if (riskLevel === "High" || riskLevel === "Critical") addReasonCode(reasonCodes, "RISK-001", "High or critical risk", "Calculated risk level is " + riskLevel + ".");
-      if (recommendedDecision === "Do not proceed until cleared") addReasonCode(reasonCodes, "DEC-001", "Do not proceed until cleared", "Final recommended decision blocks case progression until cleared.");
+      if (missingDocuments.length > 0) addReasonCode(reasonCodes, "DOC-001", missingDocuments.length + " required document(s) are not received.");
+      if (evidenceIssues.length > 0) addReasonCode(reasonCodes, "DOC-002", evidenceIssues.length + " document evidence issue(s) are flagged.");
+      if (boStatus === "BO Incomplete" || boStatus === "BO Requires Escalation") addReasonCode(reasonCodes, "BO-001", "Ownership, control, certification, BO ID, or percentage evidence is incomplete.");
+      if (boStatus === "BO Requires Escalation") addReasonCode(reasonCodes, "BO-002", "Complex ownership is paired with incomplete BO information.");
+      if (sofSowStatus.issues.some(function(issue) { return issue.indexOf("Funds") >= 0 || issue.indexOf("SOF") >= 0; })) addReasonCode(reasonCodes, "SOF-001", "Source of Funds is missing or explanation quality is weak.");
+      if (sofSowStatus.issues.some(function(issue) { return issue.indexOf("Wealth") >= 0 || issue.indexOf("SOW") >= 0; })) addReasonCode(reasonCodes, "SOW-001", "Source of Wealth support is missing for a higher-risk customer.");
+      if (data.sanctions === "Yes" || screeningResult === "Do Not Proceed Until Cleared") addReasonCode(reasonCodes, "SCR-001", "Sanctions or watchlist concern blocks progression.");
+      if (screeningResult === "Potential True Match") addReasonCode(reasonCodes, "SCR-002", "Screening triage indicates a possible true match.");
+      if (data.adverseMedia === "Yes") addReasonCode(reasonCodes, "ADV-001", "Adverse media is selected.");
+      if (agingStatus === "Overdue" || agingStatus === "Past Due" || agingStatus === "Attention Needed") addReasonCode(reasonCodes, "SLA-001", "Case aging status is " + agingStatus + ".");
+      if (riskLevel === "High" || riskLevel === "Critical") addReasonCode(reasonCodes, "RISK-001", "Calculated risk level is " + riskLevel + ".");
+      if (recommendedDecision === "Do not proceed until cleared") addReasonCode(reasonCodes, "DEC-001", "Final recommended decision blocks case progression until cleared.");
+      if (decisionConfidence.level === "Low" || decisionConfidence.level === "Insufficient Information") addReasonCode(reasonCodes, "CONF-001", decisionConfidence.explanation);
 
       return reasonCodes;
     }
@@ -1930,8 +2300,15 @@
       return bottlenecks;
     }
 
-    function addAction(actions, actionItem, owner, priority, reason) {
-      actions.push({ actionItem: actionItem, owner: owner, priority: priority, reason: reason });
+    function addAction(actions, actionItem, owner, priority, reason, reasonCode) {
+      actions.push({
+        actionItem: actionItem,
+        owner: owner,
+        priority: priority,
+        reason: reason,
+        reasonCode: reasonCode || "N/A",
+        status: "Open"
+      });
     }
 
     function generateActions(bottlenecks, missingDocuments, data, screeningResult, boStatus, agingStatus, evidenceIssues, sofSowStatus, refreshAssessment) {
@@ -1939,45 +2316,46 @@
 
       missingDocuments.forEach(function(documentName) {
         const owner = documentName === "W-9 or W-8" ? "Relationship Manager" : "Customer";
-        addAction(actions, "Request missing document: " + documentName, owner, "High", "Required document is missing and may block review.");
+        addAction(actions, "Request missing document: " + documentName, owner, "High", "Required document is missing and may block review.", "DOC-001");
       });
 
       if (boStatus !== "BO Complete") {
-        addAction(actions, "Resolve beneficial ownership gaps before final review", "Analyst", boStatus === "BO Requires Escalation" ? "Urgent" : "High", "BO status is " + boStatus + ".");
+        addAction(actions, "Resolve beneficial ownership gaps before final review", "Analyst", boStatus === "BO Requires Escalation" ? "Urgent" : "High", "BO status is " + boStatus + ".", boStatus === "BO Requires Escalation" ? "BO-002" : "BO-001");
       }
 
       evidenceIssues.forEach(function(issue) {
-        addAction(actions, "Resolve evidence quality issue: " + issue.documentName + " is " + issue.status, "Analyst", issue.status === "Received - Expired" || issue.status === "Not Received" ? "High" : "Medium", issue.reason);
+        addAction(actions, "Resolve evidence quality issue: " + issue.documentName + " is " + issue.status, "Analyst", issue.status === "Received - Expired" || issue.status === "Not Received" ? "High" : "Medium", issue.reason, "DOC-002");
       });
 
       sofSowStatus.issues.forEach(function(issue) {
-        addAction(actions, "Follow up on SOF/SOW issue: " + issue, "Relationship Manager", issue.indexOf("missing") >= 0 ? "High" : "Medium", "SOF/SOW support is needed for review documentation.");
+        const code = issue.indexOf("Wealth") >= 0 ? "SOW-001" : "SOF-001";
+        addAction(actions, "Follow up on SOF/SOW issue: " + issue, "Relationship Manager", issue.indexOf("missing") >= 0 ? "High" : "Medium", "SOF/SOW support is needed for review documentation.", code);
       });
 
       refreshAssessment.updateDocuments.forEach(function(documentName) {
-        addAction(actions, "Request refresh update document: " + documentName, "Relationship Manager", "Medium", "Trigger event reason is " + refreshAssessment.reason + ".");
+        addAction(actions, "Request refresh update document: " + documentName, "Relationship Manager", "Medium", "Trigger event reason is " + refreshAssessment.reason + ".", "DOC-001");
       });
 
       if (screeningResult === "Do Not Proceed Until Cleared") {
-        addAction(actions, "Escalate potential sanctions/watchlist match to Compliance Officer", "Compliance Officer", "Urgent", "Screening triage blocks case progression.");
+        addAction(actions, "Escalate potential sanctions/watchlist match to Compliance Officer", "Compliance Officer", "Urgent", "Screening triage blocks case progression.", "SCR-001");
       } else if (screeningResult === "Potential True Match") {
-        addAction(actions, "Escalate potential true match for Compliance review", "Compliance Officer", "Urgent", "Screening triage indicates potential true match.");
+        addAction(actions, "Escalate potential true match for Compliance review", "Compliance Officer", "Urgent", "Screening triage indicates potential true match.", "SCR-002");
       }
 
       if (data.adverseMedia === "Yes") {
-        addAction(actions, "Request adverse media clarification and document disposition", "Analyst", "High", "Adverse media review is needed.");
+        addAction(actions, "Request adverse media clarification and document disposition", "Analyst", "High", "Adverse media review is needed.", "ADV-001");
       }
 
       if (data.highRiskCountry === "Yes" || data.complexOwnership === "Yes") {
-        addAction(actions, "Review high-risk country or complex ownership rationale", "Compliance Officer", "High", "High-risk escalation may be required.");
+        addAction(actions, "Review high-risk country or complex ownership rationale", "Compliance Officer", "High", "High-risk escalation may be required.", "RISK-001");
       }
 
       if (agingStatus === "Overdue" || agingStatus === "Past Due") {
-        addAction(actions, "Prioritize overdue case due to SLA risk", "Analyst", "Urgent", "Case aging indicates " + agingStatus + ".");
+        addAction(actions, "Prioritize overdue case due to SLA risk", "Analyst", "Urgent", "Case aging indicates " + agingStatus + ".", "SLA-001");
       }
 
       if (actions.length === 0) {
-        addAction(actions, "Proceed with quality review and document final decision", "Analyst", "Low", "No blocking bottlenecks identified.");
+        addAction(actions, "Proceed with quality review and document final decision", "Analyst", "Low", "No blocking bottlenecks identified.", "N/A");
       }
 
       return actions;
@@ -2114,11 +2492,54 @@
       }
 
       return rules.map(function(rule, index) {
-        return (index + 1) + ". Rule name: " + rule.name + "\n" +
+        return (index + 1) + ". Rule name: " + rule.name + (rule.code ? " (" + rule.code + ")" : "") + "\n" +
+          (rule.category ? "   Category: " + rule.category + "\n" : "") +
           "   Trigger condition: " + rule.trigger + "\n" +
           "   Result: " + rule.result + "\n" +
+          (rule.severity ? "   Severity: " + rule.severity + "\n" : "") +
+          (rule.owner ? "   Owner: " + rule.owner + "\n" : "") +
           "   Why it matters: " + rule.whyItMatters;
       }).join("\n\n");
+    }
+
+    function getTriggeredRulesFromReasonCodes(reasonCodes) {
+      return reasonCodes.map(function(item) {
+        return {
+          code: item.code,
+          category: item.category,
+          name: item.label,
+          trigger: RULE_DEFINITIONS[item.code] ? RULE_DEFINITIONS[item.code].trigger : item.reason,
+          result: item.result,
+          severity: item.severity,
+          owner: item.owner,
+          whyItMatters: item.whyItMatters
+        };
+      });
+    }
+
+    function getBoStatusText(data, boStatus) {
+      return "BO Result: " + boStatus + "\n\n" +
+        "BO Gaps\n" +
+        formatList(getBoGaps(data), "No BO gaps identified.");
+    }
+
+    function generateReviewerChecklist(data, boStatus, screening, riskLevel, actions, evidenceIssues, sofSowStatus, reasonCodes) {
+      const checklist = [
+        { item: "Case summary complete", done: data.customerName !== "Not provided" && data.caseId !== "Not provided" },
+        { item: "Required evidence reviewed", done: true },
+        { item: "Evidence quality issues documented", done: evidenceIssues.length === 0 || reasonCodes.some(function(rule) { return rule.code === "DOC-002"; }) },
+        { item: "BO conclusion supported", done: boStatus === "BO Complete" || reasonCodes.some(function(rule) { return rule.code === "BO-001" || rule.code === "BO-002"; }) },
+        { item: "SOF/SOW conclusion supported", done: sofSowStatus.issues.length === 0 || reasonCodes.some(function(rule) { return rule.code === "SOF-001" || rule.code === "SOW-001"; }) },
+        { item: "Screening disposition documented", done: screening.result !== "" },
+        { item: "Risk rating rationale clear", done: riskLevel !== "" },
+        { item: "Follow-up action assigned", done: actions.length > 0 },
+        { item: "Audit trail complete", done: true },
+        { item: "Human review required disclaimer included", done: true }
+      ];
+
+      return checklist.map(function(entry) {
+        return "- " + (entry.done ? "Complete" : "Needs attention") + ": " + entry.item;
+      }).join("\n") + "\n\nThis checklist supports human review only and does not imply final approval.";
     }
 
     function addUrgencyReason(reasons, points, reason) {
@@ -2214,6 +2635,8 @@
         return (index + 1) + ". Action item: " + action.actionItem + "\n" +
           "   Owner: " + action.owner + "\n" +
           "   Priority: " + action.priority + "\n" +
+          "   Reason Code: " + action.reasonCode + "\n" +
+          "   Status: " + action.status + "\n" +
           "   Reason: " + action.reason;
       }).join("\n\n");
     }
@@ -2226,7 +2649,7 @@
       if (data.boIdReceived === "No") gaps.push("Beneficial owner ID");
       if (data.ownershipPercentDocumented === "No") gaps.push("Ownership percentage documentation");
       if (data.controlPersonIdentified === "No") gaps.push("Control person identification");
-      if (data.owner25Identified === "No" || data.owner25Identified === "Unknown") gaps.push("Any owner at or above 25% identified");
+      if (data.owner25Identified === "Unknown") gaps.push("Any owner at or above 25% identified");
       if (data.boCertificationReceived === "No") gaps.push("BO certification or attestation");
 
       return gaps;
@@ -2292,9 +2715,11 @@
     function setTone(element, status) {
       element.className = "metric-value";
 
-      if (status === "Critical" || status === "Urgent" || status === "Do Not Proceed Until Cleared" || status === "Do not proceed until cleared" || status === "Past Due" || status === "Overdue" || status === "BO Requires Escalation" || status === "Compliance Escalation") {
+      if (element.id === "decisionConfidence" && status === "Low") {
+        element.classList.add("high");
+      } else if (status === "Critical" || status === "Urgent" || status === "Do Not Proceed Until Cleared" || status === "Do not proceed until cleared" || status === "Past Due" || status === "Overdue" || status === "BO Requires Escalation" || status === "Compliance Escalation" || status === "Insufficient Information") {
         element.classList.add("critical");
-      } else if (status === "High" || status === "Escalation Required" || status === "Escalate to Compliance" || status === "BO Incomplete" || status === "Enhanced Due Diligence") {
+      } else if (status === "High" || status === "Escalation Required" || status === "Escalate to Compliance" || status === "BO Incomplete" || status === "Enhanced Review") {
         element.classList.add("high");
       } else if (status === "Medium" || status === "Needs More Documents" || status === "Request more information" || status === "Proceed with conditions" || status === "Attention Needed") {
         element.classList.add("medium");
@@ -2372,8 +2797,10 @@
       const bottlenecks = diagnoseBottlenecks(data, boStatus, screening.result, riskLevel, missingDocuments, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
       const actions = generateActions(bottlenecks, missingDocuments, data, screening.result, boStatus, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
       const readiness = getReadinessStatus(data, screening.result, boStatus, riskLevel, missingDocuments);
-      const triggeredPolicyRules = getTriggeredPolicyRules(data, boStatus, riskLevel, missingDocuments, aging.status, evidenceIssues, sofSowStatus, refreshAssessment, recommendedDecision);
-      const reasonCodes = getReasonCodes(data, boStatus, screening.result, riskLevel, missingDocuments, evidenceIssues, aging.status, recommendedDecision);
+      const decisionConfidence = getDecisionConfidence(data, boStatus, screening.result, missingDocuments, evidenceIssues, sofSowStatus);
+      const caseStage = getCaseStage(data, boStatus, screening.result, riskLevel, readiness, missingDocuments, evidenceIssues, aging.status);
+      const reasonCodes = getReasonCodes(data, boStatus, screening.result, riskLevel, missingDocuments, evidenceIssues, aging.status, recommendedDecision, sofSowStatus, decisionConfidence);
+      const triggeredPolicyRules = getTriggeredRulesFromReasonCodes(reasonCodes);
       const generatedAt = new Date().toLocaleString("en-US");
       currentEmailDraft = generateEmailDraft(data, missingDocuments, boStatus, screening, aging);
 
@@ -2395,6 +2822,8 @@
       const evidenceQualityText = formatEvidenceIssues(evidenceIssues);
       const sofSowText = sofSowStatus.text;
       const cddEddText = getCddEddText(cddEddRecommendation);
+      const decisionConfidenceText = "Decision Confidence: " + decisionConfidence.level + "\n" + decisionConfidence.explanation;
+      const boStatusText = getBoStatusText(data, boStatus);
       const riskBreakdownText = formatRiskBreakdown(risk.factors);
       const queuePriorityText =
         "Urgency Score: " + queuePriority.score + " / 100\n" +
@@ -2405,6 +2834,7 @@
       const bottleneckText = formatList(bottlenecks, "Ready for Review") + "\n\nReason Codes\n" + reasonCodeText;
       const openBottleneckCount = bottlenecks.includes("Ready for Review") ? 0 : bottlenecks.length;
       const actionText = formatActions(actions) + "\n\nReason Codes\n" + reasonCodeText;
+      const reviewerChecklistText = generateReviewerChecklist(data, boStatus, screening, riskLevel, actions, evidenceIssues, sofSowStatus, reasonCodes);
 
       currentAnalystNote =
         "KYC CASE BOTTLENECK REVIEW NOTE\n\n" +
@@ -2418,6 +2848,8 @@
         "Trigger Event Reason: " + data.triggerEventReason + "\n" +
         "Expected Activity: " + data.expectedActivity + "\n\n" +
         "Product / Service Requested: " + data.productService + "\n\n" +
+        "Case Stage\n" +
+        caseStage + "\n\n" +
         "KYC Refresh Assessment\n" +
         refreshText + "\n\n" +
         "Case Aging Status\n" +
@@ -2435,8 +2867,10 @@
         sofSowText + "\n\n" +
         "CDD / EDD Recommendation\n" +
         cddEddText + "\n\n" +
+        "Decision Confidence / Data Quality\n" +
+        decisionConfidenceText + "\n\n" +
         "Beneficial Ownership Result\n" +
-        boStatus + "\n\n" +
+        boStatusText + "\n\n" +
         "Screening Triage Result\n" +
         screening.result + " - " + screening.explanation + "\n\n" +
         "Risk Score and Risk Level\n" +
@@ -2452,14 +2886,18 @@
         reasonCodeText + "\n\n" +
         "Follow-Up Actions\n" +
         actionText + "\n\n" +
-        "RM Follow-Up Email Draft\n" +
+        "Follow-Up Communication Draft\n" +
         currentEmailDraft + "\n\n" +
         "Final Case Readiness Status\n" +
         readiness + "\n\n" +
+        "Case Stage\n" +
+        caseStage + "\n\n" +
         "Recommended Decision\n" +
         recommendedDecision + "\n\n" +
-        "CDD / EDD Recommendation\n" +
+        "Suggested Review Path\n" +
         cddEddText + "\n\n" +
+        "Reviewer Checklist\n" +
+        reviewerChecklistText + "\n\n" +
         "Analyst Comments\n" +
         data.analystComments + "\n\n" +
         "Human Review Disclaimer\n" +
@@ -2485,9 +2923,13 @@
         "- Evidence Quality Issues Count: " + evidenceIssues.length + "\n" +
         "- KYC Refresh Required: " + refreshAssessment.required + "\n" +
         "- Recommended Decision: " + recommendedDecision + "\n" +
-        "- CDD / EDD Recommendation: " + cddEddRecommendation + "\n" +
+        "- Suggested Review Path: " + cddEddRecommendation + "\n" +
+        "- Decision Confidence: " + decisionConfidence.level + "\n" +
+        "- Case Stage: " + caseStage + "\n" +
         "- BO Status: " + boStatus + "\n" +
         "- Screening Result: " + screening.result + "\n\n" +
+        "Evidence Issues\n" +
+        evidenceQualityText + "\n\n" +
         "Rules Triggered\n" +
         formatList(bottlenecks, "Ready for Review") + "\n\n" +
         "Triggered Policy Rules\n" +
@@ -2501,17 +2943,21 @@
         "Final Decision\n" +
         readiness + "\n" +
         "Recommended Decision: " + recommendedDecision + "\n\n" +
-        "CDD / EDD Recommendation\n" +
+        "Decision Confidence: " + decisionConfidence.level + "\n" +
+        "Case Stage: " + caseStage + "\n\n" +
+        "Suggested Review Path\n" +
         cddEddText + "\n\n" +
         "Follow-Up Owner(s)\n" +
-        formatList(actions.map(function(action) { return action.owner + " - " + action.actionItem; }), "No follow-up owners assigned.") + "\n\n" +
+        formatList(actions.map(function(action) { return action.owner + " - " + action.actionItem + " (" + action.reasonCode + ", " + action.status + ")"; }), "No follow-up owners assigned.") + "\n\n" +
+        "Reviewer Checklist\n" +
+        reviewerChecklistText + "\n\n" +
         "Human Review Disclaimer\n" +
-        "This tool supports analyst workflow simulation. Final review, escalation, and customer decisioning require human compliance review.";
+        "This tool supports analyst workflow simulation. Final review, escalation, approval, and customer decisioning require human compliance review.";
 
-      updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, formatPolicyRules(triggeredPolicyRules), openBottleneckCount);
+      updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, formatPolicyRules(triggeredPolicyRules), openBottleneckCount, decisionConfidence, decisionConfidenceText, caseStage, reasonCodeText, boStatusText, reviewerChecklistText);
     }
 
-    function updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, triggeredRulesText, openBottleneckCount) {
+    function updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, triggeredRulesText, openBottleneckCount, decisionConfidence, decisionConfidenceText, caseStage, reasonCodeText, boStatusText, reviewerChecklistText) {
       const agingEl = document.getElementById("caseAgingStatus");
       const scoreEl = document.getElementById("riskScore");
       const levelEl = document.getElementById("riskLevel");
@@ -2520,7 +2966,10 @@
       const queueEl = document.getElementById("queuePriority");
       const refreshEl = document.getElementById("refreshRequired");
       const decisionEl = document.getElementById("recommendedDecision");
-      const cddEddEl = document.getElementById("cddEddRecommendation");
+      const cddEddEl = document.getElementById("suggestedReviewPath");
+      const confidenceEl = document.getElementById("decisionConfidence");
+      const caseStageEl = document.getElementById("caseStage");
+      const openBottlenecksEl = document.getElementById("openBottlenecksMetric");
 
       agingEl.textContent = aging.status + " (" + aging.daysPending + " day(s))";
       scoreEl.textContent = risk.score + " / 100";
@@ -2531,6 +2980,9 @@
       refreshEl.textContent = refreshAssessment.required;
       decisionEl.textContent = recommendedDecision;
       cddEddEl.textContent = cddEddRecommendation;
+      confidenceEl.textContent = decisionConfidence.level;
+      caseStageEl.textContent = caseStage;
+      openBottlenecksEl.textContent = openBottleneckCount;
 
       setTone(agingEl, aging.status);
       setTone(scoreEl, riskLevel);
@@ -2541,15 +2993,21 @@
       setTone(refreshEl, refreshAssessment.required === "Yes" ? "Medium" : "Low");
       setTone(decisionEl, recommendedDecision);
       setTone(cddEddEl, cddEddRecommendation);
+      setTone(confidenceEl, decisionConfidence.level);
+      setTone(caseStageEl, caseStage);
+      setTone(openBottlenecksEl, openBottleneckCount > 0 ? "Medium" : "Low");
 
       setTextOutput("documentGapOutput", documentGapText);
       setTextOutput("refreshOutput", refreshText);
       setTextOutput("riskProfileOutput", riskProfileText);
       setTextOutput("evidenceQualityOutput", evidenceQualityText);
+      setTextOutput("boStatusOutput", boStatusText);
       setTextOutput("sofSowOutput", sofSowText);
       setTextOutput("cddEddOutput", cddEddText);
       setTextOutput("screeningOutput", screening.result + "\n" + screening.explanation);
       setTextOutput("riskBreakdownOutput", riskBreakdownText);
+      setTextOutput("triggeredRulesDiagnosticOutput", triggeredRulesText);
+      setTextOutput("reasonCodesOutput", reasonCodeText);
       setTextOutput("queuePriorityOutput", queuePriorityText);
       setTextOutput("bottleneckOutput", bottleneckText);
       setTextOutput("followUpOutput", actionText);
@@ -2557,11 +3015,12 @@
       setTextOutput("emailDraft", currentEmailDraft);
       setTextOutput("auditTrail", currentAuditTrail);
       setTextOutput("triggeredRulesOutput", triggeredRulesText);
+      setTextOutput("reviewerChecklist", reviewerChecklistText);
 
       document.getElementById("copyNoteButton").disabled = false;
       document.getElementById("copyNoteButton").textContent = "Copy Analyst Note";
       document.getElementById("copyEmailButton").disabled = false;
-      document.getElementById("copyEmailButton").textContent = "Copy Email Draft";
+      document.getElementById("copyEmailButton").textContent = "Copy Follow-Up Draft";
       document.getElementById("copyAuditButton").disabled = false;
       document.getElementById("copyAuditButton").textContent = "Copy Audit Trail";
 
@@ -2569,6 +3028,8 @@
       document.getElementById("topKpiReadiness").textContent = readiness;
       document.getElementById("topKpiSla").textContent = aging.status;
       document.getElementById("topKpiBottlenecks").textContent = openBottleneckCount;
+      document.getElementById("topKpiCaseStage").textContent = caseStage;
+      document.getElementById("topKpiReviewPath").textContent = cddEddRecommendation;
     }
 
     function setTextOutput(id, text) {
@@ -2584,45 +3045,48 @@
       currentAuditTrail = "";
       currentEmailDraft = "";
 
-      document.getElementById("caseAgingStatus").textContent = "On Track";
-      document.getElementById("riskScore").textContent = "0 / 100";
-      document.getElementById("riskLevel").textContent = "Low";
-      document.getElementById("caseReadiness").textContent = "Ready for Review";
-      document.getElementById("refreshRequired").textContent = "No";
-      document.getElementById("recommendedDecision").textContent = "Proceed";
-      document.getElementById("cddEddRecommendation").textContent = "Standard Due Diligence";
-      document.getElementById("boStatus").textContent = "BO Complete";
-      document.getElementById("queuePriority").textContent = "Low (0 / 100)";
-      document.getElementById("topKpiRiskScore").textContent = "-- / 100";
-      document.getElementById("topKpiReadiness").textContent = "Not generated";
-      document.getElementById("topKpiSla").textContent = "Not started";
-      document.getElementById("topKpiBottlenecks").textContent = "--";
+      document.getElementById("caseAgingStatus").textContent = "Enter Case Dates";
+      document.getElementById("riskScore").textContent = "Awaiting Review";
+      document.getElementById("riskLevel").textContent = "Awaiting Review";
+      document.getElementById("caseReadiness").textContent = "Review Not Generated";
+      document.getElementById("refreshRequired").textContent = "Review Not Generated";
+      document.getElementById("recommendedDecision").textContent = "Review Not Generated";
+      document.getElementById("suggestedReviewPath").textContent = "Awaiting Review";
+      document.getElementById("decisionConfidence").textContent = "Awaiting Review";
+      document.getElementById("caseStage").textContent = "Awaiting Case Setup";
+      document.getElementById("openBottlenecksMetric").textContent = "Run Case Review";
+      document.getElementById("boStatus").textContent = "Review Not Generated";
+      document.getElementById("queuePriority").textContent = "Awaiting Review";
+      document.getElementById("topKpiRiskScore").textContent = "Awaiting Review";
+      document.getElementById("topKpiReadiness").textContent = "Review Not Generated";
+      document.getElementById("topKpiSla").textContent = "Enter Case Dates";
+      document.getElementById("topKpiBottlenecks").textContent = "Run Case Review";
+      document.getElementById("topKpiCaseStage").textContent = "Awaiting Case Setup";
+      document.getElementById("topKpiReviewPath").textContent = "Awaiting Review";
 
-      setTone(document.getElementById("caseAgingStatus"), "On Track");
-      setTone(document.getElementById("riskScore"), "Low");
-      setTone(document.getElementById("riskLevel"), "Low");
-      setTone(document.getElementById("caseReadiness"), "Ready for Review");
-      setTone(document.getElementById("refreshRequired"), "Low");
-      setTone(document.getElementById("recommendedDecision"), "Proceed");
-      setTone(document.getElementById("cddEddRecommendation"), "Standard Due Diligence");
-      setTone(document.getElementById("boStatus"), "BO Complete");
-      setTone(document.getElementById("queuePriority"), "Low");
+      ["caseAgingStatus", "riskScore", "riskLevel", "caseReadiness", "refreshRequired", "recommendedDecision", "suggestedReviewPath", "decisionConfidence", "caseStage", "openBottlenecksMetric", "boStatus", "queuePriority"].forEach(function(id) {
+        setTone(document.getElementById(id), "Neutral");
+      });
 
       resetOutput("documentGapOutput", "Generate a review to see received, missing, and key missing documents.");
       resetOutput("refreshOutput", "Generate a review to see refresh requirements and update documents.");
       resetOutput("riskProfileOutput", "Generate a review to see category-level risk profile output.");
       resetOutput("evidenceQualityOutput", "Generate a review to see expired, incomplete, inconsistent, missing, or not applicable evidence.");
+      resetOutput("boStatusOutput", "Generate a review to see beneficial ownership status and gaps.");
       resetOutput("sofSowOutput", "Generate a review to see source of funds and source of wealth status.");
-      resetOutput("cddEddOutput", "Generate a review to see the educational due diligence recommendation.");
+      resetOutput("cddEddOutput", "Generate a review to see the educational suggested review path.");
       resetOutput("screeningOutput", "Generate a review to see screening triage output.");
       resetOutput("riskBreakdownOutput", "Generate a review to see point-by-point risk scoring.");
+      resetOutput("triggeredRulesDiagnosticOutput", "Generate a review to see triggered rules in the results dashboard.");
+      resetOutput("reasonCodesOutput", "Generate a review to see bottleneck and decision reason codes.");
       resetOutput("queuePriorityOutput", "Generate a review to see urgency score, priority, and reasons.");
       resetOutput("bottleneckOutput", "Generate a review to diagnose case bottlenecks.");
       resetOutput("followUpOutput", "Generate a review to assign follow-up actions.");
       resetOutput("analystNote", "Generate a review to create the analyst note.");
-      resetOutput("emailDraft", "Generate a review to create the follow-up email draft.");
+      resetOutput("emailDraft", "Generate a case review first to draft follow-up communication.");
       resetOutput("auditTrail", "Generate a review to create the audit trail summary.");
       resetOutput("triggeredRulesOutput", "Generate a review to see only the rules triggered by this case.");
+      resetOutput("reviewerChecklist", "Generate a review to create the reviewer checklist.");
 
       document.getElementById("emailRecipientType").value = "Relationship Manager";
       document.getElementById("emailTone").value = "Standard";
@@ -2630,7 +3094,7 @@
       document.getElementById("copyNoteButton").disabled = true;
       document.getElementById("copyNoteButton").textContent = "Copy Analyst Note";
       document.getElementById("copyEmailButton").disabled = true;
-      document.getElementById("copyEmailButton").textContent = "Copy Email Draft";
+      document.getElementById("copyEmailButton").textContent = "Copy Follow-Up Draft";
       document.getElementById("copyAuditButton").disabled = true;
       document.getElementById("copyAuditButton").textContent = "Copy Audit Trail";
     }
@@ -2645,7 +3109,7 @@
       const text = document.getElementById(outputId).textContent;
       const button = document.getElementById(buttonId);
 
-      if (!text || text.indexOf("Generate a review") === 0) {
+      if (!text || text.indexOf("Generate a review") === 0 || text.indexOf("Generate a case review") === 0) {
         return;
       }
 
@@ -2681,6 +3145,7 @@
     }
 
     renderDocumentChecklist();
+    resetForm();
   </script>
 </body>
 </html>
