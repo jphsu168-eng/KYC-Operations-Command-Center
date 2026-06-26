@@ -1,6 +1,6 @@
 # KYC Case Bottleneck Resolver
 
-A rule-based KYC operations tool that simulates document gap checks, beneficial ownership completeness review, screening triage, customer risk profiling, trigger event review, case readiness assessment, follow-up actions, analyst review notes, and audit-friendly decision trails.
+A rule-based educational KYC workflow prototype that simulates document gap checks, beneficial ownership completeness review, screening triage, customer risk profiling, trigger event review, evidence quality review, reason-code based bottleneck diagnosis, case readiness assessment, follow-up actions, analyst review notes, and audit-friendly decision trails.
 
 The project is presented as a 2026 RegTech-style dashboard UI with a dark fintech interface, glassmorphism cards, KPI summaries, bottleneck diagnosis outputs, analyst work-note generation, audit trail simulation, and a collapsed Explainability Center.
 
@@ -9,6 +9,10 @@ The project is presented as a 2026 RegTech-style dashboard UI with a dark fintec
 Modern KYC reviews are not delayed only by missing documents. Cases often become blocked because customer risk profiles are incomplete, beneficial ownership information is unclear, evidence quality is weak, trigger events require customer refresh, screening results require escalation, and analyst notes are inconsistent.
 
 This project simulates a workflow that helps identify why a KYC case is blocked and what action should happen next.
+
+Core product question:
+
+**Why is this KYC case blocked, and what should happen next?**
 
 ## Important Disclaimer
 
@@ -38,23 +42,28 @@ This tool demonstrates how rule-based workflow automation can help analysts iden
   - `4-7 days`: Attention Needed
   - `8+ days`: Overdue
   - Target date passed: Past Due
+- 4-step workflow structure: Case Setup, Evidence & Ownership Review, Screening & Risk Review, and Decision, Follow-up & Audit Trail
 - Document gap checker with required documents by entity type
+- Document evidence status controls for Not Received, Received - Acceptable, Received - Expired, Received - Incomplete, Received - Inconsistent, and Not Applicable
 - Received, missing, key missing, and evidence-quality document outputs
-- Evidence quality review for Current, Expired, Incomplete, Inconsistent, Missing, and Not applicable evidence
-- Beneficial ownership completeness check
+- Evidence quality review that flags not received, expired, incomplete, and inconsistent evidence
+- Beneficial ownership completeness check, including control person, 25% owner, BO ID, ownership percentage, and certification/attestation fields
 - Source of Funds and Source of Wealth documentation checks
-- Customer risk profile categories for customer type, country, industry, ownership, activity, screening, and documentation risk
+- Customer risk profile categories for customer type, geography, industry, ownership, activity, screening, documentation, and overall customer risk
 - Screening hit triage helper
 - 0-100 rule-based risk score
 - Low, Medium, High, and Critical risk levels
 - Bottleneck diagnosis categories
+- Reason codes for blocked cases, including `DOC-001`, `DOC-002`, `BO-001`, `BO-002`, `SCR-001`, `SCR-002`, `ADV-001`, `SLA-001`, `RISK-001`, and `DEC-001`
 - Collapsed Explainability Center with compact rule categories, trigger conditions, results, and rationale
+- Triggered Rules for This Case output that shows only the rules activated by the current inputs, with the full rule library collapsed below it
 - KPI cards for risk score, case readiness, SLA status, and open bottlenecks
 - Case Queue Prioritizer with urgency score, priority level, and priority reasons
 - Follow-up action generator with owner, priority, and reason
 - RM Follow-Up Email Generator with recipient type and tone options
 - Final case readiness status
 - Recommended decision governance: Proceed, Proceed with conditions, Request more information, Escalate to Compliance, or Do not proceed until cleared
+- CDD level recommendation: Standard Due Diligence, Enhanced Due Diligence, or Compliance Escalation
 - Professional KYC analyst review note
 - Audit trail summary with timestamp, triggered rules, risk points, final decision, and follow-up owners
 - Copy buttons for analyst note and audit trail
@@ -65,13 +74,13 @@ This tool demonstrates how rule-based workflow automation can help analysts iden
 
 1. Enter case intake details.
 2. Select the entity type.
-3. Check which required documents were received.
-4. Complete beneficial ownership fields.
+3. Select a document evidence status for each required document.
+4. Complete beneficial ownership and control person fields.
 5. Select the review type and trigger event reason if applicable.
 6. Complete document evidence quality, beneficial ownership, SOF/SOW, and screening triage fields.
 7. Select additional risk indicators.
 8. Click **Generate Case Review**.
-9. Review refresh requirements, customer risk profile, evidence quality issues, bottlenecks, follow-up actions, analyst note, and audit trail.
+9. Review refresh requirements, customer risk profile, evidence quality issues, reason codes, bottlenecks, CDD/EDD recommendation, follow-up actions, analyst note, and audit trail.
 10. Copy the generated RM follow-up email draft if follow-up is needed.
 
 ## Document Gap Rules
@@ -113,6 +122,50 @@ Risk levels:
 | 25-49 | Medium |
 | 50-74 | High |
 | 75-100 | Critical |
+
+## Customer Risk Profile
+
+The app breaks customer risk into compact profile components:
+
+- Customer Type Risk
+- Geography Risk
+- Industry Risk
+- Ownership Risk
+- Activity Risk
+- Screening Risk
+- Documentation Risk
+- Overall Customer Risk Profile
+
+Each component receives a Low, Medium, High, or Critical label with a short explanation of which input drove the result.
+
+## Reason Codes
+
+Reason codes make the bottleneck diagnosis easier to scan and easier to explain in an audit-style note.
+
+| Code | Meaning |
+| --- | --- |
+| `DOC-001` | Missing required document |
+| `DOC-002` | Evidence quality issue |
+| `BO-001` | Beneficial ownership incomplete |
+| `BO-002` | Complex ownership escalation |
+| `SCR-001` | Screening clearance needed |
+| `SCR-002` | Potential true match |
+| `ADV-001` | Adverse media review needed |
+| `SLA-001` | Case aging risk |
+| `RISK-001` | High or critical risk |
+| `DEC-001` | Do not proceed until cleared |
+
+Reason codes appear in the Bottleneck Diagnosis, Follow-Up Actions, Analyst Review Note, and Audit Trail.
+
+## CDD / EDD Recommendation
+
+The tool provides an educational CDD level recommendation:
+
+- **Standard Due Diligence** for Low or Medium risk cases with no blockers.
+- **Enhanced Due Diligence** for High risk, adverse media, complex ownership, or material evidence gaps.
+- **Compliance Escalation** for Critical risk, sanctions/watchlist concern, potential true match, or BO escalation.
+
+This recommendation is educational only. Final review, escalation, and customer decisioning require human compliance review.
 
 ## Bottleneck Diagnosis Rules
 
@@ -161,7 +214,9 @@ Examples:
 
 ## Explainability Center
 
-The dashboard includes a collapsed Explainability Center so users can understand the rule logic without making the main workflow feel cluttered. Rule categories include:
+The dashboard includes an Explainability Center so users can understand the rule logic without making the main workflow feel cluttered. It first shows **Triggered Rules for This Case**, which only displays the rules activated by the current inputs. A collapsed **Full Rule Library** appears below it for reference.
+
+Rule categories include:
 
 - Document Rules
 - Risk Scoring Rules
