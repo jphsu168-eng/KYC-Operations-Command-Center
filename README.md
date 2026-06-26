@@ -32,7 +32,7 @@ This tool supports analyst workflow simulation. Final review, escalation, approv
 ## Product Structure
 
 - **Overview:** product title, core product question, educational disclaimer, Command Center KPIs, sample cases, generate/reset controls, and short case snapshot.
-- **Case Input:** case setup, review type, trigger event review, document evidence review, beneficial ownership review, SOF/SOW review, screening triage, and risk indicators.
+- **Case Input:** guided case setup, compact document evidence review, core beneficial ownership checks with collapsed advanced BO details, SOF/SOW review, screening triage, and risk indicators.
 - **Results:** executive summary, diagnostic details, customer risk profile, evidence quality issues, risk breakdown, bottlenecks, reason codes, and queue priority.
 - **Actions:** follow-up actions with owner, priority, reason code, status, and follow-up communication draft controls.
 - **Governance:** analyst review note, reviewer checklist, audit trail, triggered rules, full rule library, and human review disclaimer.
@@ -41,11 +41,12 @@ This tool supports analyst workflow simulation. Final review, escalation, approv
 
 - Command Center with polished empty states and dynamic KPI updates
 - Single-page multi-view navigation with Overview, Case Input, Results, Actions, and Governance tabs
+- Guided workflow buttons that move from Overview to Case Input, Results, Actions, and Governance while preserving form state
 - Sample case buttons for Low Risk, Blocked BO, and Sanctions Escalation demos
 - Case Review Inputs for onboarding, periodic review, trigger event review, and ongoing monitoring alert workflows
 - Document Evidence Review with required documents by entity type
 - Evidence status dropdowns: Not Received, Received - Acceptable, Received - Expired, Received - Incomplete, Received - Inconsistent, and Not Applicable
-- Beneficial Ownership Review with control person, 25% ownership, BO ID, ownership percentage, complex ownership, and BO certification/attestation fields
+- Beneficial Ownership Review with visible core BO checks and collapsed advanced details for BO ID, ownership percentage, 25% ownership, and BO certification/attestation
 - Source of Funds / Source of Wealth Review
 - Screening Triage helper with cautious documentation language that does not clear screening hits
 - Customer Risk Profile across customer type, geography, industry, ownership, product/service, expected activity, screening, documentation, and overall risk
@@ -64,10 +65,10 @@ This tool supports analyst workflow simulation. Final review, escalation, approv
 ## Workflow
 
 1. Start in **Overview** to load a sample case or generate/reset a review.
-2. Use **Case Input** to complete case setup, evidence, ownership, SOF/SOW, screening, and risk fields.
-3. Use **Results** to review executive summary, diagnostic details, bottlenecks, reason codes, and queue priority.
-4. Use **Actions** to review follow-up actions and copy a role-specific communication draft.
-5. Use **Governance** to review analyst notes, reviewer checklist, audit trail, triggered rules, and the collapsed full rule library.
+2. Use **Case Input** to complete case setup, evidence, ownership, SOF/SOW, screening, and risk fields. The Case Input view separates demo shortcuts, core case details, review setup, optional risk context, document evidence, beneficial ownership, and SOF/SOW review so the workflow is easier to scan.
+3. Generate the review to move automatically into **Results**, where executive summary, diagnostic details, bottlenecks, reason codes, and queue priority are displayed.
+4. Continue to **Actions** to review follow-up actions and copy a role-specific communication draft.
+5. Continue to **Governance** to review analyst notes, reviewer checklist, audit trail, triggered rules, and the collapsed full rule library.
 
 Switching tabs does not clear form data or generated outputs because the project remains a single HTML page with JavaScript-controlled views.
 

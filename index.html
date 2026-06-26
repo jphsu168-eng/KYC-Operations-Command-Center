@@ -239,7 +239,7 @@
     }
 
     .dashboard-left {
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .panel {
@@ -307,6 +307,143 @@
       gap: 16px;
     }
 
+    #kycForm > .panel {
+      width: 100%;
+    }
+
+    .evidence-summary {
+      margin: 0 0 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(111, 182, 255, 0.18);
+      border-radius: 12px;
+      color: #dbeaff;
+      background: rgba(111, 182, 255, 0.075);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .case-subsection {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(167, 190, 224, 0.14);
+    }
+
+    .case-subsection:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .subsection-heading {
+      margin: 0 0 6px;
+      color: #f3f8ff;
+      font-size: 14px;
+      font-weight: 850;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .subsection-note {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .demo-shortcuts {
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(167, 190, 224, 0.14);
+    }
+
+    .demo-shortcuts .sample-actions {
+      margin-top: 0;
+    }
+
+    .review-setup,
+    .bo-core-grid,
+    .bo-advanced-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .optional-context,
+    .bo-advanced {
+      border: 1px solid rgba(167, 190, 224, 0.16);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .optional-context {
+      padding: 0;
+    }
+
+    .optional-context summary,
+    .bo-advanced summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      list-style: none;
+      color: #f3f8ff;
+      font-size: 14px;
+      font-weight: 850;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .optional-context summary::-webkit-details-marker,
+    .bo-advanced summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .optional-context summary::after,
+    .bo-advanced summary::after {
+      content: "+";
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(111, 182, 255, 0.13);
+      color: var(--primary);
+      font-weight: 900;
+      transition: transform 160ms ease;
+    }
+
+    .optional-context[open] summary::after,
+    .bo-advanced[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .optional-context-body,
+    .bo-advanced-body {
+      padding: 0 16px 16px;
+    }
+
+    .context-emphasis {
+      border-color: rgba(245, 196, 107, 0.38);
+      background: rgba(245, 196, 107, 0.08);
+    }
+
+    .bo-context-note {
+      margin: 0 0 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(111, 182, 255, 0.18);
+      border-radius: 12px;
+      color: #dbeaff;
+      background: rgba(111, 182, 255, 0.075);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .bo-context-note.secondary-context {
+      border-color: rgba(245, 196, 107, 0.24);
+      color: #ffe3a8;
+      background: rgba(245, 196, 107, 0.08);
+    }
+
     .full {
       grid-column: 1 / -1;
     }
@@ -317,6 +454,9 @@
       color: #e6efff;
       font-size: 13px;
       font-weight: 700;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      line-height: 1.35;
     }
 
     .helper {
@@ -363,6 +503,49 @@
       gap: 10px;
     }
 
+    .evidence-table {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(220px, 0.8fr);
+      gap: 0;
+      overflow: hidden;
+      border: 1px solid rgba(167, 190, 224, 0.18);
+      border-radius: 14px;
+      background: var(--soft);
+    }
+
+    .evidence-table-header,
+    .evidence-row {
+      display: contents;
+    }
+
+    .evidence-table-header span {
+      padding: 10px 12px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .evidence-cell {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      padding: 9px 12px;
+      border-top: 1px solid rgba(167, 190, 224, 0.13);
+      overflow-wrap: anywhere;
+    }
+
+    .evidence-cell select {
+      min-height: 36px;
+      padding: 8px 10px;
+    }
+
+    .sof-sow-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .check-item {
       display: flex;
       align-items: flex-start;
@@ -387,6 +570,8 @@
 
     .check-content {
       flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     .button-row {
@@ -401,6 +586,35 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       margin-top: 14px;
+    }
+
+    .sample-actions .secondary {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .workflow-helper {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .workflow-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .workflow-actions.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .workflow-actions .secondary,
+    .workflow-actions .outline {
+      width: 100%;
+      margin-top: 0;
     }
 
     button {
@@ -671,6 +885,8 @@
       .grid,
       .checks,
       .button-row,
+      .workflow-actions,
+      .workflow-actions.three,
       .sample-actions,
       .kpi-grid,
       .metric-grid,
@@ -684,6 +900,37 @@
 
       h1 {
         font-size: 28px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .evidence-table,
+      .evidence-table-header,
+      .evidence-row {
+        display: block;
+      }
+
+      .evidence-table-header {
+        display: none;
+      }
+
+      .evidence-cell {
+        border-top: 0;
+      }
+
+      .evidence-cell:first-child {
+        padding-bottom: 2px;
+        color: #edf5ff;
+        font-weight: 700;
+      }
+
+      .evidence-cell + .evidence-cell {
+        padding-top: 2px;
+        border-bottom: 1px solid rgba(167, 190, 224, 0.13);
+      }
+
+      .sof-sow-row {
+        grid-template-columns: 1fr;
       }
     }
 </style>
@@ -763,7 +1010,8 @@
           <button type="button" class="secondary" onclick="loadSampleCase('blockedBo')">Load Blocked BO Case</button>
           <button type="button" class="secondary" onclick="loadSampleCase('sanctions')">Load Sanctions Escalation Case</button>
         </div>
-        <div class="button-row">
+        <div class="workflow-actions three">
+          <button type="button" class="secondary" onclick="switchView('case-input')">Start Case Input →</button>
           <button type="button" onclick="generateCaseReview()">Generate Case Review</button>
           <button type="button" class="outline" onclick="resetForm()">Reset to Empty Case</button>
         </div>
@@ -794,96 +1042,120 @@
           <div class="badge">1</div>
         </div>
 
-        <div class="sample-actions" aria-label="Sample cases">
-          <button type="button" class="secondary" onclick="loadSampleCase('lowRisk')">Load Low Risk Case</button>
-          <button type="button" class="secondary" onclick="loadSampleCase('blockedBo')">Load Blocked BO Case</button>
-          <button type="button" class="secondary" onclick="loadSampleCase('sanctions')">Load Sanctions Escalation Case</button>
+        <div class="case-subsection demo-shortcuts">
+          <h3 class="subsection-heading">Demo Shortcuts</h3>
+          <p class="subsection-note">Load a sample case to preview how the workflow behaves.</p>
+          <div class="sample-actions" aria-label="Sample cases">
+            <button type="button" class="secondary" onclick="loadSampleCase('lowRisk')">Low Risk</button>
+            <button type="button" class="secondary" onclick="loadSampleCase('blockedBo')">Blocked BO</button>
+            <button type="button" class="secondary" onclick="loadSampleCase('sanctions')">Sanctions</button>
+          </div>
         </div>
 
-        <div class="grid">
-          <div>
-            <label for="caseId">Case ID</label>
-            <input id="caseId" placeholder="Example: KYC-2026-0142">
-          </div>
-          <div>
-            <label for="customerName">Customer Legal Name</label>
-            <input id="customerName" placeholder="Example: Northstar Payments LLC">
-          </div>
-          <div>
-            <label for="country">Country of Incorporation</label>
-            <input id="country" placeholder="Example: United States">
-          </div>
-          <div>
-            <label for="industry">Industry</label>
-            <input id="industry" placeholder="Example: Money Services Business">
-          </div>
-          <div>
-            <label for="entityType">Entity Type</label>
-            <select id="entityType" onchange="renderDocumentChecklist()">
-              <option value="Private Company">Private Company</option>
-              <option value="Public Company">Public Company</option>
-              <option value="Individual">Individual</option>
-              <option value="Non-profit">Non-profit</option>
-              <option value="Financial Institution">Financial Institution</option>
-            </select>
-          </div>
-          <div>
-            <label for="relationshipType">Relationship Type</label>
-            <select id="relationshipType">
-              <option value="New Onboarding">New Onboarding</option>
-              <option value="Periodic Review">Periodic Review</option>
-              <option value="Trigger Event Review">Trigger Event Review</option>
-              <option value="Ongoing Monitoring Alert">Ongoing Monitoring Alert</option>
-            </select>
-          </div>
-          <div>
-            <label for="triggerEventReason">Trigger Event Reason</label>
-            <select id="triggerEventReason">
-              <option value="Other" selected>Other</option>
-              <option value="Periodic Refresh">Periodic refresh</option>
-              <option value="Ownership Change">Ownership change</option>
-              <option value="Control Person Change">Control person change</option>
-              <option value="Address Change">Address change</option>
-              <option value="Country Exposure Change">Country exposure change</option>
-              <option value="Adverse Media">Adverse media</option>
-              <option value="New Product/Service">New product/service</option>
-              <option value="Unusual Activity">Unusual activity</option>
-              <option value="Expired Documents">Expired documents</option>
-            </select>
-            <p class="helper">Use this for trigger reviews, ongoing monitoring alerts, or periodic refresh context.</p>
-          </div>
-          <div>
-            <label for="expectedActivity">Expected Activity</label>
-            <select id="expectedActivity">
-              <option value="Low">Low</option>
-              <option value="Moderate">Moderate</option>
-              <option value="High">High</option>
-            </select>
-          </div>
-          <div>
-            <label for="productService">Product / Service Requested</label>
-            <select id="productService">
-              <option value="Operating Account">Operating Account</option>
-              <option value="Treasury Management">Treasury Management</option>
-              <option value="Wire Transfers">Wire Transfers</option>
-              <option value="International Payments">International Payments</option>
-              <option value="Cash Services">Cash Services</option>
-              <option value="Lending or Credit">Lending or Credit</option>
-              <option value="Digital Assets Exposure">Digital Assets Exposure</option>
-            </select>
-            <p class="helper">Select the primary product or service that drives the relationship risk profile.</p>
-          </div>
-          <div>
-            <label for="caseReceivedDate">Case Received Date</label>
-            <input id="caseReceivedDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
-            <p class="helper">Use U.S. date format: MM/DD/YYYY.</p>
-          </div>
-          <div class="full">
-            <label for="targetCompletionDate">Target Completion Date</label>
-            <input id="targetCompletionDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
-            <p class="helper">Use U.S. date format: MM/DD/YYYY. If the target date has passed, the case aging status becomes Past Due.</p>
+        <div class="case-subsection">
+          <h3 class="subsection-heading">Core Case Details</h3>
+          <p class="subsection-note">Capture the customer and entity profile before reviewing evidence.</p>
+          <div class="grid">
+            <div>
+              <label for="caseId">Case ID</label>
+              <input id="caseId" placeholder="Example: KYC-2026-0142">
+            </div>
+            <div>
+              <label for="customerName">Customer Legal Name</label>
+              <input id="customerName" placeholder="Example: Northstar Payments LLC">
+            </div>
+            <div>
+              <label for="entityType">Entity Type</label>
+              <select id="entityType" onchange="handleEntityTypeChange()">
+                <option value="Private Company">Private Company</option>
+                <option value="Public Company">Public Company</option>
+                <option value="Individual">Individual</option>
+                <option value="Non-profit">Non-profit</option>
+                <option value="Financial Institution">Financial Institution</option>
+              </select>
+            </div>
+            <div>
+              <label for="country">Country of Incorporation</label>
+              <input id="country" placeholder="Example: United States">
+            </div>
+            <div class="full">
+              <label for="industry">Industry</label>
+              <input id="industry" placeholder="Example: Money Services Business">
+            </div>
           </div>
         </div>
+
+        <div class="case-subsection">
+          <h3 class="subsection-heading">Review Setup</h3>
+          <p class="subsection-note">Set the review type and SLA dates used for aging and readiness logic.</p>
+          <div class="grid review-setup">
+            <div>
+              <label for="relationshipType">Relationship Type</label>
+              <select id="relationshipType" onchange="updateTriggerContext()">
+                <option value="New Onboarding">New Onboarding</option>
+                <option value="Periodic Review">Periodic Review</option>
+                <option value="Trigger Event Review">Trigger Event Review</option>
+                <option value="Ongoing Monitoring Alert">Ongoing Monitoring Alert</option>
+              </select>
+            </div>
+            <div>
+              <label for="caseReceivedDate">Case Received Date</label>
+              <input id="caseReceivedDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
+              <p class="helper">Use U.S. date format: MM/DD/YYYY.</p>
+            </div>
+            <div class="full">
+              <label for="targetCompletionDate">Target Completion Date</label>
+              <input id="targetCompletionDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
+              <p class="helper">Use U.S. date format: MM/DD/YYYY. If the target date has passed, the case aging status becomes Past Due.</p>
+            </div>
+          </div>
+        </div>
+
+        <details id="optionalRiskContext" class="case-subsection optional-context">
+          <summary>Optional Risk Context</summary>
+          <div class="optional-context-body">
+            <p id="triggerContextNote" class="subsection-note">Use these fields when a review is driven by a trigger event, monitoring alert, periodic refresh, expected activity, or product risk.</p>
+            <div class="grid">
+              <div>
+                <label for="triggerEventReason">Trigger Event Reason</label>
+                <select id="triggerEventReason">
+                  <option value="Other" selected>Other</option>
+                  <option value="Periodic Refresh">Periodic refresh</option>
+                  <option value="Ownership Change">Ownership change</option>
+                  <option value="Control Person Change">Control person change</option>
+                  <option value="Address Change">Address change</option>
+                  <option value="Country Exposure Change">Country exposure change</option>
+                  <option value="Adverse Media">Adverse media</option>
+                  <option value="New Product/Service">New product/service</option>
+                  <option value="Unusual Activity">Unusual activity</option>
+                  <option value="Expired Documents">Expired documents</option>
+                </select>
+                <p class="helper">Relevant for trigger reviews, ongoing monitoring alerts, or periodic refresh context.</p>
+              </div>
+              <div>
+                <label for="expectedActivity">Expected Activity</label>
+                <select id="expectedActivity">
+                  <option value="Low">Low</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="productService">Product / Service Requested</label>
+                <select id="productService">
+                  <option value="Operating Account">Operating Account</option>
+                  <option value="Treasury Management">Treasury Management</option>
+                  <option value="Wire Transfers">Wire Transfers</option>
+                  <option value="International Payments">International Payments</option>
+                  <option value="Cash Services">Cash Services</option>
+                  <option value="Lending or Credit">Lending or Credit</option>
+                  <option value="Digital Assets Exposure">Digital Assets Exposure</option>
+                </select>
+                <p class="helper">Select the primary product or service that drives the relationship risk profile.</p>
+              </div>
+            </div>
+          </div>
+        </details>
       </section>
 
       <section class="panel">
@@ -895,58 +1167,25 @@
           </div>
           <div class="badge">2</div>
         </div>
-        <div id="documentChecklist" class="checks"></div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <p class="step-kicker">Case Review Inputs · Step 2C: Evidence &amp; Ownership Review</p>
-            <h2>SOF / SOW Review</h2>
-            <p class="note">Document whether source of funds and source of wealth support is clear enough for review.</p>
-          </div>
-          <div class="badge">4</div>
-        </div>
-
-        <div class="grid">
-          <div>
-            <label for="sourceOfFundsDocumented">Source of Funds Documented</label>
-            <select id="sourceOfFundsDocumented">
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          </div>
-          <div>
-            <label for="sourceOfWealthDocumented">Source of Wealth Documented</label>
-            <select id="sourceOfWealthDocumented">
-              <option value="Not applicable">Not applicable</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          </div>
-          <div class="full">
-            <label for="explanationQuality">SOF / SOW Explanation Quality</label>
-            <select id="explanationQuality">
-              <option value="Clear">Clear</option>
-              <option value="Vague">Vague</option>
-              <option value="Missing">Missing</option>
-            </select>
-            <p class="helper">Vague or missing explanations create follow-up items in the analyst note.</p>
-          </div>
-        </div>
+        <div id="evidenceSummary" class="evidence-summary">Evidence Summary: 0 missing · 0 incomplete · 0 acceptable</div>
+        <div id="documentChecklist" class="evidence-table"></div>
       </section>
 
       <section class="panel">
         <div class="panel-header">
           <div>
             <p class="step-kicker">Case Review Inputs · Step 2B: Evidence &amp; Ownership Review</p>
-            <h2>Beneficial Ownership</h2>
+            <h2>Beneficial Ownership Review</h2>
             <p class="note">Assess whether ownership information is complete or requires escalation.</p>
           </div>
           <div class="badge">3</div>
         </div>
 
-        <div class="grid">
+        <p id="boApplicabilityNote" class="bo-context-note">Corporate ownership checks remain part of the educational BO completeness review.</p>
+
+        <h3 class="subsection-heading">Core BO Checks</h3>
+        <p class="subsection-note">Review the fields most likely to determine whether ownership is complete enough to continue.</p>
+        <div class="grid bo-core-grid">
           <div>
             <label for="ownershipChartReceived">Ownership Chart Received</label>
             <select id="ownershipChartReceived">
@@ -962,20 +1201,6 @@
             </select>
           </div>
           <div>
-            <label for="boIdReceived">Beneficial Owner ID Received</label>
-            <select id="boIdReceived">
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          </div>
-          <div>
-            <label for="ownershipPercentDocumented">Ownership Percentage Documented</label>
-            <select id="ownershipPercentDocumented">
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          </div>
-          <div class="full">
             <label for="controlPersonIdentified">Control Person Identified</label>
             <select id="controlPersonIdentified">
               <option value="Yes">Yes</option>
@@ -983,27 +1208,88 @@
             </select>
           </div>
           <div>
-            <label for="owner25Identified">Any Individual Owns 25% or More</label>
-            <select id="owner25Identified">
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-              <option value="Unknown">Unknown</option>
-            </select>
-          </div>
-          <div>
-            <label for="boCertificationReceived">BO Certification / Attestation Received</label>
-            <select id="boCertificationReceived">
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-              <option value="Not Applicable">Not Applicable</option>
-            </select>
-          </div>
-          <div class="full">
             <label for="complexOwnership">Complex Ownership Structure</label>
             <select id="complexOwnership">
               <option value="No">No</option>
               <option value="Yes">Yes</option>
             </select>
+          </div>
+        </div>
+
+        <details class="bo-advanced">
+          <summary>Advanced BO Details</summary>
+          <div class="bo-advanced-body">
+            <p class="subsection-note">These supporting fields still feed the risk score, BO status, analyst note, audit trail, and triggered rules.</p>
+            <div class="grid bo-advanced-grid">
+              <div>
+                <label for="boIdReceived">Beneficial Owner ID Received</label>
+                <select id="boIdReceived">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <div>
+                <label for="ownershipPercentDocumented">Ownership Percentage Documented</label>
+                <select id="ownershipPercentDocumented">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <div>
+                <label for="owner25Identified">Any Individual Owns 25% or More</label>
+                <select id="owner25Identified">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                  <option value="Unknown">Unknown</option>
+                </select>
+              </div>
+              <div>
+                <label for="boCertificationReceived">BO Certification / Attestation Received</label>
+                <select id="boCertificationReceived">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                  <option value="Not Applicable">Not Applicable</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="step-kicker">Case Review Inputs · Step 2C: Evidence &amp; Ownership Review</p>
+            <h2>SOF / SOW Review</h2>
+            <p class="note">Document whether source of funds and source of wealth support is clear enough for review.</p>
+          </div>
+          <div class="badge">4</div>
+        </div>
+
+        <div class="grid sof-sow-row">
+          <div>
+            <label for="sourceOfFundsDocumented">Source of Funds Documented</label>
+            <select id="sourceOfFundsDocumented">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div>
+            <label for="sourceOfWealthDocumented">Source of Wealth Documented</label>
+            <select id="sourceOfWealthDocumented">
+              <option value="Not applicable">Not applicable</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div>
+            <label for="explanationQuality">SOF / SOW Explanation Quality</label>
+            <select id="explanationQuality">
+              <option value="Clear">Clear</option>
+              <option value="Vague">Vague</option>
+              <option value="Missing">Missing</option>
+            </select>
+            <p class="helper">Vague or missing explanations create follow-up items in the analyst note.</p>
           </div>
         </div>
       </section>
@@ -1100,7 +1386,9 @@
         </div>
       </section>
 
-      <div class="button-row">
+      <p class="workflow-helper">Complete the case inputs, then generate the review to continue.</p>
+      <div class="workflow-actions three">
+        <button type="button" class="secondary" onclick="switchView('overview')">Back to Overview</button>
         <button type="button" onclick="generateCaseReview()">Generate Case Review</button>
         <button type="button" class="outline" onclick="resetForm()">Reset to Empty Case</button>
       </div>
@@ -1210,6 +1498,10 @@
         <label style="margin-top: 14px;">Case Queue Prioritizer</label>
         <div id="queuePriorityOutput" class="output-box empty">Generate a review to see urgency score, priority, and reasons.</div>
 
+        <div class="workflow-actions">
+          <button type="button" class="secondary" onclick="switchView('case-input')">Back to Case Input</button>
+          <button type="button" onclick="switchView('actions')">Continue to Actions →</button>
+        </div>
       </section>
 
       <section class="panel" data-view="governance">
@@ -1258,6 +1550,10 @@
         <label style="margin-top: 14px;">Follow-Up Communication Draft</label>
         <div id="emailDraft" class="output-box empty">Generate a case review first to draft follow-up communication.</div>
         <button id="copyEmailButton" type="button" class="secondary" onclick="copyText('emailDraft', 'copyEmailButton')" disabled>Copy Follow-Up Draft</button>
+        <div class="workflow-actions">
+          <button type="button" class="secondary" onclick="switchView('results')">Back to Results</button>
+          <button type="button" onclick="switchView('governance')">Continue to Governance →</button>
+        </div>
       </section>
 
       <section class="panel" data-view="governance">
@@ -1283,6 +1579,10 @@
           <div class="badge">Q</div>
         </div>
         <div id="reviewerChecklist" class="output-box empty">Generate a review to create the reviewer checklist.</div>
+        <div class="workflow-actions">
+          <button type="button" class="secondary" onclick="switchView('actions')">Back to Actions</button>
+          <button type="button" onclick="switchView('overview')">Back to Overview</button>
+        </div>
       </section>
     </section>
 
@@ -1783,22 +2083,70 @@
       });
     }
 
+    function handleEntityTypeChange() {
+      renderDocumentChecklist();
+      updateEntityContext();
+    }
+
+    function updateEntityContext() {
+      const entityType = getValue("entityType");
+      const note = document.getElementById("boApplicabilityNote");
+      if (!note) return;
+
+      if (entityType === "Individual") {
+        note.textContent = "Individual customer selected: corporate beneficial ownership fields may be less relevant. Keep them available for educational logic, but mark unavailable corporate evidence consistently.";
+        note.classList.add("secondary-context");
+      } else {
+        note.textContent = "Corporate ownership checks remain part of the educational BO completeness review for this entity type.";
+        note.classList.remove("secondary-context");
+      }
+    }
+
+    function updateTriggerContext() {
+      const relationshipType = getValue("relationshipType");
+      const optionalContext = document.getElementById("optionalRiskContext");
+      const note = document.getElementById("triggerContextNote");
+      if (!optionalContext || !note) return;
+
+      const triggerDrivenReview = relationshipType === "Trigger Event Review" ||
+        relationshipType === "Ongoing Monitoring Alert" ||
+        relationshipType === "Periodic Review";
+
+      optionalContext.classList.toggle("context-emphasis", triggerDrivenReview);
+      if (triggerDrivenReview) {
+        optionalContext.open = true;
+        note.textContent = "This review type usually needs trigger context. Select the reason, expected activity, and product/service so the refresh and risk profile outputs can explain the case.";
+      } else {
+        optionalContext.open = false;
+        note.textContent = "Optional for new onboarding unless expected activity, product/service, or trigger context is useful for the risk profile.";
+      }
+    }
+
     function renderDocumentChecklist() {
       const checklist = document.getElementById("documentChecklist");
       const entityType = getValue("entityType");
       checklist.innerHTML = "";
 
-      documentRules[entityType].forEach(function(documentName) {
-        const label = document.createElement("label");
-        label.className = "check-item";
+      const header = document.createElement("div");
+      header.className = "evidence-table-header";
+      header.innerHTML = "<span>Document</span><span>Status</span>";
+      checklist.appendChild(header);
 
-        const content = document.createElement("span");
-        content.className = "check-content";
-        content.appendChild(document.createTextNode(documentName));
+      documentRules[entityType].forEach(function(documentName) {
+        const row = document.createElement("div");
+        row.className = "evidence-row";
+
+        const documentCell = document.createElement("div");
+        documentCell.className = "evidence-cell";
+        documentCell.textContent = documentName;
+
+        const statusCell = document.createElement("div");
+        statusCell.className = "evidence-cell";
 
         const qualitySelect = document.createElement("select");
         qualitySelect.name = "documentQuality";
         qualitySelect.setAttribute("data-document", documentName);
+        qualitySelect.setAttribute("aria-label", documentName + " evidence status");
         [
           "Not Received",
           "Received - Acceptable",
@@ -1813,11 +2161,31 @@
           qualitySelect.appendChild(option);
         });
         qualitySelect.value = "Not Received";
-        content.appendChild(qualitySelect);
+        qualitySelect.onchange = updateEvidenceSummary;
+        statusCell.appendChild(qualitySelect);
 
-        label.appendChild(content);
-        checklist.appendChild(label);
+        row.appendChild(documentCell);
+        row.appendChild(statusCell);
+        checklist.appendChild(row);
       });
+
+      updateEvidenceSummary();
+    }
+
+    function updateEvidenceSummary() {
+      const summary = document.getElementById("evidenceSummary");
+      if (!summary) return;
+
+      const statuses = Array.from(document.querySelectorAll("select[name='documentQuality']")).map(function(item) {
+        return item.value;
+      });
+      const missing = statuses.filter(function(status) { return status === "Not Received"; }).length;
+      const incomplete = statuses.filter(function(status) { return status === "Received - Incomplete"; }).length;
+      const expired = statuses.filter(function(status) { return status === "Received - Expired"; }).length;
+      const inconsistent = statuses.filter(function(status) { return status === "Received - Inconsistent"; }).length;
+      const acceptable = statuses.filter(function(status) { return status === "Received - Acceptable"; }).length;
+
+      summary.textContent = "Evidence Summary: " + missing + " missing · " + incomplete + " incomplete · " + expired + " expired · " + inconsistent + " inconsistent · " + acceptable + " acceptable";
     }
 
     function getReceivedDocuments() {
@@ -1857,6 +2225,8 @@
           item.value = "Not Received";
         }
       });
+
+      updateEvidenceSummary();
     }
 
     function setValues(values) {
@@ -1890,6 +2260,8 @@
       setValues(sample.bo);
       setValues(sample.sof);
       setValues(sample.screening);
+      updateEntityContext();
+      updateTriggerContext();
     }
 
     function formatList(items, emptyText) {
@@ -3070,6 +3442,7 @@
         "This tool supports analyst workflow simulation. Final review, escalation, approval, and customer decisioning require human compliance review.";
 
       updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, formatPolicyRules(triggeredPolicyRules), openBottleneckCount, decisionConfidence, decisionConfidenceText, caseStage, reasonCodeText, boStatusText, reviewerChecklistText, caseSnapshotText);
+      switchView("results");
     }
 
     function updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, triggeredRulesText, openBottleneckCount, decisionConfidence, decisionConfidenceText, caseStage, reasonCodeText, boStatusText, reviewerChecklistText, caseSnapshotText) {
@@ -3157,6 +3530,8 @@
     function resetForm() {
       document.getElementById("kycForm").reset();
       renderDocumentChecklist();
+      updateEntityContext();
+      updateTriggerContext();
       currentAnalystNote = "";
       currentAuditTrail = "";
       currentEmailDraft = "";
