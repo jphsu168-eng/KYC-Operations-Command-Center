@@ -48,37 +48,103 @@
     }
 
     .top-nav {
-      padding: 12px 20px;
+      padding: 14px 20px 16px;
       border-bottom: 1px solid var(--line);
       background: rgba(7, 11, 22, 0.88);
       backdrop-filter: blur(16px);
     }
 
-    .tab-list {
+    .workflow-shell {
       width: min(1220px, calc(100% - 32px));
       margin: 0 auto;
+    }
+
+    .workflow-label {
+      margin: 0;
+      color: #f3f8ff;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .workflow-nav-helper {
+      margin: 3px 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tab-list {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       overflow-x: auto;
+      padding-bottom: 2px;
     }
 
     .tab-button {
       width: auto;
-      min-height: 38px;
-      padding: 9px 13px;
+      min-height: 42px;
+      padding: 9px 14px 9px 10px;
       border-radius: 999px;
-      color: #dcecff;
-      background: rgba(255, 255, 255, 0.045);
+      color: rgba(220, 236, 255, 0.76);
+      background: rgba(255, 255, 255, 0.035);
       border: 1px solid rgba(167, 190, 224, 0.18);
       box-shadow: none;
       font-size: 13px;
+      font-weight: 800;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.72;
+    }
+
+    .step-marker {
+      position: relative;
+      width: 26px;
+      height: 26px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      color: #bcd8fb;
+      background: rgba(111, 182, 255, 0.1);
+      border: 1px solid rgba(111, 182, 255, 0.18);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .tab-button.completed {
+      opacity: 0.9;
+      color: #dff7ed;
+      border-color: rgba(85, 217, 155, 0.22);
+      background: rgba(85, 217, 155, 0.07);
+    }
+
+    .tab-button.completed .step-marker {
+      color: transparent;
+      background: rgba(85, 217, 155, 0.15);
+      border-color: rgba(85, 217, 155, 0.28);
+    }
+
+    .tab-button.completed .step-marker::after {
+      content: "✓";
+      position: absolute;
+      color: var(--low);
     }
 
     .tab-button.active {
       color: #ffffff;
-      border-color: rgba(111, 182, 255, 0.42);
-      background: linear-gradient(135deg, rgba(74, 167, 255, 0.32), rgba(141, 124, 255, 0.26));
+      opacity: 1;
+      border-color: rgba(111, 182, 255, 0.58);
+      background: linear-gradient(135deg, rgba(74, 167, 255, 0.4), rgba(141, 124, 255, 0.3));
+      box-shadow: 0 12px 30px rgba(86, 136, 255, 0.2);
+    }
+
+    .tab-button.active .step-marker {
+      color: #ffffff;
+      background: linear-gradient(135deg, #4aa7ff, #8d7cff);
+      border-color: rgba(255, 255, 255, 0.26);
     }
 
     [data-view] {
@@ -1131,13 +1197,17 @@
 </style>
 </head>
 <body>
-  <nav class="top-nav" aria-label="KYC workflow views">
-    <div class="tab-list" role="tablist" aria-label="KYC case workspace">
-      <button type="button" class="tab-button active" data-tab="overview" role="tab" aria-selected="true" onclick="switchView('overview')">Overview</button>
-      <button type="button" class="tab-button" data-tab="case-input" role="tab" aria-selected="false" onclick="switchView('case-input')">Case Input</button>
-      <button type="button" class="tab-button" data-tab="results" role="tab" aria-selected="false" onclick="switchView('results')">Results</button>
-      <button type="button" class="tab-button" data-tab="actions" role="tab" aria-selected="false" onclick="switchView('actions')">Actions</button>
-      <button type="button" class="tab-button" data-tab="governance" role="tab" aria-selected="false" onclick="switchView('governance')">Governance</button>
+  <nav class="top-nav" aria-label="KYC workflow stepper">
+    <div class="workflow-shell">
+      <p class="workflow-label">Workflow</p>
+      <p class="workflow-nav-helper">Follow the workflow step by step, or jump to any section.</p>
+      <div class="tab-list workflow-stepper" role="tablist" aria-label="KYC case workflow">
+        <button type="button" class="tab-button active" data-tab="overview" data-step="1" role="tab" aria-selected="true" onclick="switchView('overview')"><span class="step-marker">1</span><span>Overview</span></button>
+        <button type="button" class="tab-button" data-tab="case-input" data-step="2" role="tab" aria-selected="false" onclick="switchView('case-input')"><span class="step-marker">2</span><span>Case Input</span></button>
+        <button type="button" class="tab-button" data-tab="results" data-step="3" role="tab" aria-selected="false" onclick="switchView('results')"><span class="step-marker">3</span><span>Results</span></button>
+        <button type="button" class="tab-button" data-tab="actions" data-step="4" role="tab" aria-selected="false" onclick="switchView('actions')"><span class="step-marker">4</span><span>Actions</span></button>
+        <button type="button" class="tab-button" data-tab="governance" data-step="5" role="tab" aria-selected="false" onclick="switchView('governance')"><span class="step-marker">5</span><span>Governance</span></button>
+      </div>
     </div>
   </nav>
 
@@ -2277,6 +2347,7 @@
     let currentAuditTrail = "";
     let currentEmailDraft = "";
     let currentEmailContext = null;
+    let reviewGenerated = false;
 
     function getValue(id) {
       return document.getElementById(id).value.trim();
@@ -2287,9 +2358,14 @@
         section.classList.toggle("active-view", section.getAttribute("data-view") === viewName);
       });
 
+      const activeTab = document.querySelector(".tab-button[data-tab='" + viewName + "']");
+      const activeStep = activeTab ? Number(activeTab.getAttribute("data-step")) : 1;
+
       document.querySelectorAll(".tab-button").forEach(function(button) {
         const isActive = button.getAttribute("data-tab") === viewName;
+        const stepNumber = Number(button.getAttribute("data-step"));
         button.classList.toggle("active", isActive);
+        button.classList.toggle("completed", reviewGenerated && stepNumber < activeStep);
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
     }
@@ -3558,6 +3634,7 @@
       const reasonCodes = getReasonCodes(data, boStatus, screening.result, riskLevel, missingDocuments, evidenceIssues, aging.status, recommendedDecision, sofSowStatus, decisionConfidence);
       const triggeredPolicyRules = getTriggeredRulesFromReasonCodes(reasonCodes);
       const generatedAt = new Date().toLocaleString("en-US");
+      reviewGenerated = true;
       currentEmailDraft = generateEmailDraft(data, missingDocuments, boStatus, screening, aging);
       currentEmailContext = {
         data: data,
@@ -3822,6 +3899,7 @@
       currentAuditTrail = "";
       currentEmailDraft = "";
       currentEmailContext = null;
+      reviewGenerated = false;
 
       document.getElementById("caseAgingStatus").textContent = "Enter Case Dates";
       document.getElementById("riskScore").textContent = "Awaiting Review";
@@ -3876,6 +3954,9 @@
       document.getElementById("copyEmailButton").textContent = "Copy Follow-Up Draft";
       document.getElementById("copyAuditButton").disabled = true;
       document.getElementById("copyAuditButton").textContent = "Copy Audit Trail";
+
+      const activeButton = document.querySelector(".tab-button.active");
+      switchView(activeButton ? activeButton.getAttribute("data-tab") : "overview");
     }
 
     function resetOutput(id, text) {
