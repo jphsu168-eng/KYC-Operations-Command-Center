@@ -630,7 +630,7 @@
       </div>
       <aside class="hero-insight" aria-label="Copilot insight">
         <div>
-          <p class="insight-label">Workflow Insight</p>
+          <p class="insight-label">Command Center</p>
           <p class="insight-copy">Identify the blocker, explain the rule, draft the follow-up, and preserve the audit trail.</p>
         </div>
         <p class="hero-disclaimer">Static HTML, CSS, and JavaScript only.</p>
@@ -665,7 +665,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 1: Case Setup</p>
+            <p class="step-kicker">Case Review Inputs · Step 1</p>
             <h2>Case Intake</h2>
             <p class="note">Enter the core case details and SLA dates.</p>
           </div>
@@ -733,6 +733,19 @@
             </select>
           </div>
           <div>
+            <label for="productService">Product / Service Requested</label>
+            <select id="productService">
+              <option value="Operating Account">Operating Account</option>
+              <option value="Treasury Management">Treasury Management</option>
+              <option value="Wire Transfers">Wire Transfers</option>
+              <option value="International Payments">International Payments</option>
+              <option value="Cash Services">Cash Services</option>
+              <option value="Lending or Credit">Lending or Credit</option>
+              <option value="Digital Assets Exposure">Digital Assets Exposure</option>
+            </select>
+            <p class="helper">Select the primary product or service that drives the relationship risk profile.</p>
+          </div>
+          <div>
             <label for="caseReceivedDate">Case Received Date</label>
             <input id="caseReceivedDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
             <p class="helper">Use U.S. date format: MM/DD/YYYY.</p>
@@ -748,7 +761,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 2: Evidence &amp; Ownership Review</p>
+            <p class="step-kicker">Case Review Inputs · Step 2</p>
             <h2>Documents Received</h2>
             <p class="note">Set the status for each required document. Missing, expired, incomplete, and inconsistent evidence are flagged automatically.</p>
           </div>
@@ -760,7 +773,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 2: Evidence &amp; Ownership Review</p>
+            <p class="step-kicker">Case Review Inputs · Step 2</p>
             <h2>SOF / SOW Review</h2>
             <p class="note">Document whether source of funds and source of wealth support is clear enough for review.</p>
           </div>
@@ -798,7 +811,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 2: Evidence &amp; Ownership Review</p>
+            <p class="step-kicker">Case Review Inputs · Step 2</p>
             <h2>Beneficial Ownership</h2>
             <p class="note">Assess whether ownership information is complete or requires escalation.</p>
           </div>
@@ -842,7 +855,7 @@
             </select>
           </div>
           <div>
-            <label for="owner25Identified">Any Owner 25% or More Identified</label>
+            <label for="owner25Identified">Any Individual Owns 25% or More</label>
             <select id="owner25Identified">
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -850,7 +863,7 @@
             </select>
           </div>
           <div>
-            <label for="boCertificationReceived">BO Certification or Attestation Received</label>
+            <label for="boCertificationReceived">BO Certification / Attestation Received</label>
             <select id="boCertificationReceived">
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -870,7 +883,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 3: Screening &amp; Risk Review</p>
+            <p class="step-kicker">Case Review Inputs · Step 3</p>
             <h2>Screening Triage</h2>
             <p class="note">Document potential screening-hit indicators. This does not clear real hits.</p>
           </div>
@@ -937,7 +950,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 3: Screening &amp; Risk Review</p>
+            <p class="step-kicker">Case Review Inputs · Step 3</p>
             <h2>Risk Indicators</h2>
             <p class="note">Select operational risk factors not already captured above.</p>
           </div>
@@ -969,7 +982,7 @@
       <section class="panel results">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 4: Decision, Follow-up &amp; Audit Trail</p>
+            <p class="step-kicker">Bottleneck Engine</p>
             <h2>Results Dashboard</h2>
             <p class="note">View case aging, document gaps, BO status, screening triage, risk score, bottlenecks, readiness, and audit-friendly outputs.</p>
           </div>
@@ -1052,7 +1065,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 4: Decision, Follow-up &amp; Audit Trail</p>
+            <p class="step-kicker">Governance &amp; Audit</p>
             <h2>Analyst Review Note</h2>
             <p class="note">Copy the generated analyst work note.</p>
           </div>
@@ -1065,7 +1078,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 4: Decision, Follow-up &amp; Audit Trail</p>
+            <p class="step-kicker">Action Center</p>
             <h2>Action Tools</h2>
             <p class="note">Generate and copy a professional follow-up email for the RM, customer, or Compliance Officer.</p>
           </div>
@@ -1098,7 +1111,7 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Step 4: Decision, Follow-up &amp; Audit Trail</p>
+            <p class="step-kicker">Governance &amp; Audit</p>
             <h2>Audit Trail</h2>
             <p class="note">Copy a rule-trigger summary for audit-style documentation.</p>
           </div>
@@ -1112,6 +1125,7 @@
     <section class="panel explainability-center">
       <div class="panel-header">
         <div>
+          <p class="step-kicker">Governance &amp; Audit</p>
           <h2>Explainability Center</h2>
           <p class="note">See which rule-based checks drive the risk score, bottleneck diagnosis, and case readiness decision.</p>
         </div>
@@ -1691,14 +1705,44 @@
       };
     }
 
+    function getProductServiceRisk(data) {
+      if (data.productService === "Digital Assets Exposure" || data.productService === "Cash Services") {
+        return {
+          level: "High",
+          reason: data.productService + " selected; this product/service may require closer review in a KYC workflow."
+        };
+      }
+
+      if (data.productService === "International Payments" || data.productService === "Wire Transfers") {
+        return {
+          level: "Medium",
+          reason: data.productService + " selected; cross-border or funds-transfer activity can increase review focus."
+        };
+      }
+
+      if (data.triggerEventReason === "New Product/Service") {
+        return {
+          level: "Medium",
+          reason: "Trigger event reason is New Product/Service."
+        };
+      }
+
+      return {
+        level: "Low",
+        reason: data.productService + " selected."
+      };
+    }
+
     function getCustomerRiskProfile(data, boStatus, screeningResult, missingDocuments, evidenceIssues, sofSowStatus, riskLevel) {
       const documentationIssueCount = missingDocuments.length + evidenceIssues.length + sofSowStatus.issues.length;
+      const productServiceRisk = getProductServiceRisk(data);
       return [
         { category: "Customer Type Risk", level: data.entityType === "Financial Institution" ? "Medium" : "Low", reason: "Entity type is " + data.entityType + "." },
         { category: "Geography Risk", level: data.highRiskCountry === "Yes" ? "High" : "Low", reason: data.highRiskCountry === "Yes" ? "High-risk country indicator selected." : "No high-risk country flag selected." },
         { category: "Industry Risk", level: data.industry.toLowerCase().includes("cash") || data.industry.toLowerCase().includes("money services") ? "Medium" : "Low", reason: "Industry entered: " + data.industry + "." },
         { category: "Ownership Risk", level: boStatus === "BO Requires Escalation" ? "High" : boStatus === "BO Incomplete" || data.complexOwnership === "Yes" ? "Medium" : "Low", reason: boStatus + "; complex ownership is " + data.complexOwnership + "." },
-        { category: "Activity Risk", level: data.expectedActivity === "High" ? "High" : data.expectedActivity === "Moderate" ? "Medium" : "Low", reason: data.expectedActivity + " expected activity selected." },
+        { category: "Product / Service Risk", level: productServiceRisk.level, reason: productServiceRisk.reason },
+        { category: "Expected Activity Risk", level: data.expectedActivity === "High" ? "High" : data.expectedActivity === "Moderate" ? "Medium" : "Low", reason: data.expectedActivity + " expected activity selected." },
         { category: "Screening Risk", level: data.sanctions === "Yes" || screeningResult === "Potential True Match" ? "Critical" : data.pep === "Yes" || data.adverseMedia === "Yes" ? "Medium" : "Low", reason: screeningResult + "; PEP: " + data.pep + "; adverse media: " + data.adverseMedia + "." },
         { category: "Documentation Risk", level: documentationIssueCount > 3 ? "High" : documentationIssueCount > 0 ? "Medium" : "Low", reason: documentationIssueCount + " documentation or evidence issue(s) identified." },
         { category: "Overall Customer Risk Profile", level: riskLevel, reason: "Overall profile follows the calculated risk level and active bottlenecks." }
@@ -1816,6 +1860,13 @@
 
       if (data.expectedActivity === "High") {
         addRiskFactor(factors, 10, "High expected activity", "Expected activity is High.");
+      }
+
+      const productServiceRisk = getProductServiceRisk(data);
+      if (productServiceRisk.level === "High") {
+        addRiskFactor(factors, 10, "Higher-risk product/service", productServiceRisk.reason);
+      } else if (productServiceRisk.level === "Medium") {
+        addRiskFactor(factors, 5, "Moderate product/service risk", productServiceRisk.reason);
       }
 
       if (data.entityType === "Financial Institution") {
@@ -2279,6 +2330,7 @@
         relationshipType: getValue("relationshipType"),
         triggerEventReason: getValue("triggerEventReason"),
         expectedActivity: getValue("expectedActivity"),
+        productService: getValue("productService"),
         caseReceivedDate: formatUsDate(getValue("caseReceivedDate")),
         targetCompletionDate: formatUsDate(getValue("targetCompletionDate")),
         ownershipChartReceived: getValue("ownershipChartReceived"),
@@ -2365,6 +2417,7 @@
         "Review Type: " + data.relationshipType + "\n" +
         "Trigger Event Reason: " + data.triggerEventReason + "\n" +
         "Expected Activity: " + data.expectedActivity + "\n\n" +
+        "Product / Service Requested: " + data.productService + "\n\n" +
         "KYC Refresh Assessment\n" +
         refreshText + "\n\n" +
         "Case Aging Status\n" +
@@ -2424,6 +2477,7 @@
         "- Review Type: " + data.relationshipType + "\n" +
         "- Trigger Event Reason: " + data.triggerEventReason + "\n" +
         "- Expected Activity: " + data.expectedActivity + "\n" +
+        "- Product / Service Requested: " + data.productService + "\n" +
         "- Case Received Date: " + data.caseReceivedDate + "\n" +
         "- Target Completion Date: " + data.targetCompletionDate + "\n" +
         "- Documents Received Count: " + receivedDocuments.length + "\n" +

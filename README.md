@@ -30,6 +30,25 @@ KYC teams need fast, consistent triage. A case may appear simple until a missing
 
 This tool demonstrates how rule-based workflow automation can help analysts identify bottlenecks, explain risk drivers, assign follow-up actions, and produce consistent review notes without relying on external systems.
 
+## Target User
+
+This prototype is designed for a simulated U.S. banking operations environment and is aimed at:
+
+- KYC Analysts who need to identify document gaps and write consistent review notes.
+- Compliance Analysts who need explainable risk drivers and escalation rationale.
+- Relationship Manager support teams who need clear follow-up requests.
+- FinTech Operations or RegTech product teams exploring workflow automation concepts.
+
+## Product Structure
+
+The interface is organized around the operating question: **Why is this KYC case blocked, and what should happen next?**
+
+- **Command Center:** top KPI cards for risk score, readiness, SLA status, and open bottlenecks.
+- **Case Review Inputs:** customer profile, evidence, beneficial ownership, source of funds/source of wealth, screening, and risk indicators.
+- **Bottleneck Engine:** document gaps, customer risk profile, evidence quality issues, risk score, CDD/EDD recommendation, and case readiness.
+- **Action Center:** follow-up actions and RM/customer/compliance email draft.
+- **Governance & Audit:** analyst review note, audit trail, triggered rules, and full rule library.
+
 ## Features
 
 - Case intake section with case ID, customer profile, relationship type, expected activity, and SLA dates
@@ -43,13 +62,14 @@ This tool demonstrates how rule-based workflow automation can help analysts iden
   - `8+ days`: Overdue
   - Target date passed: Past Due
 - 4-step workflow structure: Case Setup, Evidence & Ownership Review, Screening & Risk Review, and Decision, Follow-up & Audit Trail
+- Product structure for Command Center, Case Review Inputs, Bottleneck Engine, Action Center, and Governance & Audit
 - Document gap checker with required documents by entity type
 - Document evidence status controls for Not Received, Received - Acceptable, Received - Expired, Received - Incomplete, Received - Inconsistent, and Not Applicable
 - Received, missing, key missing, and evidence-quality document outputs
 - Evidence quality review that flags not received, expired, incomplete, and inconsistent evidence
 - Beneficial ownership completeness check, including control person, 25% owner, BO ID, ownership percentage, and certification/attestation fields
 - Source of Funds and Source of Wealth documentation checks
-- Customer risk profile categories for customer type, geography, industry, ownership, activity, screening, documentation, and overall customer risk
+- Customer risk profile categories for customer type, geography, industry, ownership, product/service, expected activity, screening, documentation, and overall customer risk
 - Screening hit triage helper
 - 0-100 rule-based risk score
 - Low, Medium, High, and Critical risk levels
@@ -83,6 +103,19 @@ This tool demonstrates how rule-based workflow automation can help analysts iden
 9. Review refresh requirements, customer risk profile, evidence quality issues, reason codes, bottlenecks, CDD/EDD recommendation, follow-up actions, analyst note, and audit trail.
 10. Copy the generated RM follow-up email draft if follow-up is needed.
 
+## Evidence Quality Review
+
+Instead of simple received/not received checkboxes, each required document has a status dropdown:
+
+- Not Received
+- Received - Acceptable
+- Received - Expired
+- Received - Incomplete
+- Received - Inconsistent
+- Not Applicable
+
+The tool treats `Not Received`, `Received - Expired`, `Received - Incomplete`, and `Received - Inconsistent` as evidence issues. These issues appear in the Evidence Quality Review output, risk scoring explanation, bottleneck diagnosis, follow-up actions, analyst note, and audit trail.
+
 ## Document Gap Rules
 
 | Entity Type | Required Documents |
@@ -107,6 +140,8 @@ The risk score is rule-based and capped at 100.
 | BO incomplete | +15 |
 | Missing key documents | +10 |
 | High expected activity | +10 |
+| Higher-risk product/service | +10 |
+| Moderate product/service risk | +5 |
 | Financial institution customer | +10 |
 | Case overdue | +5 |
 | Evidence quality issue | +10 |
@@ -131,7 +166,8 @@ The app breaks customer risk into compact profile components:
 - Geography Risk
 - Industry Risk
 - Ownership Risk
-- Activity Risk
+- Product / Service Risk
+- Expected Activity Risk
 - Screening Risk
 - Documentation Risk
 - Overall Customer Risk Profile
