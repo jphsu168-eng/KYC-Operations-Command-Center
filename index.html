@@ -812,6 +812,18 @@
       background: rgba(85, 217, 155, 0.075);
     }
 
+    .stale-results-warning {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border: 1px solid rgba(245, 196, 107, 0.3);
+      border-radius: 12px;
+      color: #ffe4aa;
+      background: rgba(245, 196, 107, 0.09);
+      font-size: 13px;
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
     .workflow-helper {
       margin: 0 0 12px;
       color: var(--muted);
@@ -1443,6 +1455,7 @@
           <button type="button" class="secondary sample-button" data-sample="sanctions" aria-pressed="false" onclick="loadSampleCase('sanctions')">Load Sanctions Escalation Case<span class="selected-indicator" aria-hidden="true">✓ Selected</span></button>
         </div>
         <p id="overviewSampleFeedback" class="button-feedback">No sample case loaded yet.</p>
+        <p class="stale-results-warning" role="status" hidden>Inputs changed. Regenerate case review to refresh results.</p>
         <div class="workflow-actions three">
           <button type="button" class="secondary" onclick="switchView('case-input')">Start Case Input →</button>
           <button type="button" onclick="generateCaseReview()">Generate Case Review</button>
@@ -1832,6 +1845,7 @@
         </div>
       </section>
 
+      <p class="stale-results-warning" role="status" hidden>Inputs changed. Regenerate case review to refresh results.</p>
       <p class="workflow-helper">Complete the case inputs, then generate the review to continue.</p>
       <div class="workflow-actions three">
         <button type="button" class="secondary" onclick="switchView('overview')">Back to Overview</button>
@@ -2006,7 +2020,7 @@
         <div class="control-row communication-controls" aria-label="Follow-up communication settings">
           <div>
             <label for="emailRecipientType">Recipient Type</label>
-            <select id="emailRecipientType" onchange="updateEmailDraftFromControls()">
+            <select id="emailRecipientType">
               <option value="Relationship Manager">Relationship Manager</option>
               <option value="Customer">Customer</option>
               <option value="Compliance Officer">Compliance Officer</option>
@@ -2014,7 +2028,7 @@
           </div>
           <div>
             <label for="emailTone">Tone</label>
-            <select id="emailTone" onchange="updateEmailDraftFromControls()">
+            <select id="emailTone">
               <option value="Standard">Standard</option>
               <option value="Urgent">Urgent</option>
               <option value="Final Reminder">Final Reminder</option>
@@ -2586,7 +2600,7 @@
       if (!note) return;
 
       if (entityType === "Individual") {
-        note.textContent = "Individual customer selected: corporate beneficial ownership fields may be less relevant. Keep them available for educational logic, but mark unavailable corporate evidence consistently.";
+        note.textContent = "Individual customer selected: corporate ownership evidence may be Not Applicable. Core identity and control checks remain available for consistent educational review logic.";
         note.classList.add("secondary-context");
       } else {
         note.textContent = "Corporate ownership checks remain part of the educational BO completeness review for this entity type.";
@@ -2769,6 +2783,67 @@
       });
     }
 
+    function setResultsStale(isStale) {
+      document.querySelectorAll(".stale-results-warning").forEach(function(warning) {
+        warning.hidden = !isStale;
+      });
+    }
+
+    function markResultsStale() {
+      if (reviewGenerated) {
+        setResultsStale(true);
+      }
+    }
+
+    function initializeReactiveUpdates() {
+      const materialInputIds = new Set([
+        "caseId",
+        "customerName",
+        "entityType",
+        "country",
+        "industry",
+        "relationshipType",
+        "triggerEventReason",
+        "expectedActivity",
+        "productService",
+        "caseReceivedDate",
+        "targetCompletionDate",
+        "ownershipChartReceived",
+        "beneficialOwnersIdentified",
+        "controlPersonIdentified",
+        "complexOwnership",
+        "boIdReceived",
+        "ownershipPercentDocumented",
+        "owner25Identified",
+        "boCertificationReceived",
+        "sourceOfFundsDocumented",
+        "sourceOfWealthDocumented",
+        "explanationQuality",
+        "pep",
+        "sanctions",
+        "adverseMedia",
+        "nameSimilarity",
+        "dobRegistrationMatch",
+        "countryMatch",
+        "entityTypeMatch",
+        "highRiskCountry",
+        "analystComments"
+      ]);
+      const form = document.getElementById("kycForm");
+
+      function handleMaterialInput(event) {
+        const target = event.target;
+        if (target.name === "documentQuality" || materialInputIds.has(target.id)) {
+          markResultsStale();
+        }
+      }
+
+      form.addEventListener("input", handleMaterialInput);
+      form.addEventListener("change", handleMaterialInput);
+      document.getElementById("emailRecipientType").addEventListener("change", renderFollowUpDraft);
+      document.getElementById("emailTone").addEventListener("change", renderFollowUpDraft);
+    }
+
     function loadSampleCase(sampleName) {
       const sample = SAMPLE_CASES[sampleName];
       if (!sample) return;
@@ -2796,6 +2871,7 @@
       updateEntityContext();
       updateTriggerContext();
       updateSampleSelection(sampleName);
+      markResultsStale();
     }
 
     function formatList(items, emptyText) {
@@ -3719,76 +3795,136 @@
       return gaps;
     }
 
-    function generateEmailDraft(data, missingDocuments, boStatus, screening, aging) {
+    function buildFollowUpDraft(context) {
+      const data = context.data;
+      const missingDocuments = context.missingDocuments;
+      const boStatus = context.boStatus;
+      const screening = context.screening;
+      const aging = context.aging;
+      const bottlenecks = context.bottlenecks;
+      const reasonCodes = context.reasonCodes;
+      const actions = context.actions;
       const boGaps = getBoGaps(data);
-      const requestedTone = getValue("emailTone");
-      const selectedRecipient = getValue("emailRecipientType");
-      const isOverdue = aging.status === "Overdue" || aging.status === "Past Due";
-      const tone = isOverdue && requestedTone === "Standard" ? "Urgent" : requestedTone;
-      const recipientType = data.sanctions === "Yes" ? "Compliance Officer" : selectedRecipient;
-      const greeting = recipientType === "Customer" ? "Dear Customer," : "Hello,";
-      const subjectPrefix = tone === "Final Reminder" ? "Final Reminder" : tone === "Urgent" ? "Urgent" : "Follow-up";
+      const recipientType = getValue("emailRecipientType");
+      const tone = getValue("emailTone");
       const dueDateText = data.targetCompletionDate || "not provided";
+      const subjectPrefix = tone === "Final Reminder" ? "Final Reminder" : tone === "Urgent" ? "Urgent" : "Follow-up";
       const actionRequests = [];
-
-      if (missingDocuments.length > 0) {
-        actionRequests.push("Please provide or help obtain the following missing document(s):\n" + formatList(missingDocuments, "No missing documents."));
-      }
-
-      if (boGaps.length > 0) {
-        actionRequests.push("Please resolve the following beneficial ownership gap(s):\n" + formatList(boGaps, "No BO gaps."));
-      }
-
-      if (data.sanctions === "Yes") {
-        actionRequests.push("Please route the sanctions/watchlist concern to the Compliance Officer for review. Do not ask the customer to clear or explain the alert directly.");
-      } else if (screening.result === "Potential True Match" || screening.result === "Needs Compliance Review") {
-        actionRequests.push("Please provide clarification or route the screening item for Compliance review: " + screening.result + ".");
-      }
-
-      if (data.adverseMedia === "Yes") {
-        actionRequests.push("Please provide any available context or documentation related to the adverse media item for analyst review.");
-      }
-
-      if (actionRequests.length === 0) {
-        actionRequests.push("Please confirm whether any additional information is available before final case review.");
-      }
-
-      let opening = "We are reviewing the KYC case below and need follow-up to continue the review.";
+      let greeting = "Hello Relationship Manager,";
+      let sectionTitle = "RM Coordination Requested";
+      let opening = "Please coordinate the outstanding KYC items below so the analyst can continue the case review.";
+      let closing = "Please provide a status update by the target completion date and note any customer dependencies.";
 
       if (tone === "Urgent") {
-        opening = "This KYC case requires urgent follow-up because one or more items are blocking review or the case is aging.";
+        opening = "Urgent coordination is requested because the case has open blockers or SLA pressure. Current SLA status: " + aging.status + ".";
+        closing = "Please prioritize these items and provide a status update as soon as possible.";
       } else if (tone === "Final Reminder") {
-        opening = "This is a final reminder that the KYC case remains blocked pending the items below.";
+        opening = "This is a final professional reminder that the case remains blocked pending the items below.";
+        closing = "The case cannot proceed until the requested information is received or the blocker is otherwise resolved.";
       }
 
-      return "Subject: " + subjectPrefix + " - KYC Follow-up Needed for " + data.customerName + " (" + data.caseId + ")\n\n" +
+      if (recipientType === "Relationship Manager") {
+        if (missingDocuments.length > 0) {
+          actionRequests.push("Coordinate with the customer to obtain the following evidence:\n" + formatList(missingDocuments, "No missing documents."));
+        }
+        if (boGaps.length > 0) {
+          actionRequests.push("Clarify the following ownership or control information with the customer:\n" + formatList(boGaps, "No ownership gaps."));
+        }
+        if (data.sanctions === "Yes") {
+          actionRequests.push("Coordinate internally with the Compliance Officer regarding the sanctions/watchlist concern. Do not ask the customer to clear or explain the alert directly.");
+        } else if (screening.result === "Potential True Match" || screening.result === "Needs Compliance Review") {
+          actionRequests.push("Coordinate any available identifying information and route the screening item for the required internal review.");
+        }
+        if (data.adverseMedia === "Yes") {
+          actionRequests.push("Obtain available customer context or supporting documentation for the adverse media review.");
+        }
+        if (actionRequests.length === 0) {
+          actionRequests.push("Confirm whether any additional customer information is available before final quality review.");
+        }
+      } else if (recipientType === "Customer") {
+        greeting = "Dear " + data.customerName + " Team,";
+        sectionTitle = "Information Requested";
+        opening = tone === "Standard"
+          ? "We are reviewing your account information and need the items below to continue the review."
+          : tone === "Urgent"
+            ? "We need your prompt assistance with the items below to keep the review on schedule."
+            : "This is a final professional reminder that the requested information below remains outstanding.";
+        closing = tone === "Final Reminder"
+          ? "The review cannot proceed until the requested information is received. Please contact your relationship representative if you need assistance."
+          : tone === "Urgent"
+            ? "Please provide the requested information as soon as possible, preferably by the target completion date."
+            : "Please provide the requested information by the target completion date, or let your relationship representative know if you have questions.";
+
+        if (missingDocuments.length > 0) {
+          actionRequests.push("Please provide the following document(s):\n" + formatList(missingDocuments, "No missing documents."));
+        }
+        if (boGaps.length > 0) {
+          actionRequests.push("Please provide or clarify the following ownership and control information:\n" + formatList(boGaps, "No ownership information gaps."));
+        }
+        if (data.sanctions !== "Yes" && (screening.result === "Potential True Match" || screening.result === "Needs Compliance Review")) {
+          actionRequests.push("Please confirm the legal name, registration details, country, and entity type shown in your records so we can complete our information review.");
+        }
+        if (data.adverseMedia === "Yes") {
+          actionRequests.push("Please provide any context or supporting documents you believe are relevant to the information under review.");
+        }
+        if (actionRequests.length === 0) {
+          actionRequests.push(data.sanctions === "Yes"
+            ? "No customer action is requested for the internal review at this time."
+            : "Please confirm whether any customer information has changed since the case was submitted.");
+        }
+      } else {
+        greeting = "Hello Compliance Officer,";
+        sectionTitle = "Compliance Review Requested";
+        opening = tone === "Standard"
+          ? "Please review the case summary and escalation drivers below."
+          : tone === "Urgent"
+            ? "Urgent Compliance review is requested due to the case risk, screening, or SLA indicators summarized below."
+            : "This is a final internal reminder that Compliance disposition remains outstanding and the case cannot proceed without review.";
+        closing = tone === "Final Reminder"
+          ? "Please document the disposition or required next step before the case proceeds."
+          : "Please confirm the disposition, required controls, or additional evidence needed from the analyst or Relationship Manager.";
+
+        actionRequests.push("Risk Level: " + context.riskLevel + "\nCase Readiness: " + context.readiness + "\nBO Status: " + boStatus + "\nScreening Result: " + screening.result);
+        actionRequests.push("Bottleneck Summary\n" + formatList(bottlenecks, "No blocking bottlenecks identified."));
+        actionRequests.push("Reason Codes\n" + formatReasonCodes(reasonCodes));
+        if (missingDocuments.length > 0) {
+          actionRequests.push("Outstanding Evidence\n" + formatList(missingDocuments, "No missing documents."));
+        }
+        actionRequests.push("Open Follow-Up Actions\n" + formatList(actions.map(function(action) {
+          return action.owner + ": " + action.actionItem + " (" + action.reasonCode + ")";
+        }), "No open follow-up actions."));
+      }
+
+      return "Subject: " + subjectPrefix + " - KYC Case " + data.caseId + " - " + data.customerName + "\n\n" +
         greeting + "\n\n" +
         opening + "\n\n" +
         "Customer Name: " + data.customerName + "\n" +
         "Case ID: " + data.caseId + "\n" +
         "Target Completion Date: " + dueDateText + "\n" +
         "Case Aging Status: " + aging.status + " (" + aging.daysPending + " day(s) pending)\n\n" +
-        "Action Requested\n" +
+        sectionTitle + "\n" +
         actionRequests.join("\n\n") + "\n\n" +
-        "Please provide an update or the requested information by the target completion date so the case can move forward.\n\n" +
+        closing + "\n\n" +
         "Thank you,\n" +
         "KYC Review Team\n\n" +
         "Note: This is a rule-based educational portfolio draft and is not connected to real bank, sanctions, watchlist, or customer systems.";
     }
 
-    function updateEmailDraftFromControls() {
-      if (!currentEmailContext) return;
+    function renderFollowUpDraft() {
+      const copyButton = document.getElementById("copyEmailButton");
 
-      currentEmailDraft = generateEmailDraft(
-        currentEmailContext.data,
-        currentEmailContext.missingDocuments,
-        currentEmailContext.boStatus,
-        currentEmailContext.screening,
-        currentEmailContext.aging
-      );
+      if (!reviewGenerated || !currentEmailContext) {
+        currentEmailDraft = "";
+        resetOutput("emailDraft", "Generate a case review first to draft follow-up communication.");
+        copyButton.disabled = true;
+        copyButton.textContent = "Copy Follow-Up Draft";
+        return;
+      }
+
+      currentEmailDraft = buildFollowUpDraft(currentEmailContext);
       setTextOutput("emailDraft", currentEmailDraft);
-      document.getElementById("copyEmailButton").disabled = false;
-      document.getElementById("copyEmailButton").textContent = "Copy Follow-Up Draft";
+      copyButton.disabled = false;
+      copyButton.textContent = "Copy Follow-Up Draft";
     }
 
     function setTone(element, status) {
@@ -3883,14 +4019,20 @@
       const generatedAt = new Date().toLocaleString("en-US");
       reviewGenerated = true;
       setGeneratedViewVisibility(true);
-      currentEmailDraft = generateEmailDraft(data, missingDocuments, boStatus, screening, aging);
       currentEmailContext = {
         data: data,
         missingDocuments: missingDocuments,
         boStatus: boStatus,
         screening: screening,
-        aging: aging
+        aging: aging,
+        bottlenecks: bottlenecks,
+        reasonCodes: reasonCodes,
+        actions: actions,
+        riskLevel: riskLevel,
+        readiness: readiness
       };
+      renderFollowUpDraft();
+      setResultsStale(false);
 
       const documentGapText =
         "Received Documents\n" +
@@ -4151,6 +4293,7 @@
       selectedSampleCase = "";
       updateSampleSelection("");
       setGeneratedViewVisibility(false);
+      setResultsStale(false);
 
       document.querySelectorAll("#optionalRiskContext, .bo-advanced, .rule-accordion").forEach(function(details) {
         details.open = false;
@@ -4283,6 +4426,7 @@
 
     renderDocumentChecklist();
     resetForm();
+    initializeReactiveUpdates();
     switchView("overview");
   </script>
 </body>
