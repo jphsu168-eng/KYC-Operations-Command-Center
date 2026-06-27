@@ -865,6 +865,131 @@
       line-height: 1.45;
     }
 
+    .case-data-quality {
+      padding: 16px;
+      border: 1px solid rgba(167, 190, 224, 0.16);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .data-quality-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .data-quality-heading h3 {
+      margin: 0;
+      color: #f3f8ff;
+      font-size: 15px;
+    }
+
+    .data-quality-status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 9px;
+      border: 1px solid rgba(167, 190, 224, 0.2);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 11px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .case-data-quality.is-ready {
+      border-color: rgba(85, 217, 155, 0.28);
+      background: rgba(85, 217, 155, 0.055);
+    }
+
+    .case-data-quality.is-ready .data-quality-status {
+      color: var(--low);
+      border-color: rgba(85, 217, 155, 0.25);
+      background: rgba(85, 217, 155, 0.1);
+    }
+
+    .case-data-quality.has-warnings {
+      border-color: rgba(245, 196, 107, 0.3);
+      background: rgba(245, 196, 107, 0.055);
+    }
+
+    .case-data-quality.has-warnings .data-quality-status {
+      color: var(--medium);
+      border-color: rgba(245, 196, 107, 0.28);
+      background: rgba(245, 196, 107, 0.1);
+    }
+
+    .case-data-quality.has-blocking {
+      border-color: rgba(255, 93, 112, 0.34);
+      background: rgba(255, 93, 112, 0.06);
+    }
+
+    .case-data-quality.has-blocking .data-quality-status {
+      color: var(--critical);
+      border-color: rgba(255, 93, 112, 0.3);
+      background: rgba(255, 93, 112, 0.11);
+    }
+
+    .data-quality-guidance {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .data-quality-group + .data-quality-group {
+      margin-top: 10px;
+    }
+
+    .data-quality-group-title {
+      margin: 0 0 5px;
+      color: #edf5ff;
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .data-quality-list {
+      display: grid;
+      gap: 5px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .data-quality-list li {
+      color: #dce8f8;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .data-quality-list code {
+      margin-right: 6px;
+      color: var(--medium);
+      font-size: 11px;
+    }
+
+    .has-blocking .data-quality-list.blocking code {
+      color: var(--critical);
+    }
+
+    input.field-error,
+    select.field-error,
+    textarea.field-error {
+      border-color: rgba(255, 93, 112, 0.72);
+      box-shadow: 0 0 0 3px rgba(255, 93, 112, 0.1);
+    }
+
+    .field-error-message {
+      margin: 5px 0 0;
+      color: #ff9eaa;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
     .workflow-helper {
       margin: 0 0 12px;
       color: var(--muted);
@@ -1554,15 +1679,15 @@
           <div class="grid">
             <div>
               <label for="caseId">Case ID</label>
-              <input id="caseId" placeholder="Example: KYC-2026-0142">
+              <input id="caseId" placeholder="Example: KYC-2026-0142" required aria-required="true">
             </div>
             <div>
               <label for="customerName">Customer Legal Name</label>
-              <input id="customerName" placeholder="Example: Northstar Payments LLC">
+              <input id="customerName" placeholder="Example: Northstar Payments LLC" required aria-required="true">
             </div>
             <div>
               <label for="entityType">Entity Type</label>
-              <select id="entityType" onchange="handleEntityTypeChange()">
+              <select id="entityType" onchange="handleEntityTypeChange()" required aria-required="true">
                 <option value="Private Company">Private Company</option>
                 <option value="Public Company">Public Company</option>
                 <option value="Individual">Individual</option>
@@ -1572,11 +1697,11 @@
             </div>
             <div>
               <label for="country">Country of Incorporation</label>
-              <input id="country" placeholder="Example: United States">
+              <input id="country" placeholder="Example: United States" required aria-required="true">
             </div>
             <div class="full">
               <label for="industry">Industry</label>
-              <input id="industry" placeholder="Example: Money Services Business">
+              <input id="industry" placeholder="Example: Money Services Business" required aria-required="true">
             </div>
           </div>
         </div>
@@ -1587,7 +1712,7 @@
           <div class="grid review-setup">
             <div>
               <label for="relationshipType">Relationship Type</label>
-              <select id="relationshipType" onchange="updateTriggerContext()">
+              <select id="relationshipType" onchange="updateTriggerContext()" required aria-required="true">
                 <option value="New Onboarding">New Onboarding</option>
                 <option value="Periodic Review">Periodic Review</option>
                 <option value="Trigger Event Review">Trigger Event Review</option>
@@ -1596,12 +1721,12 @@
             </div>
             <div>
               <label for="caseReceivedDate">Case Received Date</label>
-              <input id="caseReceivedDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
+              <input id="caseReceivedDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{2}/\\d{2}/\\d{4}" required aria-required="true">
               <p class="helper">Use U.S. date format: MM/DD/YYYY.</p>
             </div>
             <div class="full">
               <label for="targetCompletionDate">Target Completion Date</label>
-              <input id="targetCompletionDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{1,2}/\\d{1,2}/\\d{4}">
+              <input id="targetCompletionDate" type="text" inputmode="numeric" placeholder="MM/DD/YYYY" pattern="\\d{2}/\\d{2}/\\d{4}" required aria-required="true">
               <p class="helper">Use U.S. date format: MM/DD/YYYY. If the target date has passed, the case aging status becomes Past Due.</p>
             </div>
           </div>
@@ -1889,6 +2014,15 @@
         </div>
       </section>
 
+      <section id="caseDataQualityCheck" class="case-data-quality" aria-labelledby="caseDataQualityTitle" aria-live="polite">
+        <div class="data-quality-heading">
+          <h3 id="caseDataQualityTitle">Case Data Quality Check</h3>
+          <span id="caseDataQualityStatus" class="data-quality-status">Case Setup Required</span>
+        </div>
+        <div id="caseDataQualityContent">
+          <p class="data-quality-guidance">Complete required case setup fields to run the review.</p>
+        </div>
+      </section>
       <p class="stale-results-warning" role="status" hidden>Inputs changed. Regenerate case review to refresh results.</p>
       <p class="workflow-helper">Complete the case inputs, then generate the review to continue.</p>
       <div class="workflow-actions three">
@@ -2598,6 +2732,7 @@
     let currentEmailContext = null;
     let reviewGenerated = false;
     let selectedSampleCase = "";
+    let validationAttempted = false;
 
     const SAMPLE_CASE_LABELS = {
       lowRisk: "Low Risk Case",
@@ -2607,6 +2742,240 @@
 
     function getValue(id) {
       return document.getElementById(id).value.trim();
+    }
+
+    function createDataQualityIssue(code, type, field, message) {
+      return {
+        code: code,
+        type: type,
+        field: field,
+        message: message
+      };
+    }
+
+    function getValidationData() {
+      return {
+        caseId: getValue("caseId"),
+        customerName: getValue("customerName"),
+        entityType: getValue("entityType"),
+        country: getValue("country"),
+        industry: getValue("industry"),
+        relationshipType: getValue("relationshipType"),
+        caseReceivedDate: getValue("caseReceivedDate"),
+        targetCompletionDate: getValue("targetCompletionDate"),
+        ownershipChartReceived: getValue("ownershipChartReceived"),
+        beneficialOwnersIdentified: getValue("beneficialOwnersIdentified"),
+        boIdReceived: getValue("boIdReceived"),
+        ownershipPercentDocumented: getValue("ownershipPercentDocumented"),
+        controlPersonIdentified: getValue("controlPersonIdentified"),
+        owner25Identified: getValue("owner25Identified"),
+        boCertificationReceived: getValue("boCertificationReceived"),
+        complexOwnership: getValue("complexOwnership"),
+        sourceOfFundsDocumented: getValue("sourceOfFundsDocumented"),
+        sourceOfWealthDocumented: getValue("sourceOfWealthDocumented"),
+        explanationQuality: getValue("explanationQuality"),
+        pep: getValue("pep"),
+        sanctions: getValue("sanctions"),
+        adverseMedia: getValue("adverseMedia"),
+        nameSimilarity: getValue("nameSimilarity"),
+        dobRegistrationMatch: getValue("dobRegistrationMatch"),
+        countryMatch: getValue("countryMatch"),
+        entityTypeMatch: getValue("entityTypeMatch"),
+        highRiskCountry: getValue("highRiskCountry"),
+        expectedActivity: getValue("expectedActivity")
+      };
+    }
+
+    function validateRequiredFields(data) {
+      const requiredFields = [
+        { id: "caseId", code: "VAL-001", label: "Case ID" },
+        { id: "customerName", code: "VAL-002", label: "Customer Legal Name" },
+        { id: "entityType", code: "VAL-003", label: "Entity Type" },
+        { id: "country", code: "VAL-004", label: "Country of Incorporation" },
+        { id: "industry", code: "VAL-005", label: "Industry" },
+        { id: "relationshipType", code: "VAL-006", label: "Relationship Type" },
+        { id: "caseReceivedDate", code: "VAL-007", label: "Case Received Date" },
+        { id: "targetCompletionDate", code: "VAL-008", label: "Target Completion Date" }
+      ];
+
+      return requiredFields.filter(function(field) {
+        return !data[field.id];
+      }).map(function(field) {
+        return createDataQualityIssue(field.code, "blocking", field.id, field.label + " is required.");
+      });
+    }
+
+    function validateDateLogic(data) {
+      const issues = [];
+      const strictUsDate = /^\d{2}\/\d{2}\/\d{4}$/;
+      const receivedDate = strictUsDate.test(data.caseReceivedDate) ? parseDateInput(data.caseReceivedDate) : null;
+      const targetDate = strictUsDate.test(data.targetCompletionDate) ? parseDateInput(data.targetCompletionDate) : null;
+
+      if (data.caseReceivedDate && !receivedDate) {
+        issues.push(createDataQualityIssue("VAL-009", "blocking", "caseReceivedDate", "Case Received Date must be a valid date in MM/DD/YYYY format."));
+      }
+
+      if (data.targetCompletionDate && !targetDate) {
+        issues.push(createDataQualityIssue("VAL-010", "blocking", "targetCompletionDate", "Target Completion Date must be a valid date in MM/DD/YYYY format."));
+      }
+
+      if (receivedDate && targetDate && targetDate < receivedDate) {
+        issues.push(createDataQualityIssue("VAL-011", "blocking", "targetCompletionDate", "Target Completion Date cannot be earlier than Case Received Date."));
+      }
+
+      if (targetDate) {
+        const dayDifference = Math.ceil((targetDate - todayDate()) / (1000 * 60 * 60 * 24));
+        if (dayDifference < 0) {
+          issues.push(createDataQualityIssue("WARN-SLA-002", "warning", "targetCompletionDate", "Case appears past due."));
+        } else if (dayDifference <= 1) {
+          issues.push(createDataQualityIssue("WARN-SLA-001", "warning", "targetCompletionDate", "Target completion date is approaching."));
+        }
+      }
+
+      return issues;
+    }
+
+    function validateLogicalConsistency(data) {
+      const issues = [];
+      const corporateBoSelected = data.ownershipChartReceived === "Yes" ||
+        data.complexOwnership === "Yes" ||
+        data.boCertificationReceived === "Yes";
+      const complexBoIncomplete = data.beneficialOwnersIdentified === "No" ||
+        data.boIdReceived === "No" ||
+        data.ownershipPercentDocumented === "No" ||
+        data.controlPersonIdentified === "No" ||
+        data.owner25Identified === "Unknown";
+
+      if (data.entityType === "Individual" && corporateBoSelected) {
+        issues.push(createDataQualityIssue("WARN-BO-001", "warning", "beneficialOwnership", "Individual customers usually do not require corporate beneficial ownership structure review. Please confirm BO inputs."));
+      }
+
+      if (data.entityType === "Private Company" && data.boCertificationReceived === "Not Applicable") {
+        issues.push(createDataQualityIssue("WARN-BO-002", "warning", "boCertificationReceived", "BO Certification marked Not Applicable for a private company. Please confirm if this is appropriate."));
+      }
+
+      if (data.complexOwnership === "Yes" && complexBoIncomplete) {
+        issues.push(createDataQualityIssue("WARN-BO-003", "warning", "beneficialOwnership", "Complex ownership structure requires stronger BO documentation. Review BO completeness."));
+      }
+
+      if (data.sourceOfFundsDocumented === "Yes" && (data.explanationQuality === "Vague" || data.explanationQuality === "Missing")) {
+        issues.push(createDataQualityIssue("WARN-SOF-001", "warning", "explanationQuality", "Source of Funds is documented, but explanation quality is weak."));
+      }
+
+      if (isHighRiskCustomer(data) && data.sourceOfWealthDocumented === "No") {
+        issues.push(createDataQualityIssue("WARN-SOW-001", "warning", "sourceOfWealthDocumented", "Source of Wealth may be required for higher-risk customers."));
+      }
+
+      if (data.sanctions === "Yes") {
+        issues.push(createDataQualityIssue("WARN-SCR-001", "warning", "sanctions", "Screening concern selected. Case should not proceed until reviewed by Compliance."));
+      } else if (data.nameSimilarity === "High" && data.countryMatch === "Yes" && data.dobRegistrationMatch === "Yes") {
+        issues.push(createDataQualityIssue("WARN-SCR-002", "warning", "nameSimilarity", "Potential true match requires Compliance review."));
+      }
+
+      return issues;
+    }
+
+    function getCaseDataQualityIssues() {
+      const data = getValidationData();
+      return validateRequiredFields(data)
+        .concat(validateDateLogic(data))
+        .concat(validateLogicalConsistency(data));
+    }
+
+    function clearFieldErrors() {
+      document.querySelectorAll(".field-error").forEach(function(field) {
+        field.classList.remove("field-error");
+        field.removeAttribute("aria-invalid");
+      });
+      document.querySelectorAll(".field-error-message").forEach(function(message) {
+        message.remove();
+      });
+    }
+
+    function showFieldError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      if (!field) return;
+
+      field.classList.add("field-error");
+      field.setAttribute("aria-invalid", "true");
+      const error = document.createElement("p");
+      error.className = "field-error-message";
+      error.textContent = message;
+      field.insertAdjacentElement("afterend", error);
+    }
+
+    function formatDataQualityIssues(issues, emptyText) {
+      return formatList(issues.map(function(issue) {
+        return issue.code + ": " + issue.message;
+      }), emptyText);
+    }
+
+    function getDataQualityTriggeredRules(warnings) {
+      return warnings.map(function(issue) {
+        return {
+          code: issue.code,
+          category: "Case Data Quality",
+          name: "Input Consistency Warning",
+          trigger: issue.message,
+          result: "Analyst confirmation required",
+          severity: "Warning",
+          owner: "Analyst",
+          whyItMatters: "Input consistency warnings should be reviewed and documented before final human decisioning."
+        };
+      });
+    }
+
+    function renderCaseDataQualityCheck(issues) {
+      const allIssues = issues || getCaseDataQualityIssues();
+      const blockingIssues = allIssues.filter(function(issue) { return issue.type === "blocking"; });
+      const warnings = allIssues.filter(function(issue) { return issue.type === "warning"; });
+      const container = document.getElementById("caseDataQualityCheck");
+      const status = document.getElementById("caseDataQualityStatus");
+      const content = document.getElementById("caseDataQualityContent");
+
+      clearFieldErrors();
+      container.classList.remove("is-ready", "has-warnings", "has-blocking");
+
+      if (blockingIssues.length > 0 && !validationAttempted) {
+        status.textContent = "Case Setup Required";
+        content.innerHTML = '<p class="data-quality-guidance">Complete required case setup fields to run the review.</p>';
+        return allIssues;
+      }
+
+      if (blockingIssues.length > 0) {
+        container.classList.add("has-blocking");
+        status.textContent = "Blocking Issues";
+        blockingIssues.forEach(function(issue) {
+          showFieldError(issue.field, issue.message);
+        });
+      } else if (warnings.length > 0) {
+        container.classList.add("has-warnings");
+        status.textContent = "Ready to Generate";
+      } else {
+        container.classList.add("is-ready");
+        status.textContent = "Ready to Generate";
+      }
+
+      let html = blockingIssues.length > 0
+        ? '<p class="data-quality-guidance">Please resolve blocking issues before generating the case review.</p>'
+        : '<p class="data-quality-guidance">Ready to generate. No blocking input issues found.</p>';
+
+      if (blockingIssues.length > 0) {
+        html += '<div class="data-quality-group"><p class="data-quality-group-title">Blocking Issues</p><ul class="data-quality-list blocking">' +
+          blockingIssues.map(function(issue) {
+            return '<li><code>' + escapeHtml(issue.code) + '</code>' + escapeHtml(issue.message) + '</li>';
+          }).join("") + '</ul></div>';
+      }
+
+      if (warnings.length > 0) {
+        html += '<div class="data-quality-group"><p class="data-quality-group-title">Warnings</p><ul class="data-quality-list">' +
+          warnings.map(function(issue) {
+            return '<li><code>' + escapeHtml(issue.code) + '</code>' + escapeHtml(issue.message) + '</li>';
+          }).join("") + '</ul></div>';
+      }
+
+      content.innerHTML = html;
+      return allIssues;
     }
 
     function switchView(viewName) {
@@ -2872,6 +3241,7 @@
         const target = event.target;
         if (target.name === "documentQuality" || materialInputIds.has(target.id)) {
           markResultsStale();
+          renderCaseDataQualityCheck();
         }
       }
 
@@ -2909,6 +3279,7 @@
       updateTriggerContext();
       updateSampleSelection(sampleName);
       markResultsStale();
+      renderCaseDataQualityCheck();
     }
 
     function formatList(items, emptyText) {
@@ -2961,7 +3332,9 @@
     function formatUsDate(value) {
       const parsedDate = parseDateInput(value);
       if (!parsedDate) return value ? "Invalid date - use MM/DD/YYYY" : "Not provided";
-      return parsedDate.toLocaleDateString("en-US");
+      const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+      const day = String(parsedDate.getDate()).padStart(2, "0");
+      return month + "/" + day + "/" + parsedDate.getFullYear();
     }
 
     function daysBetween(startDate, endDate) {
@@ -3981,6 +4354,18 @@
     }
 
     function generateCaseReview() {
+      validationAttempted = true;
+      const dataQualityIssues = renderCaseDataQualityCheck();
+      const blockingDataQualityIssues = dataQualityIssues.filter(function(issue) { return issue.type === "blocking"; });
+      const dataQualityWarnings = dataQualityIssues.filter(function(issue) { return issue.type === "warning"; });
+
+      if (blockingDataQualityIssues.length > 0) {
+        switchView("case-input");
+        const firstBlockingField = document.getElementById(blockingDataQualityIssues[0].field);
+        if (firstBlockingField) firstBlockingField.focus();
+        return;
+      }
+
       const entityType = getValue("entityType");
       const requiredDocuments = documentRules[entityType];
       const receivedDocuments = getReceivedDocuments();
@@ -4052,7 +4437,7 @@
       const decisionConfidence = getDecisionConfidence(data, boStatus, screening.result, missingDocuments, evidenceIssues, sofSowStatus);
       const caseStage = getCaseStage(data, boStatus, screening.result, riskLevel, readiness, missingDocuments, evidenceIssues, aging.status);
       const reasonCodes = getReasonCodes(data, boStatus, screening.result, riskLevel, missingDocuments, evidenceIssues, aging.status, recommendedDecision, sofSowStatus, decisionConfidence);
-      const triggeredPolicyRules = getTriggeredRulesFromReasonCodes(reasonCodes);
+      const triggeredPolicyRules = getTriggeredRulesFromReasonCodes(reasonCodes).concat(getDataQualityTriggeredRules(dataQualityWarnings));
       const generatedAt = new Date().toLocaleString("en-US");
       reviewGenerated = true;
       setGeneratedViewVisibility(true);
@@ -4098,6 +4483,7 @@
         "Reason for Priority\n" +
         formatUrgencyReasons(queuePriority);
       const reasonCodeText = formatReasonCodes(reasonCodes);
+      const dataQualityWarningText = formatDataQualityIssues(dataQualityWarnings, "No non-blocking data quality warnings identified.");
       const bottleneckText = formatList(bottlenecks, "Ready for Review") + "\n\nReason Codes\n" + reasonCodeText;
       const openBottleneckCount = bottlenecks.includes("Ready for Review") ? 0 : bottlenecks.length;
       const actionText = formatActions(actions) + "\n\nReason Codes\n" + reasonCodeText;
@@ -4125,6 +4511,8 @@
         "Trigger Event Reason: " + data.triggerEventReason + "\n" +
         "Expected Activity: " + data.expectedActivity + "\n\n" +
         "Product / Service Requested: " + data.productService + "\n\n" +
+        "Case Data Quality Warnings\n" +
+        dataQualityWarningText + "\n\n" +
         "Case Stage\n" +
         caseStage + "\n\n" +
         "KYC Refresh Assessment\n" +
@@ -4205,6 +4593,8 @@
         "- Case Stage: " + caseStage + "\n" +
         "- BO Status: " + boStatus + "\n" +
         "- Screening Result: " + screening.result + "\n\n" +
+        "Case Data Quality Warnings\n" +
+        dataQualityWarningText + "\n\n" +
         "Evidence Issues\n" +
         evidenceQualityText + "\n\n" +
         "Rules Triggered\n" +
@@ -4328,9 +4718,11 @@
       currentEmailContext = null;
       reviewGenerated = false;
       selectedSampleCase = "";
+      validationAttempted = false;
       updateSampleSelection("");
       setGeneratedViewVisibility(false);
       setResultsStale(false);
+      renderCaseDataQualityCheck();
 
       document.querySelectorAll("#optionalRiskContext, .bo-advanced, .rule-accordion").forEach(function(details) {
         details.open = false;

@@ -58,6 +58,7 @@ Individual remains a supported entity type in the demo because enterprise compli
 ## Key Features
 
 - Command Center with polished empty states and dynamic KPI updates
+- Case Data Quality Check with required-field validation, strict U.S. date validation, and logical consistency warnings
 - Single-page multi-view workflow stepper with Overview, Case Input, Results, Actions, and Governance views
 - Guided workflow navigation and next-step buttons that move from Overview to Case Input, Results, Actions, and Governance while preserving form state
 - Sample case buttons for Low Risk, Blocked BO, and Sanctions Escalation demos
@@ -79,6 +80,18 @@ Individual remains a supported entity type in the demo because enterprise compli
 - Reviewer Checklist for human quality review
 - Audit Trail with timestamp, inputs reviewed, evidence issues, BO result, screening result, risk score, reason codes, follow-up owners, suggested review path, case readiness, and disclaimer
 - Explainability Center showing only triggered rules first
+
+## Case Data Quality Check
+
+Before generating a case review, the tool performs an educational input-quality review:
+
+- **Blocking issues** prevent generation when required case setup fields are missing, dates are invalid, or the target completion date is earlier than the received date.
+- **Non-blocking warnings** flag potentially inconsistent BO, SOF/SOW, screening, and SLA inputs while still allowing the analyst to generate the review.
+- **Inline field errors** identify required fields that need correction after a generation attempt.
+- **Stale result warnings** appear when material case inputs change after a review has been generated. Recipient Type and Tone remain independently reactive and do not require full regeneration.
+- **Audit-friendly output** carries non-blocking data-quality warnings into the Analyst Review Note, Audit Trail, and Triggered Rules.
+
+These checks are illustrative workflow controls, not validation against a bank policy, authoritative customer record, screening system, or external data source.
 
 ## Workflow
 
