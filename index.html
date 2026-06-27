@@ -237,6 +237,36 @@
       font-weight: 750;
     }
 
+    .about-workflow-card {
+      margin-top: 14px;
+      padding: 18px 20px;
+      background: rgba(10, 18, 34, 0.58);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .about-workflow-card .panel-header {
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+    }
+
+    .about-workflow-copy {
+      display: grid;
+      gap: 8px;
+      max-width: 920px;
+    }
+
+    .about-workflow-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .about-workflow-copy .workflow-question {
+      color: #dceaff;
+      font-weight: 750;
+    }
+
     .hero-insight {
       display: grid;
       align-content: space-between;
@@ -1404,18 +1434,16 @@
   <header data-view="overview" class="active-view">
     <div class="wrap hero">
       <div>
-        <p class="eyebrow">2026 RegTech Workflow Prototype</p>
-        <h1>KYC Case Bottleneck Resolver</h1>
-        <p class="subtitle">A B2B KYC workflow prototype for enterprise compliance teams.</p>
-        <p class="hero-question">Designed to answer one operational question: Why is this KYC case blocked, and what should happen next?</p>
-        <p class="hero-disclaimer">Educational rule-based simulation. Not real sanctions screening or bank decisioning.</p>
+        <p class="eyebrow">Enterprise KYC Operations</p>
+        <h1>KYC Operations Command Center</h1>
+        <p class="subtitle">Monitor case readiness, evidence quality, risk drivers, and follow-up ownership in one workflow.</p>
       </div>
-      <aside class="hero-insight" aria-label="Copilot insight">
+      <aside class="hero-insight" aria-label="Operational workflow focus">
         <div>
-          <p class="insight-label">Command Center</p>
-          <p class="insight-copy">Help KYC operations teams identify business onboarding blockers, explain the rule, draft follow-up, and preserve audit-ready documentation.</p>
+          <p class="insight-label">Operational Focus</p>
+          <p class="insight-copy">Identify open blockers, clarify the next owner, and preserve review rationale across the KYC case workflow.</p>
         </div>
-        <p class="hero-disclaimer">Static HTML, CSS, and JavaScript only.</p>
+        <p class="hero-disclaimer">Case diagnostics · Follow-up ownership · Audit-ready notes</p>
       </aside>
     </div>
     <section class="wrap kpi-grid" aria-label="Case KPI summary">
@@ -1481,6 +1509,19 @@
           </div>
         </div>
         <div id="caseSnapshot" class="output-box empty">Generate a case review to see a short case snapshot.</div>
+      </div>
+    </section>
+    <section class="wrap panel about-workflow-card" aria-labelledby="aboutWorkflowTitle">
+      <div class="panel-header">
+        <div>
+          <p class="step-kicker">Prototype Scope</p>
+          <div class="section-heading-line"><span class="section-pill">About</span><h2 id="aboutWorkflowTitle">About this workflow</h2></div>
+        </div>
+      </div>
+      <div class="about-workflow-copy">
+        <p>A B2B KYC workflow prototype for enterprise compliance teams.</p>
+        <p class="workflow-question">Designed to answer one operational question: Why is this KYC case blocked, and what should happen next?</p>
+        <p>Educational rule-based simulation built with static HTML, CSS, and JavaScript. It does not perform real sanctions screening, OFAC checks, customer verification, or bank decisioning.</p>
       </div>
     </section>
   </header>
