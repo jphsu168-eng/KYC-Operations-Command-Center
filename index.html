@@ -3058,8 +3058,12 @@
         issues.push(createDataQualityIssue("VAL-011", "blocking", "targetCompletionDate", "Target Completion Date cannot be earlier than Case Received Date."));
       }
 
+      if (receivedDate && calendarDayDifference(todayDate(), receivedDate) > 0) {
+        issues.push(createDataQualityIssue("VAL-012", "blocking", "caseReceivedDate", "Case Received Date cannot be in the future."));
+      }
+
       if (targetDate) {
-        const dayDifference = Math.ceil((targetDate - todayDate()) / (1000 * 60 * 60 * 24));
+        const dayDifference = calendarDayDifference(todayDate(), targetDate);
         if (dayDifference < 0) {
           issues.push(createDataQualityIssue("WARN-SLA-002", "warning", "targetCompletionDate", "Case appears past due."));
         } else if (dayDifference <= 1) {
@@ -3572,12 +3576,17 @@
       return month + "/" + day + "/" + parsedDate.getFullYear();
     }
 
-    function daysBetween(startDate, endDate) {
-      const oneDay = 1000 * 60 * 60 * 24;
+    function calendarDayDifference(startDate, endDate) {
       const start = parseDateInput(startDate);
       const end = parseDateInput(endDate);
       if (!start || !end) return 0;
-      return Math.max(0, Math.floor((end - start) / oneDay));
+      const startUtc = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+      const endUtc = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+      return Math.round((endUtc - startUtc) / (1000 * 60 * 60 * 24));
+    }
+
+    function daysBetween(startDate, endDate) {
+      return Math.max(0, calendarDayDifference(startDate, endDate));
     }
 
     function todayDate() {
@@ -3705,9 +3714,12 @@
         const status = qualityMap[documentName] || "Not Received";
         const isReceived = receivedDocuments.includes(documentName);
 
-        if (["Not Received", "Received - Expired", "Received - Incomplete", "Received - Inconsistent"].includes(status)) {
-          issues.push({ documentName: documentName, status: status, reason: "Evidence quality status requires review or follow-up." });
-        } else if (!isReceived && status !== "Not Applicable") {
+        if (["Not Received", "Received - Expired", "Received - Incomplete", "Received - Inconsistent", "Not Applicable"].includes(status)) {
+          const reason = status === "Not Applicable"
+            ? "Document is required for the selected entity type and cannot be bypassed as Not Applicable without a policy exception."
+            : "Evidence quality status requires review or follow-up.";
+          issues.push({ documentName: documentName, status: status, reason: reason });
+        } else if (!isReceived) {
           issues.push({ documentName: documentName, status: "Not Received", reason: "Document is required but not marked as received." });
         }
       });
@@ -4089,6 +4101,7 @@
       }
 
       evidenceIssues.forEach(function(issue) {
+        if (missingDocuments.includes(issue.documentName)) return;
         addAction(actions, "Resolve evidence quality issue: " + issue.documentName + " is " + issue.status, "Analyst", issue.status === "Received - Expired" || issue.status === "Not Received" ? "High" : "Medium", issue.reason, "DOC-002");
       });
 
@@ -4126,12 +4139,12 @@
       return actions;
     }
 
-    function getReadinessStatus(data, screeningResult, boStatus, riskLevel, missingDocuments) {
+    function getReadinessStatus(data, screeningResult, boStatus, riskLevel, missingDocuments, evidenceIssues) {
       if (data.sanctions === "Yes") return "Do Not Proceed Until Cleared";
       if (screeningResult === "Potential True Match") return "Escalation Required";
       if (boStatus === "BO Requires Escalation") return "Escalation Required";
       if (riskLevel === "Critical") return "Escalation Required";
-      if (missingDocuments.length > 0) return "Needs More Documents";
+      if (missingDocuments.length > 0 || evidenceIssues.length > 0) return "Needs More Documents";
       if ((riskLevel === "Low" || riskLevel === "Medium") && boStatus === "BO Complete") return "Ready for Review";
       return "Escalation Required";
     }
@@ -4316,7 +4329,7 @@
 
     function getDaysUntilTarget(targetCompletionDate) {
       if (!parseDateInput(targetCompletionDate)) return null;
-      return daysBetween(todayDate(), targetCompletionDate);
+      return calendarDayDifference(todayDate(), targetCompletionDate);
     }
 
     function calculateQueuePriority(data, riskLevel, aging, keyMissingDocuments) {
@@ -4348,7 +4361,7 @@
 
       if (data.relationshipType === "New Onboarding" && keyMissingDocuments.length > 0) {
         const daysUntilTarget = getDaysUntilTarget(data.targetCompletionDate);
-        if (daysUntilTarget !== null && daysUntilTarget <= 3) {
+        if (daysUntilTarget !== null && daysUntilTarget >= 0 && daysUntilTarget <= 3) {
           addUrgencyReason(reasons, 15, "New onboarding has missing key documents and target date is close.");
         }
       }
@@ -4610,8 +4623,28 @@
 
       currentEmailDraft = buildFollowUpDraft(currentEmailContext);
       setTextOutput("emailDraft", currentEmailDraft);
+      syncFollowUpDraftInAnalystNote();
       copyButton.disabled = false;
       copyButton.textContent = "Copy Follow-Up Draft";
+    }
+
+    function syncFollowUpDraftInAnalystNote() {
+      if (!currentAnalystNote) return;
+
+      const sectionStart = "Follow-Up Communication Draft\n";
+      const sectionEnd = "\n\nFinal Case Readiness Status\n";
+      const startIndex = currentAnalystNote.indexOf(sectionStart);
+      const endIndex = currentAnalystNote.indexOf(sectionEnd, startIndex);
+
+      if (startIndex === -1 || endIndex === -1) return;
+
+      currentAnalystNote =
+        currentAnalystNote.slice(0, startIndex + sectionStart.length) +
+        currentEmailDraft +
+        currentAnalystNote.slice(endIndex);
+
+      setTextOutput("analystNote", currentAnalystNote);
+      setTextOutput("analystNotePreview", createTextPreview(currentAnalystNote, 12));
     }
 
     function getReviewControlRequiredBy(data, riskLevel, screeningResult, readiness, boStatus) {
@@ -4660,7 +4693,7 @@
       const receivedDocuments = getReceivedDocuments();
       const documentQualityMap = getDocumentQualityMap();
       const missingDocuments = requiredDocuments.filter(function(documentName) {
-        return !receivedDocuments.includes(documentName) && documentQualityMap[documentName] !== "Not Applicable";
+        return !receivedDocuments.includes(documentName);
       });
       const keyMissingDocuments = missingDocuments.filter(function(documentName) {
         return documentName === "Certificate of Incorporation" ||
@@ -4722,7 +4755,7 @@
       const queuePriority = calculateQueuePriority(data, riskLevel, aging, keyMissingDocuments);
       const bottlenecks = diagnoseBottlenecks(data, boStatus, screening.result, riskLevel, missingDocuments, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
       const actions = generateActions(bottlenecks, missingDocuments, data, screening.result, boStatus, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
-      const readiness = getReadinessStatus(data, screening.result, boStatus, riskLevel, missingDocuments);
+      const readiness = getReadinessStatus(data, screening.result, boStatus, riskLevel, missingDocuments, evidenceIssues);
       const reviewRequiredBy = getReviewControlRequiredBy(data, riskLevel, screening.result, readiness, boStatus);
       const decisionConfidence = getDecisionConfidence(data, boStatus, screening.result, missingDocuments, evidenceIssues, sofSowStatus);
       const caseStage = getCaseStage(data, boStatus, screening.result, riskLevel, readiness, missingDocuments, evidenceIssues, aging.status);
