@@ -20,6 +20,8 @@ This is an educational portfolio project. It does not perform real sanctions scr
 
 This tool supports analyst workflow simulation. Final review, escalation, approval, and customer decisioning require human compliance review.
 
+The current implementation is a static single-page workflow prototype, not production software. It simulates case intake, evidence review, risk assessment, action tracking, and governance outputs without storing or transmitting customer data.
+
 ## Target Customer
 
 This prototype is designed as a B2B KYC workflow concept for enterprise compliance teams, including banks, fintech companies, payment companies, MSBs, and compliance operations teams that review business customers, legal entities, and higher-risk onboarding cases.
@@ -52,8 +54,8 @@ Individual remains a supported entity type in the demo because enterprise compli
 - **Overview:** product title, core product question, educational disclaimer, Command Center KPIs, sample cases, generate/reset controls, and short case snapshot.
 - **Case Input:** guided case setup, compact document evidence review, core beneficial ownership checks with collapsed advanced BO details, SOF/SOW review, screening triage, and risk indicators.
 - **Results:** executive summary, diagnostic details, customer risk profile, evidence quality issues, risk breakdown, bottlenecks, reason codes, and queue priority.
-- **Actions:** action tracking table with owner, priority, reason code, status, and follow-up communication draft controls.
-- **Governance:** analyst review note, reviewer checklist, audit trail, triggered rules, full rule library, and human review disclaimer.
+- **Actions:** action tracking table with owner, priority, reason code, suggested due date, status, and follow-up communication draft controls.
+- **Governance:** analyst review note, reviewer checklist, lightweight maker-checker Review Control, audit trail, triggered rules, full rule library, and human review disclaimer.
 
 ## Key Features
 
@@ -61,7 +63,7 @@ Individual remains a supported entity type in the demo because enterprise compli
 - Case Data Quality Check with required-field validation, strict U.S. date validation, and logical consistency warnings
 - Single-page multi-view workflow stepper with Overview, Case Input, Results, Actions, and Governance views
 - Guided workflow navigation and next-step buttons that move from Overview to Case Input, Results, Actions, and Governance while preserving form state
-- Sample case buttons for Low Risk, Blocked BO, and Sanctions Escalation demos
+- Sample case shortcuts for Low Risk, Blocked BO, and Sanctions Escalation scenarios
 - Case Review Inputs for onboarding, periodic review, trigger event review, and ongoing monitoring alert workflows
 - Document Evidence Review with required documents by entity type
 - Evidence status dropdowns: Not Received, Received - Acceptable, Received - Expired, Received - Incomplete, Received - Inconsistent, and Not Applicable
@@ -74,10 +76,11 @@ Individual remains a supported entity type in the demo because enterprise compli
 - Suggested Review Path: Standard Review, Enhanced Review, Compliance Escalation, or Do Not Proceed Until Cleared
 - Decision Confidence / Data Quality output
 - Case Stage output, such as Evidence Collection, RM Follow-Up, Compliance Escalation, Ready for Final Review, or Do Not Proceed Until Cleared
-- Follow-up action tracker with owner, priority, reason code, status badges, and reason-code pills
+- Follow-up action tracker with owner, priority, reason code, illustrative business-day due date, status badges, and reason-code pills
 - Follow-Up Communication Draft for Relationship Manager, Customer, or Compliance Officer
 - Analyst Review Note with scrollable long-form work note
 - Reviewer Checklist for human quality review
+- Lightweight maker-checker Review Control showing prepared by, required reviewer, Not submitted status, and human review requirement
 - Audit Trail with timestamp, inputs reviewed, evidence issues, BO result, screening result, risk score, reason codes, follow-up owners, suggested review path, case readiness, and disclaimer
 - Explainability Center showing only triggered rules first
 
@@ -267,13 +270,17 @@ The Explainability Center first shows **Triggered Rules for This Case**, meaning
 A production version could include the following architecture. The current project does **not** include these production integrations.
 
 - **Frontend:** a production-grade web application interface
-- **Backend:** FastAPI or Node.js API
-- **Database:** PostgreSQL
+- **Backend API:** secure service layer for workflow orchestration and policy execution
+- **Database:** durable case, customer, action, and review persistence
+- **Authentication:** enterprise identity and session management
+- **Role-based access control:** permissions for Analysts, Reviewers, Compliance Officers, QA, and Managers
 - **Core tables:** cases, customers, documents, beneficial_owners, screening_hits, risk_assessments, follow_up_actions, audit_events, users, review_approvals
 - **Rule Engine:** configurable JSON-based policy rules
-- **Audit:** append-only audit event log
-- **Roles:** Analyst, Reviewer, Compliance Officer, Manager
-- **Future integrations:** screening vendors, document storage, adverse media vendors, and case management systems
+- **Model and rule governance:** versioning, approvals, testing evidence, and change controls for scoring and routing logic
+- **Immutable audit log:** append-only event history for case and policy decisions
+- **Document storage:** controlled evidence repository with retention and access policies
+- **Reviewer approval workflow:** maker-checker submission, review, disposition, and approval states
+- **Vendor integrations:** screening, adverse media, identity, document, and case-management providers
 
 ## How To Run
 

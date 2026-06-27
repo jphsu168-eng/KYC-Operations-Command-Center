@@ -1326,6 +1326,52 @@
       line-height: 1.45;
     }
 
+    .due-date-value {
+      color: #edf5ff;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .due-date-basis {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .data-table th:first-child {
+      width: 32%;
+    }
+
+    .review-control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .review-control-item {
+      padding: 13px;
+      border: 1px solid rgba(167, 190, 224, 0.14);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .review-control-label {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .review-control-value {
+      margin: 0;
+      color: #eef5ff;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
     .empty-state {
       padding: 16px;
       color: var(--muted);
@@ -1492,6 +1538,10 @@
         grid-template-columns: 1fr;
       }
 
+      .review-control-grid {
+        grid-template-columns: 1fr;
+      }
+
       .results {
         position: static;
       }
@@ -1536,7 +1586,7 @@
       }
 
       .data-table table {
-        min-width: 720px;
+        min-width: 900px;
       }
     }
 </style>
@@ -1561,7 +1611,7 @@
       <div>
         <p class="eyebrow">Enterprise KYC Operations</p>
         <h1>KYC Operations Command Center</h1>
-        <p class="subtitle">Monitor case readiness, evidence quality, risk drivers, and follow-up ownership in one workflow.</p>
+        <p class="subtitle">Monitor case readiness, evidence quality, risk drivers, and follow-up ownership across enterprise KYC reviews.</p>
       </div>
       <aside class="hero-insight" aria-label="Operational workflow focus">
         <div>
@@ -1607,9 +1657,9 @@
       <div class="panel">
         <div class="panel-header">
           <div>
-            <p class="step-kicker">Demo Controls</p>
-            <div class="section-heading-line"><span class="section-pill">Overview</span><h2>Sample Cases</h2></div>
-            <p class="note">Load a realistic sample, then generate the review to see the workflow outputs.</p>
+            <p class="step-kicker">Case Templates</p>
+            <div class="section-heading-line"><span class="section-pill">Overview</span><h2>Sample Case Shortcuts</h2></div>
+            <p class="note">Load a preconfigured case, review the inputs, and generate the operational outputs.</p>
           </div>
         </div>
         <div class="sample-actions" aria-label="Overview sample cases">
@@ -1644,9 +1694,7 @@
         </div>
       </div>
       <div class="about-workflow-copy">
-        <p>A B2B KYC workflow prototype for enterprise compliance teams.</p>
-        <p class="workflow-question">Designed to answer one operational question: Why is this KYC case blocked, and what should happen next?</p>
-        <p>Educational rule-based simulation built with static HTML, CSS, and JavaScript. It does not perform real sanctions screening, OFAC checks, customer verification, or bank decisioning.</p>
+        <p>This B2B KYC workflow prototype helps enterprise compliance teams identify why a case is blocked and what should happen next. It is a rule-based workflow simulation and does not perform real sanctions screening, OFAC checks, identity verification, transaction monitoring, customer verification, or bank decisioning. Human compliance review is required.</p>
       </div>
     </section>
   </header>
@@ -1663,8 +1711,8 @@
         </div>
 
         <div class="case-subsection demo-shortcuts">
-          <h3 class="subsection-heading">Demo Shortcuts</h3>
-          <p class="subsection-note">Load a sample case to preview how the workflow behaves.</p>
+          <h3 class="subsection-heading">Sample Case Shortcuts</h3>
+          <p class="subsection-note">Load a preconfigured case to review or adjust its inputs.</p>
           <div class="sample-actions" aria-label="Sample cases">
             <button type="button" class="secondary sample-button" data-sample="lowRisk" aria-pressed="false" onclick="loadSampleCase('lowRisk')">Low Risk<span class="selected-indicator" aria-hidden="true">✓ Selected</span></button>
             <button type="button" class="secondary sample-button" data-sample="blockedBo" aria-pressed="false" onclick="loadSampleCase('blockedBo')">Blocked BO<span class="selected-indicator" aria-hidden="true">✓ Selected</span></button>
@@ -2150,7 +2198,7 @@
 
       <section id="actionsEmptyState" class="panel view-empty-state" data-view="actions" aria-live="polite">
         <strong>No follow-up actions yet</strong>
-        <p>Generate a case review to create action items and communication draft.</p>
+        <p>Generate a case review to create action items and a communication draft.</p>
       </section>
 
       <section id="governanceEmptyState" class="panel view-empty-state" data-view="governance" aria-live="polite">
@@ -2177,7 +2225,7 @@
           <div>
             <p class="step-kicker">Action Center</p>
             <div class="section-heading-line"><span class="section-pill">Action</span><h2>Follow-Up Action Tracker</h2></div>
-            <p class="note">Track action items generated from case bottlenecks.</p>
+            <p class="note">Track generated action items, ownership, status, and illustrative priority-based due dates.</p>
           </div>
         </div>
         <div id="followUpOutput" class="data-table empty-state">Generate a case review first to create follow-up actions.</div>
@@ -2243,6 +2291,34 @@
           </div>
         </div>
         <div id="reviewerChecklist" class="output-box output-panel empty">Generate a review to create the reviewer checklist.</div>
+      </section>
+
+      <section class="panel section-card generated-output-section" data-view="governance" hidden>
+        <div class="panel-header">
+          <div>
+            <p class="step-kicker">Governance &amp; Audit</p>
+            <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Review Control</h2></div>
+            <p class="note">Illustrative maker-checker handoff. This does not represent final approval.</p>
+          </div>
+        </div>
+        <div class="review-control-grid" aria-label="Maker-checker review control">
+          <div class="review-control-item">
+            <p class="review-control-label">Prepared by</p>
+            <p id="reviewControlPreparedBy" class="review-control-value">Analyst</p>
+          </div>
+          <div class="review-control-item">
+            <p class="review-control-label">Review required by</p>
+            <p id="reviewControlRequiredBy" class="review-control-value">Reviewer</p>
+          </div>
+          <div class="review-control-item">
+            <p class="review-control-label">Approval status</p>
+            <p id="reviewControlStatus" class="review-control-value">Not submitted</p>
+          </div>
+          <div class="review-control-item">
+            <p class="review-control-label">Control requirement</p>
+            <p id="reviewControlRequirement" class="review-control-value">Human review required</p>
+          </div>
+        </div>
         <div class="workflow-actions">
           <button type="button" class="secondary" onclick="switchView('actions')">Back to Actions</button>
           <button type="button" onclick="switchView('overview')">Back to Overview</button>
@@ -3797,13 +3873,46 @@
       return bottlenecks;
     }
 
+    function addBusinessDays(startDate, businessDays) {
+      const dueDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+      let addedDays = 0;
+
+      while (addedDays < businessDays) {
+        dueDate.setDate(dueDate.getDate() + 1);
+        const dayOfWeek = dueDate.getDay();
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+          addedDays += 1;
+        }
+      }
+
+      return dueDate;
+    }
+
+    function getSuggestedActionDueDate(priority) {
+      const businessDaysByPriority = {
+        Urgent: 1,
+        High: 2,
+        Medium: 5,
+        Low: 10
+      };
+      const businessDays = businessDaysByPriority[priority] || 5;
+
+      return {
+        date: formatUsDate(addBusinessDays(todayDate(), businessDays)),
+        basis: "Within " + businessDays + " business day" + (businessDays === 1 ? "" : "s") + " (suggested)"
+      };
+    }
+
     function addAction(actions, actionItem, owner, priority, reason, reasonCode) {
+      const suggestedDueDate = getSuggestedActionDueDate(priority);
       actions.push({
         actionItem: actionItem,
         owner: owner,
         priority: priority,
         reason: reason,
         reasonCode: reasonCode || "N/A",
+        dueDate: suggestedDueDate.date,
+        dueDateBasis: suggestedDueDate.basis,
         status: "Open"
       });
     }
@@ -4133,6 +4242,7 @@
           "   Owner: " + action.owner + "\n" +
           "   Priority: " + action.priority + "\n" +
           "   Reason Code: " + action.reasonCode + "\n" +
+          "   Due Date: " + action.dueDate + " - " + action.dueDateBasis + "\n" +
           "   Status: " + action.status + "\n" +
           "   Reason: " + action.reason;
       }).join("\n\n");
@@ -4173,6 +4283,7 @@
             "<th>Owner</th>" +
             "<th>Priority</th>" +
             "<th>Reason Code</th>" +
+            "<th>Due Date</th>" +
             "<th>Status</th>" +
           "</tr></thead>" +
           "<tbody>" +
@@ -4184,6 +4295,7 @@
                 "<td>" + escapeHtml(action.owner) + "</td>" +
                 "<td><span class=\"priority-badge " + priorityTone + "\">" + escapeHtml(action.priority) + "</span></td>" +
                 "<td><span class=\"reason-code-pill\">" + escapeHtml(action.reasonCode) + "</span></td>" +
+                "<td><div class=\"due-date-value\">" + escapeHtml(action.dueDate) + "</div><div class=\"due-date-basis\">" + escapeHtml(action.dueDateBasis) + "</div></td>" +
                 "<td><span class=\"status-badge " + statusTone + "\">" + escapeHtml(action.status) + "</span></td>" +
               "</tr>";
             }).join("") +
@@ -4301,7 +4413,7 @@
           actionRequests.push("Outstanding Evidence\n" + formatList(missingDocuments, "No missing documents."));
         }
         actionRequests.push("Open Follow-Up Actions\n" + formatList(actions.map(function(action) {
-          return action.owner + ": " + action.actionItem + " (" + action.reasonCode + ")";
+          return action.owner + ": " + action.actionItem + " (" + action.reasonCode + ", due " + action.dueDate + ")";
         }), "No open follow-up actions."));
       }
 
@@ -4335,6 +4447,18 @@
       setTextOutput("emailDraft", currentEmailDraft);
       copyButton.disabled = false;
       copyButton.textContent = "Copy Follow-Up Draft";
+    }
+
+    function getReviewControlRequiredBy(data, riskLevel, screeningResult, readiness, boStatus) {
+      const complianceReviewRequired = data.sanctions === "Yes" ||
+        screeningResult === "Potential True Match" ||
+        riskLevel === "High" ||
+        riskLevel === "Critical" ||
+        readiness === "Escalation Required" ||
+        readiness === "Do Not Proceed Until Cleared" ||
+        boStatus === "BO Requires Escalation";
+
+      return complianceReviewRequired ? "Compliance Officer" : "Reviewer";
     }
 
     function setTone(element, status) {
@@ -4434,6 +4558,7 @@
       const bottlenecks = diagnoseBottlenecks(data, boStatus, screening.result, riskLevel, missingDocuments, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
       const actions = generateActions(bottlenecks, missingDocuments, data, screening.result, boStatus, aging.status, evidenceIssues, sofSowStatus, refreshAssessment);
       const readiness = getReadinessStatus(data, screening.result, boStatus, riskLevel, missingDocuments);
+      const reviewRequiredBy = getReviewControlRequiredBy(data, riskLevel, screening.result, readiness, boStatus);
       const decisionConfidence = getDecisionConfidence(data, boStatus, screening.result, missingDocuments, evidenceIssues, sofSowStatus);
       const caseStage = getCaseStage(data, boStatus, screening.result, riskLevel, readiness, missingDocuments, evidenceIssues, aging.status);
       const reasonCodes = getReasonCodes(data, boStatus, screening.result, riskLevel, missingDocuments, evidenceIssues, aging.status, recommendedDecision, sofSowStatus, decisionConfidence);
@@ -4455,6 +4580,10 @@
       };
       renderFollowUpDraft();
       setResultsStale(false);
+      document.getElementById("reviewControlPreparedBy").textContent = "Analyst";
+      document.getElementById("reviewControlRequiredBy").textContent = reviewRequiredBy;
+      document.getElementById("reviewControlStatus").textContent = "Not submitted";
+      document.getElementById("reviewControlRequirement").textContent = "Human review required";
 
       const documentGapText =
         "Received Documents\n" +
@@ -4513,6 +4642,11 @@
         "Product / Service Requested: " + data.productService + "\n\n" +
         "Case Data Quality Warnings\n" +
         dataQualityWarningText + "\n\n" +
+        "Review Control\n" +
+        "Prepared by: Analyst\n" +
+        "Review required by: " + reviewRequiredBy + "\n" +
+        "Approval status: Not submitted\n" +
+        "Control requirement: Human review required\n\n" +
         "Case Stage\n" +
         caseStage + "\n\n" +
         "KYC Refresh Assessment\n" +
@@ -4595,6 +4729,11 @@
         "- Screening Result: " + screening.result + "\n\n" +
         "Case Data Quality Warnings\n" +
         dataQualityWarningText + "\n\n" +
+        "Review Control\n" +
+        "Prepared by: Analyst\n" +
+        "Review required by: " + reviewRequiredBy + "\n" +
+        "Approval status: Not submitted\n" +
+        "Control requirement: Human review required\n\n" +
         "Evidence Issues\n" +
         evidenceQualityText + "\n\n" +
         "Rules Triggered\n" +
@@ -4615,7 +4754,7 @@
         "Suggested Review Path\n" +
         cddEddText + "\n\n" +
         "Follow-Up Owner(s)\n" +
-        formatList(actions.map(function(action) { return action.owner + " - " + action.actionItem + " (" + action.reasonCode + ", " + action.status + ")"; }), "No follow-up owners assigned.") + "\n\n" +
+        formatList(actions.map(function(action) { return action.owner + " - " + action.actionItem + " (" + action.reasonCode + ", due " + action.dueDate + ", " + action.status + ")"; }), "No follow-up owners assigned.") + "\n\n" +
         "Reviewer Checklist\n" +
         reviewerChecklistText + "\n\n" +
         "Human Review Disclaimer\n" +
@@ -4746,6 +4885,10 @@
       document.getElementById("topKpiBottlenecks").textContent = "Run Case Review";
       document.getElementById("topKpiCaseStage").textContent = "Awaiting Case Setup";
       document.getElementById("topKpiReviewPath").textContent = "Awaiting Review";
+      document.getElementById("reviewControlPreparedBy").textContent = "Analyst";
+      document.getElementById("reviewControlRequiredBy").textContent = "Reviewer";
+      document.getElementById("reviewControlStatus").textContent = "Not submitted";
+      document.getElementById("reviewControlRequirement").textContent = "Human review required";
 
       ["caseAgingStatus", "riskScore", "riskLevel", "caseReadiness", "refreshRequired", "recommendedDecision", "suggestedReviewPath", "decisionConfidence", "caseStage", "openBottlenecksMetric", "boStatus", "queuePriority"].forEach(function(id) {
         setTone(document.getElementById(id), "Neutral");
