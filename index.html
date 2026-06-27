@@ -212,7 +212,7 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 22px;
       align-items: stretch;
       padding: 28px;
@@ -244,6 +244,48 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
     }
 
+    .about-workflow-card > summary,
+    .content-disclosure > summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .about-workflow-card > summary::-webkit-details-marker,
+    .content-disclosure > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .about-workflow-card > summary::after,
+    .content-disclosure > summary::after {
+      content: "+";
+      width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      color: var(--primary);
+      background: rgba(111, 182, 255, 0.1);
+      font-weight: 900;
+    }
+
+    .about-workflow-card[open] > summary::after,
+    .content-disclosure[open] > summary::after {
+      content: "−";
+    }
+
+    .about-summary-copy {
+      min-width: 0;
+    }
+
+    .about-summary-copy .note {
+      margin-top: 4px;
+    }
+
     .about-workflow-card .panel-header {
       margin-bottom: 12px;
       padding-bottom: 10px;
@@ -253,6 +295,9 @@
       display: grid;
       gap: 8px;
       max-width: 920px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
     }
 
     .about-workflow-copy p {
@@ -1293,7 +1338,7 @@
 
     .data-table th,
     .data-table td {
-      padding: 12px 14px;
+      padding: 10px 11px;
       border-bottom: 1px solid rgba(167, 190, 224, 0.12);
       text-align: left;
       vertical-align: top;
@@ -1405,6 +1450,55 @@
 
     .generated-view-content {
       display: block;
+    }
+
+    .summary-output-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .summary-output-grid .output-label {
+      margin-top: 0;
+    }
+
+    .content-disclosure {
+      margin-top: 18px;
+      border: 1px solid rgba(167, 190, 224, 0.16);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.025);
+      overflow: hidden;
+    }
+
+    .content-disclosure > summary {
+      padding: 13px 15px;
+      color: #edf5ff;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .content-disclosure-body {
+      padding: 0 15px 15px;
+      border-top: 1px solid rgba(167, 190, 224, 0.12);
+    }
+
+    .disclosure-collapsed-label,
+    .disclosure-expanded-label {
+      display: inline;
+    }
+
+    .disclosure-expanded-label,
+    .content-disclosure[open] .disclosure-collapsed-label {
+      display: none;
+    }
+
+    .content-disclosure[open] .disclosure-expanded-label {
+      display: inline;
+    }
+
+    .preview-output {
+      min-height: 110px;
+      max-height: 170px;
     }
 
     [hidden] {
@@ -1538,6 +1632,10 @@
         grid-template-columns: 1fr;
       }
 
+      .summary-output-grid {
+        grid-template-columns: 1fr;
+      }
+
       .review-control-grid {
         grid-template-columns: 1fr;
       }
@@ -1613,13 +1711,6 @@
         <h1>KYC Operations Command Center</h1>
         <p class="subtitle">Monitor case readiness, evidence quality, risk drivers, and follow-up ownership across enterprise KYC reviews.</p>
       </div>
-      <aside class="hero-insight" aria-label="Operational workflow focus">
-        <div>
-          <p class="insight-label">Operational Focus</p>
-          <p class="insight-copy">Identify open blockers, clarify the next owner, and preserve review rationale across the KYC case workflow.</p>
-        </div>
-        <p class="hero-disclaimer">Case diagnostics · Follow-up ownership · Audit-ready notes</p>
-      </aside>
     </div>
     <section class="wrap kpi-grid" aria-label="Case KPI summary">
       <div class="kpi-card">
@@ -1669,34 +1760,33 @@
         </div>
         <p id="overviewSampleFeedback" class="button-feedback">No sample case loaded yet.</p>
         <p class="stale-results-warning" role="status" hidden>Inputs changed. Regenerate case review to refresh results.</p>
-        <div class="workflow-actions three">
+        <div class="workflow-actions">
           <button type="button" class="secondary" onclick="switchView('case-input')">Start Case Input →</button>
-          <button type="button" onclick="generateCaseReview()">Generate Case Review</button>
-          <button type="button" class="outline" onclick="resetForm()">Reset to Empty Case</button>
         </div>
       </div>
       <div class="panel">
         <div class="panel-header">
           <div>
             <p class="step-kicker">Case Snapshot</p>
-            <div class="section-heading-line"><span class="section-pill">Overview</span><h2>Short Case Snapshot</h2></div>
+            <div class="section-heading-line"><span class="section-pill">Overview</span><h2>Current Case Snapshot</h2></div>
             <p class="note">A compact summary appears here after a case review is generated.</p>
           </div>
         </div>
         <div id="caseSnapshot" class="output-box empty">Generate a case review to see a short case snapshot.</div>
       </div>
     </section>
-    <section class="wrap panel about-workflow-card" aria-labelledby="aboutWorkflowTitle">
-      <div class="panel-header">
-        <div>
+    <details class="wrap panel about-workflow-card">
+      <summary>
+        <div class="about-summary-copy">
           <p class="step-kicker">Prototype Scope</p>
           <div class="section-heading-line"><span class="section-pill">About</span><h2 id="aboutWorkflowTitle">About this workflow</h2></div>
+          <p class="note">Rule-based workflow simulation. Human compliance review required.</p>
         </div>
-      </div>
+      </summary>
       <div class="about-workflow-copy">
         <p>This B2B KYC workflow prototype helps enterprise compliance teams identify why a case is blocked and what should happen next. It is a rule-based workflow simulation and does not perform real sanctions screening, OFAC checks, identity verification, transaction monitoring, customer verification, or bank decisioning. Human compliance review is required.</p>
       </div>
-    </section>
+    </details>
   </header>
 
   <main class="wrap dashboard">
@@ -1712,7 +1802,6 @@
 
         <div class="case-subsection demo-shortcuts">
           <h3 class="subsection-heading">Sample Case Shortcuts</h3>
-          <p class="subsection-note">Load a preconfigured case to review or adjust its inputs.</p>
           <div class="sample-actions" aria-label="Sample cases">
             <button type="button" class="secondary sample-button" data-sample="lowRisk" aria-pressed="false" onclick="loadSampleCase('lowRisk')">Low Risk<span class="selected-indicator" aria-hidden="true">✓ Selected</span></button>
             <button type="button" class="secondary sample-button" data-sample="blockedBo" aria-pressed="false" onclick="loadSampleCase('blockedBo')">Blocked BO<span class="selected-indicator" aria-hidden="true">✓ Selected</span></button>
@@ -1723,7 +1812,6 @@
 
         <div class="case-subsection">
           <h3 class="subsection-heading">Core Case Details</h3>
-          <p class="subsection-note">Capture the business customer and legal entity profile before reviewing evidence.</p>
           <div class="grid">
             <div>
               <label for="caseId">Case ID</label>
@@ -1756,7 +1844,6 @@
 
         <div class="case-subsection">
           <h3 class="subsection-heading">Review Setup</h3>
-          <p class="subsection-note">Set the review type and SLA dates used for aging and readiness logic.</p>
           <div class="grid review-setup">
             <div>
               <label for="relationshipType">Relationship Type</label>
@@ -1857,7 +1944,6 @@
         <p id="boApplicabilityNote" class="bo-context-note">Corporate ownership checks remain part of the educational BO completeness review.</p>
 
         <h3 class="subsection-heading">Core BO Checks</h3>
-        <p class="subsection-note">Review the fields most likely to determine whether ownership is complete enough to continue.</p>
         <div class="grid bo-core-grid">
           <div>
             <label for="ownershipChartReceived">Ownership Chart Received</label>
@@ -1898,7 +1984,6 @@
             </span>
           </summary>
           <div class="bo-advanced-body">
-            <p class="subsection-note">These supporting fields still feed the risk score, BO status, analyst note, audit trail, and triggered rules.</p>
             <div class="grid bo-advanced-grid">
               <div>
                 <label for="boIdReceived">Beneficial Owner ID Received</label>
@@ -2086,7 +2171,7 @@
           <div>
             <p class="step-kicker">Bottleneck Engine</p>
             <div class="section-heading-line"><span class="section-pill">Results</span><h2>Results Dashboard</h2></div>
-            <p class="note">View case aging, document gaps, BO status, screening triage, risk score, bottlenecks, readiness, and audit-ready outputs for enterprise KYC teams.</p>
+            <p class="note">Review the case summary first and expand details only when needed.</p>
           </div>
         </div>
 
@@ -2098,96 +2183,68 @@
         <div id="resultsGeneratedContent" class="generated-view-content" hidden>
         <h3 class="result-section-title" style="margin-top: 0; padding-top: 0; border-top: 0;">Executive Summary</h3>
         <div class="metric-grid">
-          <div class="metric">
-            <p class="metric-label">Case Readiness</p>
-            <p id="caseReadiness" class="metric-value low">Review Not Generated</p>
+          <div class="metric"><p class="metric-label">Case Readiness</p><p id="caseReadiness" class="metric-value low">Review Not Generated</p></div>
+          <div class="metric"><p class="metric-label">Risk Level</p><p id="riskLevel" class="metric-value low">Awaiting Review</p></div>
+          <div class="metric"><p class="metric-label">Risk Score</p><p id="riskScore" class="metric-value low">Awaiting Review</p></div>
+          <div class="metric"><p class="metric-label">Suggested Review Path</p><p id="suggestedReviewPath" class="metric-value low">Awaiting Review</p></div>
+          <div class="metric"><p class="metric-label">Decision Confidence</p><p id="decisionConfidence" class="metric-value low">Awaiting Review</p></div>
+          <div class="metric"><p class="metric-label">Case Stage</p><p id="caseStage" class="metric-value low">Awaiting Case Setup</p></div>
+          <div class="metric"><p class="metric-label">Open Bottlenecks</p><p id="openBottlenecksMetric" class="metric-value low">Run Case Review</p></div>
+        </div>
+
+        <div class="summary-output-grid">
+          <div>
+            <label class="output-label">Case Summary</label>
+            <div id="resultsCaseSummary" class="output-box output-panel empty">Generate a review to see the case summary.</div>
           </div>
-          <div class="metric">
-            <p class="metric-label">Risk Level</p>
-            <p id="riskLevel" class="metric-value low">Awaiting Review</p>
+          <div>
+            <label class="output-label">Top Bottlenecks</label>
+            <div id="bottleneckOutput" class="output-box output-panel empty">Generate a review to diagnose case bottlenecks.</div>
           </div>
-          <div class="metric">
-            <p class="metric-label">Risk Score</p>
-            <p id="riskScore" class="metric-value low">Awaiting Review</p>
+          <div>
+            <label class="output-label">Reason Codes</label>
+            <div id="reasonCodesOutput" class="output-box output-panel empty">Generate a review to see bottleneck and decision reason codes.</div>
           </div>
-          <div class="metric">
-            <p class="metric-label">Suggested Review Path</p>
-            <p id="suggestedReviewPath" class="metric-value low">Awaiting Review</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">Decision Confidence</p>
-            <p id="decisionConfidence" class="metric-value low">Awaiting Review</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">Case Stage</p>
-            <p id="caseStage" class="metric-value low">Awaiting Case Setup</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">Open Bottlenecks</p>
-            <p id="openBottlenecksMetric" class="metric-value low">Run Case Review</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">Queue Priority</p>
-            <p id="queuePriority" class="metric-value low">Awaiting Review</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">SLA Status</p>
-            <p id="caseAgingStatus" class="metric-value low">Enter Case Dates</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">BO Status</p>
-            <p id="boStatus" class="metric-value low">Review Not Generated</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">KYC Refresh Required</p>
-            <p id="refreshRequired" class="metric-value low">Review Not Generated</p>
-          </div>
-          <div class="metric">
-            <p class="metric-label">Review Recommendation</p>
-            <p id="recommendedDecision" class="metric-value low">Review Not Generated</p>
+          <div>
+            <label class="output-label">Customer Risk Profile</label>
+            <div id="riskProfileOutput" class="output-box output-panel empty">Generate a review to see category-level risk profile output.</div>
           </div>
         </div>
 
-        <h3 class="result-section-title">Diagnostic Details</h3>
-        <label class="output-label">KYC Refresh Assessment</label>
-        <div id="refreshOutput" class="output-box output-panel empty">Generate a review to see refresh requirements and update documents.</div>
+        <details id="resultsDetails" class="content-disclosure">
+          <summary><span class="disclosure-collapsed-label">Show Details</span><span class="disclosure-expanded-label">Hide Details</span></summary>
+          <div class="content-disclosure-body">
+            <h3 class="result-section-title" style="margin-top: 14px;">Additional Status</h3>
+            <div class="metric-grid">
+              <div class="metric"><p class="metric-label">Queue Priority</p><p id="queuePriority" class="metric-value low">Awaiting Review</p></div>
+              <div class="metric"><p class="metric-label">SLA Status</p><p id="caseAgingStatus" class="metric-value low">Enter Case Dates</p></div>
+              <div class="metric"><p class="metric-label">BO Status</p><p id="boStatus" class="metric-value low">Review Not Generated</p></div>
+              <div class="metric"><p class="metric-label">KYC Refresh Required</p><p id="refreshRequired" class="metric-value low">Review Not Generated</p></div>
+              <div class="metric"><p class="metric-label">Review Recommendation</p><p id="recommendedDecision" class="metric-value low">Review Not Generated</p></div>
+            </div>
 
-        <label class="output-label">Customer Risk Profile</label>
-        <div id="riskProfileOutput" class="output-box output-panel empty">Generate a review to see category-level risk profile output.</div>
-
-        <label class="output-label">Evidence Quality Review</label>
-        <div id="evidenceQualityOutput" class="output-box output-panel empty">Generate a review to see expired, incomplete, inconsistent, missing, or not applicable evidence.</div>
-
-        <label class="output-label">Document Gap Summary</label>
-        <div id="documentGapOutput" class="output-box output-panel empty">Generate a review to see received, missing, and key missing documents.</div>
-
-        <label class="output-label">Beneficial Ownership Status</label>
-        <div id="boStatusOutput" class="output-box output-panel empty">Generate a review to see beneficial ownership status and gaps.</div>
-
-        <label class="output-label">SOF / SOW Status</label>
-        <div id="sofSowOutput" class="output-box output-panel empty">Generate a review to see source of funds and source of wealth status.</div>
-
-        <label class="output-label">Suggested Review Path</label>
-        <div id="cddEddOutput" class="output-box output-panel empty">Generate a review to see the educational suggested review path.</div>
-
-        <label class="output-label">Screening Triage Result</label>
-        <div id="screeningOutput" class="output-box output-panel empty">Generate a review to see screening triage output.</div>
-
-        <label class="output-label">Risk Breakdown</label>
-        <div id="riskBreakdownOutput" class="output-box output-panel empty">Generate a review to see point-by-point risk scoring.</div>
-
-        <label class="output-label">Triggered Rules</label>
-        <div id="triggeredRulesDiagnosticOutput" class="output-box output-panel empty">Generate a review to see triggered rules in the results dashboard.</div>
-
-        <label class="output-label">Reason Codes</label>
-        <div id="reasonCodesOutput" class="output-box output-panel empty">Generate a review to see bottleneck and decision reason codes.</div>
-
-        <label class="output-label">Bottlenecks</label>
-        <div id="bottleneckOutput" class="output-box output-panel empty">Generate a review to diagnose case bottlenecks.</div>
-
-        <h3 class="result-section-title">Action Plan</h3>
-        <label class="output-label">Case Queue Prioritizer</label>
-        <div id="queuePriorityOutput" class="output-box output-panel empty">Generate a review to see urgency score, priority, and reasons.</div>
+            <label class="output-label">KYC Refresh Assessment</label>
+            <div id="refreshOutput" class="output-box output-panel empty">Generate a review to see refresh requirements and update documents.</div>
+            <label class="output-label">Evidence Quality Review</label>
+            <div id="evidenceQualityOutput" class="output-box output-panel empty">Generate a review to see evidence quality issues.</div>
+            <label class="output-label">Document Gap Summary</label>
+            <div id="documentGapOutput" class="output-box output-panel empty">Generate a review to see document gaps.</div>
+            <label class="output-label">Beneficial Ownership Status</label>
+            <div id="boStatusOutput" class="output-box output-panel empty">Generate a review to see beneficial ownership status.</div>
+            <label class="output-label">SOF / SOW Status</label>
+            <div id="sofSowOutput" class="output-box output-panel empty">Generate a review to see SOF/SOW status.</div>
+            <label class="output-label">Suggested Review Path Detail</label>
+            <div id="cddEddOutput" class="output-box output-panel empty">Generate a review to see review path detail.</div>
+            <label class="output-label">Screening Triage Detail</label>
+            <div id="screeningOutput" class="output-box output-panel empty">Generate a review to see screening detail.</div>
+            <label class="output-label">Full Risk Breakdown</label>
+            <div id="riskBreakdownOutput" class="output-box output-panel empty">Generate a review to see point-by-point risk scoring.</div>
+            <label class="output-label">Triggered Rules Detail</label>
+            <div id="triggeredRulesDiagnosticOutput" class="output-box output-panel empty">Generate a review to see triggered rules.</div>
+            <label class="output-label">Case Queue Prioritizer</label>
+            <div id="queuePriorityOutput" class="output-box output-panel empty">Generate a review to see queue priority detail.</div>
+          </div>
+        </details>
 
         <div class="workflow-actions">
           <button type="button" class="secondary" onclick="switchView('case-input')">Back to Case Input</button>
@@ -2210,14 +2267,20 @@
         <div class="panel-header">
           <div>
             <p class="step-kicker">Governance &amp; Audit</p>
-            <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Analyst Review Note</h2></div>
-            <p class="note">Copy the generated analyst work note.</p>
+            <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Analyst Review Note Preview</h2></div>
+            <p class="note">Review the summary before opening or copying the full work note.</p>
           </div>
         </div>
-        <div id="analystNote" class="output-box output-panel empty">Generate a review to create the analyst note.</div>
-        <div class="utility-button-row">
-          <button id="copyNoteButton" type="button" class="secondary" onclick="copyText('analystNote', 'copyNoteButton')" disabled>Copy Analyst Note</button>
-        </div>
+        <div id="analystNotePreview" class="output-box output-panel preview-output empty">Generate a review to create the analyst note preview.</div>
+        <details class="content-disclosure">
+          <summary><span class="disclosure-collapsed-label">View Full Analyst Review Note</span><span class="disclosure-expanded-label">Hide Full Analyst Review Note</span></summary>
+          <div class="content-disclosure-body">
+            <div id="analystNote" class="output-box output-panel empty">Generate a review to create the analyst note.</div>
+            <div class="utility-button-row">
+              <button id="copyNoteButton" type="button" class="secondary" onclick="copyText('analystNote', 'copyNoteButton')" disabled>Copy Analyst Note</button>
+            </div>
+          </div>
+        </details>
       </section>
 
       <section class="panel section-card generated-output-section" data-view="actions" hidden>
@@ -2225,7 +2288,7 @@
           <div>
             <p class="step-kicker">Action Center</p>
             <div class="section-heading-line"><span class="section-pill">Action</span><h2>Follow-Up Action Tracker</h2></div>
-            <p class="note">Track generated action items, ownership, status, and illustrative priority-based due dates.</p>
+            <p class="note">Track action, owner, due date, and status.</p>
           </div>
         </div>
         <div id="followUpOutput" class="data-table empty-state">Generate a case review first to create follow-up actions.</div>
@@ -2236,7 +2299,7 @@
           <div>
             <p class="step-kicker">Action Center</p>
             <div class="section-heading-line"><span class="section-pill">Action</span><h2>Follow-Up Communication Draft</h2></div>
-            <p class="note">Generate a role-specific message based on current blockers and follow-up actions.</p>
+            <p class="note">Create a role-specific follow-up message.</p>
           </div>
         </div>
         <div class="control-row communication-controls" aria-label="Follow-up communication settings">
@@ -2255,7 +2318,6 @@
               <option value="Urgent">Urgent</option>
               <option value="Final Reminder">Final Reminder</option>
             </select>
-            <p class="helper">Overdue or past-due cases will automatically use a more urgent message.</p>
           </div>
         </div>
         <div id="emailDraft" class="output-box output-panel empty">Generate a case review first to draft follow-up communication.</div>
@@ -2272,25 +2334,37 @@
         <div class="panel-header">
           <div>
             <p class="step-kicker">Governance &amp; Audit</p>
-            <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Audit Trail</h2></div>
-            <p class="note">Copy a rule-trigger summary for audit-style documentation.</p>
+            <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Audit Trail Preview</h2></div>
+            <p class="note">Review the audit summary before opening the full trail.</p>
           </div>
         </div>
-        <div id="auditTrail" class="output-box output-panel empty">Generate a review to create the audit trail summary.</div>
-        <div class="utility-button-row">
-          <button id="copyAuditButton" type="button" class="secondary" onclick="copyText('auditTrail', 'copyAuditButton')" disabled>Copy Audit Trail</button>
-        </div>
+        <div id="auditTrailPreview" class="output-box output-panel preview-output empty">Generate a review to create the audit trail preview.</div>
+        <details class="content-disclosure">
+          <summary><span class="disclosure-collapsed-label">View Full Audit Trail</span><span class="disclosure-expanded-label">Hide Full Audit Trail</span></summary>
+          <div class="content-disclosure-body">
+            <div id="auditTrail" class="output-box output-panel empty">Generate a review to create the audit trail summary.</div>
+            <div class="utility-button-row">
+              <button id="copyAuditButton" type="button" class="secondary" onclick="copyText('auditTrail', 'copyAuditButton')" disabled>Copy Audit Trail</button>
+            </div>
+          </div>
+        </details>
       </section>
 
       <section class="panel section-card generated-output-section" data-view="governance" hidden>
         <div class="panel-header">
           <div>
             <p class="step-kicker">Governance &amp; Audit</p>
-            <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Reviewer Checklist</h2></div>
-            <p class="note">Auto-generated quality-control checklist for human review. This does not imply final approval.</p>
+            <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Reviewer Checklist Summary</h2></div>
+            <p class="note">Human quality-control summary; this does not imply approval.</p>
           </div>
         </div>
-        <div id="reviewerChecklist" class="output-box output-panel empty">Generate a review to create the reviewer checklist.</div>
+        <div id="reviewerChecklistPreview" class="output-box output-panel preview-output empty">Generate a review to create the reviewer checklist summary.</div>
+        <details class="content-disclosure">
+          <summary><span class="disclosure-collapsed-label">View Full Reviewer Checklist</span><span class="disclosure-expanded-label">Hide Full Reviewer Checklist</span></summary>
+          <div class="content-disclosure-body">
+            <div id="reviewerChecklist" class="output-box output-panel empty">Generate a review to create the reviewer checklist.</div>
+          </div>
+        </details>
       </section>
 
       <section class="panel section-card generated-output-section" data-view="governance" hidden>
@@ -2331,7 +2405,7 @@
         <div>
           <p class="step-kicker">Governance &amp; Audit</p>
           <div class="section-heading-line"><span class="section-pill">Governance</span><h2>Explainability Center</h2></div>
-          <p class="note">See which rule-based checks drive the risk score, bottleneck diagnosis, and case readiness decision.</p>
+          <p class="note">Review triggered rules first; expand the full library only when needed.</p>
         </div>
       </div>
 
@@ -2345,7 +2419,6 @@
           <summary>
             <span>
               <span class="rule-summary-title">Full Rule Library</span>
-              <span class="rule-summary-text">Reference all rule categories used by the educational workflow simulator.</span>
             </span>
             <span class="accordion-icon">+</span>
           </summary>
@@ -4248,6 +4321,12 @@
       }).join("\n\n");
     }
 
+    function createTextPreview(text, maximumLines) {
+      const lines = String(text || "").split("\n");
+      const preview = lines.slice(0, maximumLines).join("\n").trim();
+      return lines.length > maximumLines ? preview + "\n\nOpen the full section for complete details." : preview;
+    }
+
     function escapeHtml(value) {
       return String(value)
         .replace(/&/g, "&amp;")
@@ -4613,7 +4692,7 @@
         formatUrgencyReasons(queuePriority);
       const reasonCodeText = formatReasonCodes(reasonCodes);
       const dataQualityWarningText = formatDataQualityIssues(dataQualityWarnings, "No non-blocking data quality warnings identified.");
-      const bottleneckText = formatList(bottlenecks, "Ready for Review") + "\n\nReason Codes\n" + reasonCodeText;
+      const bottleneckText = formatList(bottlenecks, "Ready for Review");
       const openBottleneckCount = bottlenecks.includes("Ready for Review") ? 0 : bottlenecks.length;
       const actionText = formatActions(actions) + "\n\nReason Codes\n" + reasonCodeText;
       const reviewerChecklistText = generateReviewerChecklist(data, boStatus, screening, riskLevel, actions, evidenceIssues, sofSowStatus, reasonCodes);
@@ -4760,6 +4839,10 @@
         "Human Review Disclaimer\n" +
         "This tool supports analyst workflow simulation. Final review, escalation, approval, and customer decisioning require human compliance review.";
 
+      document.querySelectorAll("#resultsDetails, [data-view='governance'] .content-disclosure").forEach(function(details) {
+        details.open = false;
+      });
+
       updateOutputs(aging, boStatus, screening, risk, riskLevel, readiness, queuePriority, documentGapText, riskBreakdownText, queuePriorityText, bottleneckText, actionText, refreshAssessment, refreshText, riskProfileText, evidenceQualityText, sofSowText, recommendedDecision, cddEddRecommendation, cddEddText, formatPolicyRules(triggeredPolicyRules), openBottleneckCount, decisionConfidence, decisionConfidenceText, caseStage, reasonCodeText, boStatusText, reviewerChecklistText, caseSnapshotText);
       renderActionsTable(actions);
       switchView("results");
@@ -4818,11 +4901,15 @@
       setTextOutput("reasonCodesOutput", reasonCodeText);
       setTextOutput("queuePriorityOutput", queuePriorityText);
       setTextOutput("bottleneckOutput", bottleneckText);
+      setTextOutput("resultsCaseSummary", caseSnapshotText);
       setTextOutput("analystNote", currentAnalystNote);
+      setTextOutput("analystNotePreview", createTextPreview(currentAnalystNote, 12));
       setTextOutput("emailDraft", currentEmailDraft);
       setTextOutput("auditTrail", currentAuditTrail);
+      setTextOutput("auditTrailPreview", createTextPreview(currentAuditTrail, 12));
       setTextOutput("triggeredRulesOutput", triggeredRulesText);
       setTextOutput("reviewerChecklist", reviewerChecklistText);
+      setTextOutput("reviewerChecklistPreview", createTextPreview(reviewerChecklistText, 8));
       setTextOutput("caseSnapshot", caseSnapshotText);
 
       document.getElementById("copyNoteButton").disabled = false;
@@ -4842,7 +4929,8 @@
 
     function setTextOutput(id, text) {
       const element = document.getElementById(id);
-      element.className = "output-box output-panel";
+      const previewClass = element.classList.contains("preview-output") ? " preview-output" : "";
+      element.className = "output-box output-panel" + previewClass;
       element.textContent = text;
     }
 
@@ -4863,7 +4951,7 @@
       setResultsStale(false);
       renderCaseDataQualityCheck();
 
-      document.querySelectorAll("#optionalRiskContext, .bo-advanced, .rule-accordion").forEach(function(details) {
+      document.querySelectorAll("#optionalRiskContext, .bo-advanced, .rule-accordion, .content-disclosure, .about-workflow-card").forEach(function(details) {
         details.open = false;
       });
 
@@ -4907,12 +4995,16 @@
       resetOutput("reasonCodesOutput", "Generate a review to see bottleneck and decision reason codes.");
       resetOutput("queuePriorityOutput", "Generate a review to see urgency score, priority, and reasons.");
       resetOutput("bottleneckOutput", "Generate a review to diagnose case bottlenecks.");
+      resetOutput("resultsCaseSummary", "Generate a review to see the case summary.");
       resetActionsTable();
       resetOutput("analystNote", "Generate a review to create the analyst note.");
+      resetOutput("analystNotePreview", "Generate a review to create the analyst note preview.");
       resetOutput("emailDraft", "Generate a case review first to draft follow-up communication.");
       resetOutput("auditTrail", "Generate a review to create the audit trail summary.");
+      resetOutput("auditTrailPreview", "Generate a review to create the audit trail preview.");
       resetOutput("triggeredRulesOutput", "Generate a review to see only the rules triggered by this case.");
       resetOutput("reviewerChecklist", "Generate a review to create the reviewer checklist.");
+      resetOutput("reviewerChecklistPreview", "Generate a review to create the reviewer checklist summary.");
       resetOutput("caseSnapshot", "Generate a case review to see a short case snapshot.");
 
       document.getElementById("emailRecipientType").value = "Relationship Manager";
@@ -4931,7 +5023,8 @@
 
     function resetOutput(id, text) {
       const element = document.getElementById(id);
-      element.className = "output-box output-panel empty";
+      const previewClass = element.classList.contains("preview-output") ? " preview-output" : "";
+      element.className = "output-box output-panel empty" + previewClass;
       element.textContent = text;
     }
 
